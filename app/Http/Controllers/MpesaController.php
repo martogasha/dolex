@@ -71,30 +71,22 @@ class MpesaController extends Controller
     public function storeWebhooks(Request $request)
     {
         $input = $request->all();
-        Log::info($input);
-        $dateFormat = $input['TransTime'];
-        $chechIfExists = Mpesa::where('reference', $input['TransID'])->first();
+        $dateFormats = $input->TransTime;
+        $dateFormat = Carbon::parse($dateFormats);
         $currentMonth = date('m');
         $currentYear = date('Y');
-        if (is_null($chechIfExists)) {
-            $getUserIdentification = User::where('phone', $input['BillRefNumber'])->orWhere('phoneOne', $input['BillRefNumber'])->first();
-            if (!is_null($getUserIdentification)){
+            $getUserIdentification = User::where('phone',$input->BillRefNumber )->first();
+            $userDueDate = Carbon::parse($getUserIdentification->due_date);
                 $getInvoice = Invoice::where('user_id', $getUserIdentification->id)->where('status', 0)->first();
                 if (!is_null($getInvoice)) {
-                    $chechIfExist = Mpesa::where('reference', $input['TransID'])->first();
-                    if (is_null($chechIfExist)){
-                        $currentBalance = $getInvoice->balance - $input['TransAmount'];
+                        $currentBalance = $getUserIdentification->balance - $request->amount;
                         $createPayment = Mpesa::create([
-                            'reference' => $input['TransID'],
-                            'originationTime' => date("d-m-Y", strtotime($dateFormat)),
-                            'senderFirstName' => $input['FirstName'],
-                            'senderMiddleName' => '',
-                            'senderLastName' => '',
-                            'senderPhoneNumber' => $input['MSISDN'],
-                            'amount' => $input['TransAmount'],
-                            'status' => '',
-                            'system' => '',
-                            'currency' => '',
+                            'reference' => $input->TransID,
+                            'originationTime' => $dateFormat,
+                            'senderFirstName' => $getUserIdentification->first_name,
+                            'senderMiddleName' => $getUserIdentification->last_name,
+                            'senderPhoneNumber' => $getUserIdentification->phone,
+                            'amount' => $input->TransAmount,
                             'invoice_id' => $getInvoice->id,
                             'currentMonth' =>$currentMonth,
                             'currentYear' =>$currentYear,
@@ -103,7 +95,7 @@ class MpesaController extends Controller
                         $createPay = Payment::create([
                             'user_id' => $getUserIdentification->id,
                             'invoice_id' => $getInvoice->id,
-                            'reference' => $input['TransID'],
+                            'reference' => $input->TransID,
                             'date' => $createPayment->originationTime,
                             'amount' => $createPayment->amount,
                             'status' => 1,
@@ -117,11 +109,66 @@ class MpesaController extends Controller
                         $updateIBalance = Payment::where('id', $createPay->id)->update(['invoice_balance' => $currentBalance]);
                         $updateUserAmount = User::where('id', $getUserIdentification->id)->update(['amount' => $createPayment->amount]);
                         $updateUserDate = User::where('id', $getUserIdentification->id)->update(['payment_date' => $createPay->date]);
+                        $getUser = User::where('mikrotik_id',$getUserIdentification->mikrotik_id)->value('dis_status');
+                        if($getUser=='true'){
+                        $currentDate = $createPay->date;
+                        $nextDate =  $currentDate->addMonth();
+                        }
+                        else{
+                        $currentDate = $userDueDate;
+                        $nextDate =  $currentDate->addMonth();
+                        }
+                        
+
+                        $updateDueDate = User::where('id', $getUserIdentification->id)->update(['due_date' => $nextDate]);
                         $updateUserBalance = User::where('id', $getUserIdentification->id)->update(['balance' => $currentBalance]);
                         $getInv = Invoice::where('user_id', $getUserIdentification->id)->where('status', 0)->first();
                         if ($getInv->balance == 0) {
                             $updateBal = Invoice::where('id', $getInv->id)->update(['usage_time' => 2147483647]);
                             $updateStatus = Invoice::where('id', $getInv->id)->update(['status' => 1]);
+                                // Get the MikroTik API client using the configured facade
+                                    $config = new Config([
+                                    'host' => '197.248.58.123',
+                                    'user' => 'admin',
+                                    'pass' => 'KND@2020',
+                                    'port' => 8728,
+                                ]);
+                                $client = new Client($config);
+                                $mikId = $getUserIdentification->mikrotik_id;
+
+                                    // Create a query for the /ppp/profile/print command
+                                    $getUser = User::where('mikrotik_id',$getUserIdentification->mikrotik_id)->value('dis_status');
+                                    if($getUser=='true'){
+                                    $query = new Query('/ppp/profile/print');
+                                
+                                    // 2. Build the RouterOS API query to disable the secret
+                                    $query = (new Query('/ppp/secret/set'))
+                                        ->equal('.id', $mikId)
+                                        ->equal('disabled', 'no');
+
+                                    // 3. Send the query and get the response
+                                    $response = $client->query($query)->read();
+
+                                    // 4. Handle the response
+                                    $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'false']);
+                                    
+                                    
+                                    }
+                                    else{
+                                        $query = new Query('/ppp/profile/print');
+                                
+                                    // 2. Build the RouterOS API query to disable the secret
+                                    $query = (new Query('/ppp/secret/set'))
+                                        ->equal('.id', $mikId)
+                                        ->equal('disabled', 'yes');
+
+                                    // 3. Send the query and get the response
+                                    $response = $client->query($query)->read();
+
+                                    // 4. Handle the response
+                                    $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'true']);
+                                    
+                                    }
                         } else {
                             if ($getInv->balance < 0) {
                                 $updateBal = Invoice::where('id', $getInv->id)->update(['usage_time' => 2147483647]);
@@ -133,8 +180,8 @@ class MpesaController extends Controller
                                     $createPay1 = Payment::create([
                                         'user_id' => $getUserIdentification->id,
                                         'invoice_id' => $getIn->id,
-                                        'reference' => $input['TransID'],
-                                        'date' => date("d-m-Y", strtotime($dateFormat)),
+                                        'reference' => $request->reference,
+                                        'date' => $dateFormat,
                                         'amount' => $getI->balance * -1,
                                         'status' => 1,
                                         'payment_method' => 'Mpesa',
@@ -167,8 +214,8 @@ class MpesaController extends Controller
                                                 $createP = Payment::create([
                                                     'user_id' => $getUserIdentification->id,
                                                     'invoice_id' => $getIn2->id,
-                                                    'reference' => $input['TransID'],
-                                                    'date' => date("d-m-Y", strtotime($dateFormat)),
+                                                    'reference' => $request->reference,
+                                                    'date' => $dateFormat,
                                                     'amount' => $getI2->balance * -1,
                                                     'status' => 1,
                                                     'payment_method' => 'Mpesa',
@@ -199,8 +246,8 @@ class MpesaController extends Controller
                                                             $createP1 = Payment::create([
                                                                 'invoice_id' => $getIn3->id,
                                                                 'user_id' => $getUserIdentification->id,
-                                                                'reference' => $input['TransID'],
-                                                                'date' => date("d-m-Y", strtotime($dateFormat)),
+                                                                'reference' => $request->reference,
+                                                                'date' => $dateFormat,
                                                                 'amount' => $getI3->balance * -1,
                                                                 'status' => 1,
                                                                 'payment_method' => 'Mpesa',
@@ -238,59 +285,28 @@ class MpesaController extends Controller
                             }
 
                         }
-                    }
+
                 }
                 else {
-                    $getUserIdentification = User::where('phone', $input['BillRefNumber'])->orWhere('phoneOne', $input['BillRefNumber'])->first();
-                    if (!is_null($getUserIdentification)){
-                        $getUser = User::find($getUserIdentification->id);
-                        $chechIfEx = Mpesa::where('reference', $input['TransID'])->first();
-                        if (is_null($chechIfEx)) {
-                            $currentBalance = $getUser->balance - $input['TransAmount'];
                             $createPayment = Mpesa::create([
-                                'reference' => $input['TransID'],
-                                'originationTime' => date("d-m-Y", strtotime($dateFormat)),
-                                'senderFirstName' => $input['FirstName'],
-                                'senderMiddleName' => '',
-                                'senderLastName' => '',
-                                'senderPhoneNumber' => $input['MSISDN'],
-                                'amount' => $input['TransAmount'],
-                                'status' => '',
-                                'system' => '',
-                                'currency' => '',
-                                'currentMonth' => $currentMonth,
+                                'reference' => $request->reference,
+                                'originationTime' => $dateFormat,
+                                'senderFirstName' => $getUserIdentification->first_name,
+                                'senderMiddleName' => $getUserIdentification->last_name,
+                                'senderPhoneNumber' => $getUserIdentification->phone,
+                                'amount' => $request->amount,
+                                'currentMonth' =>$currentMonth,
                                 'currentYear' =>$currentYear,
                             ]);
-                            $getInvoice = Invoice::where('user_id', $getUser->id)->first();
-                            $update = Mpesa::where('senderPhoneNumber', $getUser->phone)->update(['invoice_id' => $getInvoice->id]);
                             $updateUserAmount = User::where('id', $getUserIdentification->id)->update(['amount' => $createPayment->amount]);
                             $updateUserDate = User::where('id', $getUserIdentification->id)->update(['payment_date' => $createPayment->originationTime]);
+                            $getUser = User::find($getUserIdentification->id);
+                            $getBalance = $getUser->balance;
+                            $currentBalance = $getUser->balance - $request->amount;
                             $updateUserBalance = User::where('id', $getUserIdentification->id)->update(['balance' => $currentBalance]);
-                        }
-                    }
-                }
 
-            }
-            else{
-                $chechIfE = Mpesa::where('reference', $input['TransID'])->first();
-                if (is_null($chechIfE)){
-                    $createPay = Mpesa::create([
-                        'reference' => $input['TransID'],
-                        'originationTime' => date("d-m-Y", strtotime($dateFormat)),
-                        'senderFirstName' => $input['TransID'],
-                        'senderMiddleName' => '',
-                        'senderLastName' => '',
-                        'senderPhoneNumber' => $input['MSISDN'],
-                        'amount' => $input['TransAmount'],
-                        'status' => '',
-                        'system' => '',
-                        'currency' => '',
-                        'currentMonth' =>$currentMonth,
-                        'currentYear' =>$currentYear,
-                    ]);
+
                 }
-            }
-        }
 
     }
     public function authenticate(){

@@ -281,9 +281,9 @@ class AdminController extends Controller
         if (Auth::check()){
             // Get MikroTik connection details from .env
         $config = new Config([
-            'host' => '192.168.88.1',
+            'host' => '197.248.58.123',
             'user' => 'admin',
-            'pass' => 'password',
+            'pass' => 'KND@2020',
             'port' => 8728,
         ]);
 
