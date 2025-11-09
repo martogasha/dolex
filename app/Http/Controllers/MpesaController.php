@@ -76,10 +76,11 @@ class MpesaController extends Controller
         $currentMonth = date('m');
         $currentYear = date('Y');
             $getUserIdentification = User::where('phone',$input->BillRefNumber )->first();
+            Log::info($getUserIdentification->phone);
             $userDueDate = Carbon::parse($getUserIdentification->due_date);
                 $getInvoice = Invoice::where('user_id', $getUserIdentification->id)->where('status', 0)->first();
                 if (!is_null($getInvoice)) {
-                        $currentBalance = $getUserIdentification->balance - $request->amount;
+                        $currentBalance = $getUserIdentification->balance - $input->TransAmount;
                         $createPayment = Mpesa::create([
                             'reference' => $input->TransID,
                             'originationTime' => $dateFormat,
