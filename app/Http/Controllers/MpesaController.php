@@ -71,6 +71,7 @@ class MpesaController extends Controller
     public function storeWebhooks(Request $request)
     {
         $input = $request->all();
+        Log::info($input);
         $dateFormats = $input->TransTime;
         $dateFormat = Carbon::parse($dateFormats);
         $currentMonth = date('m');
