@@ -62,7 +62,7 @@ class Billing extends Command
     public function handle()
     {
         $getUsers = User::where('due_date', '<', Carbon::now())->get();
-        log::info($getUsers);
+        
         $currentMonth = date('m');
       foreach ($getUsers as $getUser){
             $getExistingInvoice = Invoice::where('user_id',$getUser->id)->where('status',0)->latest('id')->first();
