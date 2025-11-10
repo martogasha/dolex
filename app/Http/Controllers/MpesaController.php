@@ -70,25 +70,24 @@ class MpesaController extends Controller
     }
     public function storeWebhooks(Request $request)
     {
-        $input = $request->all();
-        Log::info($input);
-        $dateFormats = $input->TransTime;
+        
+        $dateFormats = $request->TransTime;
         $dateFormat = Carbon::parse($dateFormats);
         $currentMonth = date('m');
         $currentYear = date('Y');
-            $getUserIdentification = User::where('phone',$input->BillRefNumber )->first();
+            $getUserIdentification = User::where('phone',$request->BillRefNumber )->first();
             Log::info($getUserIdentification->phone);
             $userDueDate = Carbon::parse($getUserIdentification->due_date);
                 $getInvoice = Invoice::where('user_id', $getUserIdentification->id)->where('status', 0)->first();
                 if (!is_null($getInvoice)) {
-                        $currentBalance = $getUserIdentification->balance - $input->TransAmount;
+                        $currentBalance = $getUserIdentification->balance - $request->TransAmount;
                         $createPayment = Mpesa::create([
-                            'reference' => $input->TransID,
+                            'reference' => $request->TransID,
                             'originationTime' => $dateFormat,
                             'senderFirstName' => $getUserIdentification->first_name,
-                            'senderMiddleName' => $getUserIdentification->last_name,
+                            'senderMiddleName' => $request->FirstName,
                             'senderPhoneNumber' => $getUserIdentification->phone,
-                            'amount' => $input->TransAmount,
+                            'amount' => $request->TransAmount,
                             'invoice_id' => $getInvoice->id,
                             'currentMonth' =>$currentMonth,
                             'currentYear' =>$currentYear,
@@ -97,7 +96,7 @@ class MpesaController extends Controller
                         $createPay = Payment::create([
                             'user_id' => $getUserIdentification->id,
                             'invoice_id' => $getInvoice->id,
-                            'reference' => $input->TransID,
+                            'reference' => $createPayment->reference,
                             'date' => $createPayment->originationTime,
                             'amount' => $createPayment->amount,
                             'status' => 1,
