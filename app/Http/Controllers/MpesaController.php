@@ -77,13 +77,13 @@ class MpesaController extends Controller
         $currentMonth = date('m');
         $currentYear = date('Y');
             $getUserIdentification = User::where('phone',$request->BillRefNumber )->first();
-            Log::info($request->TransID);
+            Log::info($getUserIdentification->phone);
             $userDueDate = Carbon::parse($getUserIdentification->due_date);
                 $getInvoice = Invoice::where('user_id', $getUserIdentification->id)->where('status', 0)->first();
                 if (!is_null($getInvoice)) {
                         $currentBalance = $getUserIdentification->balance - $request->TransAmount;
                         $createPayment = Mpesa::create([
-                            'reference' => 'HGGHM455',
+                            'reference' => $request->TransID,
                             'originationTime' => $dateFormat,
                             'senderFirstName' => $getUserIdentification->first_name,
                             'senderMiddleName' => $request->FirstName,
@@ -291,14 +291,15 @@ class MpesaController extends Controller
                 }
                 else {
                             $createPayment = Mpesa::create([
-                                'reference' => $request->reference,
-                                'originationTime' => $dateFormat,
-                                'senderFirstName' => $getUserIdentification->first_name,
-                                'senderMiddleName' => $getUserIdentification->last_name,
-                                'senderPhoneNumber' => $getUserIdentification->phone,
-                                'amount' => $request->amount,
-                                'currentMonth' =>$currentMonth,
-                                'currentYear' =>$currentYear,
+                            'reference' => $request->TransID,
+                            'originationTime' => $dateFormat,
+                            'senderFirstName' => $getUserIdentification->first_name,
+                            'senderMiddleName' => $request->FirstName,
+                            'senderPhoneNumber' => $getUserIdentification->phone,
+                            'amount' => $request->TransAmount,
+                            'invoice_id' => $getInvoice->id,
+                            'currentMonth' =>$currentMonth,
+                            'currentYear' =>$currentYear,
                             ]);
                             $updateUserAmount = User::where('id', $getUserIdentification->id)->update(['amount' => $createPayment->amount]);
                             $updateUserDate = User::where('id', $getUserIdentification->id)->update(['payment_date' => $createPayment->originationTime]);
