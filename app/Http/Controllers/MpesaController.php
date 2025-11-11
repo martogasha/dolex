@@ -80,7 +80,7 @@ class MpesaController extends Controller
         $currentMonth = date('m');
         $currentYear = date('Y');
             $getUserIdentification = User::where('phone',$request->BillRefNumber )->first();
-            Log::info($getUserIdentification->phone);
+            
             $userDueDate = Carbon::parse($getUserIdentification->due_date);
                 $getInvoice = Invoice::where('user_id', $getUserIdentification->id)->where('status', 0)->first();
                 if (!is_null($getInvoice)) {
@@ -123,13 +123,14 @@ class MpesaController extends Controller
                         $currentDate = $userDueDate;
                         $nextDate =  $currentDate->addMonth();
                         }
-                        Log::info($nextDate);
+                        
                         
 
                         $updateDueDate = User::where('id', $getUserIdentification->id)->update(['due_date' => $nextDate]);
                         $updateUserBalance = User::where('id', $getUserIdentification->id)->update(['balance' => $currentBalance]);
                         $getInv = Invoice::where('user_id', $getUserIdentification->id)->where('status', 0)->first();
                         $twoDaysBefore = $nextDate->subDays(3);
+                        Log::info($twoDaysBefore);
                         $updateInvoiceMessageDate = Invoice::where('user_id',$getUserIdentification->id)->where('status', 0)->update(['two_days_before'=>$twoDaysBefore]);
                         $oneDayBefore = $nextDate->subDays(1);
                         $updateInvoiceMDate = Invoice::where('user_id',$getUserIdentification->id)->where('status', 0)->update(['one_day_before'=>$oneDayBefore]);
