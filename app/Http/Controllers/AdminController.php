@@ -2290,40 +2290,40 @@ class AdminController extends Controller
         if($getUser->payment_date!=null){
            
 
-               try {
-            // Get the MikroTik API client using the configured facade
-            $config = new Config([
-            'host' => '197.248.58.124',
-            'user' => 'admin',
-            'pass' => 'KND@2020',
-            'port' => 8728,
-        ]);
-        $client = new Client($config);
+                    try {
+                                // Get the MikroTik API client using the configured facade
+                                $config = new Config([
+                                'host' => '197.248.58.123',
+                                'user' => 'admin',
+                                'pass' => 'KND@2020',
+                                'port' => 8728,
+                            ]);
+                            $client = new Client($config);
 
-            // Create a query for the /ppp/profile/print command
-            $getUse = User::where('mikrotik_id',$getUser->mikrotik_id)->value('dis_status');
-            if($getUse=='true'){
-            $query = new Query('/ppp/profile/print');
-        
-            // 2. Build the RouterOS API query to disable the secret
-            $query = (new Query('/ppp/secret/set'))
-                ->equal('.id', $getUser->mikrotik_id)
-                ->equal('disabled', 'no');
+                                // Create a query for the /ppp/profile/print command
+                                $getUse = User::where('mikrotik_id',$getUser->mikrotik_id)->value('dis_status');
+                                if($getUse=='true'){
+                                $query = new Query('/ppp/profile/print');
+                            
+                                // 2. Build the RouterOS API query to disable the secret
+                                $query = (new Query('/ppp/secret/set'))
+                                    ->equal('.id', $getUser->mikrotik_id)
+                                    ->equal('disabled', 'no');
 
-            // 3. Send the query and get the response
-            $response = $client->query($query)->read();
+                                // 3. Send the query and get the response
+                                $response = $client->query($query)->read();
 
-            // 4. Handle the response
-            $update = User::where('mikrotik_id',$getUser->mikrotik_id)->update(['dis_status'=>'false']);
-            
-            }
-          
+                                // 4. Handle the response
+                                $update = User::where('mikrotik_id',$getUser->mikrotik_id)->update(['dis_status'=>'false']);
+                                
+                        }
+                    
 
-        } catch (\Exception $e) {
-            // 5. Handle any connection or API errors
-            Log::info('edit successfull but no connection to mikrotik');
-            return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
-        }
+                    } catch (\Exception $e) {
+                        // 5. Handle any connection or API errors
+                        Log::info('edit successfull but no connection to mikrotik');
+                        return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
+                    }
 
         }
         return redirect(url('customers'))->with('success','CUSTOMER EDIT SUCCESS');
