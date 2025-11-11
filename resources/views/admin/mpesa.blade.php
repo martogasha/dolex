@@ -62,7 +62,7 @@
 
                                 <th>Reference</th>
                                 <th>Name</th>
-                                <th>Phone</th>
+                                <th>A/c No</th>
                                 <th>Amount</th>
                                 <th>Date</th>
                                 <th>Action</th>
@@ -76,7 +76,7 @@
                                 <td>{{$mpesa->senderFirstName}} {{$mpesa->senderMiddleName}} {{$mpesa->senderLastName}}</td>
                                 <td>{{$mpesa->senderPhoneNumber}}</td>
                                 <td><b>kSH: {{$mpesa->amount}}</b></td>
-                                <td>{{$mpesa->originationTime}}</td>
+                                <td>{{date('d/m/Y',strtotime($mpesa->originationTime))}}</td>
                                 <td>
                                     <a href="{{url('mpesaReceipt',$mpesa->id)}}"><button class="btn btn-success">Receipt</button></a>
                                 </td>

@@ -2287,13 +2287,14 @@ class AdminController extends Controller
         $updateInvoiceDate = Invoice::where('user_id',$id)->where('status',0)->update(['invoice_date'=>$dateFormat]);
         $getUser = User::find($id);
         if($getUser->payment_date!=null){
+           
 
                try {
             // Get the MikroTik API client using the configured facade
             $config = new Config([
-            'host' => '192.168.88.1',
+            'host' => '197.248.58.123',
             'user' => 'admin',
-            'pass' => 'password',
+            'pass' => 'KND@2020',
             'port' => 8728,
         ]);
         $client = new Client($config);
