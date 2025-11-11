@@ -131,9 +131,9 @@ class MpesaController extends Controller
                         $getInv = Invoice::where('user_id', $getUserIdentification->id)->where('status', 0)->first();
                         $twoDaysBefore = $nextDate->subDays(3);
                         Log::info($twoDaysBefore);
-                        $updateInvoiceMessageDate = Invoice::where('user_id',$getUserIdentification->id)->where('status', 0)->update(['two_days_before'=>$twoDaysBefore]);
+                        $updateInvoiceMessageDate = Invoice::where('id',$getInv->id)->update(['two_days_before'=>$twoDaysBefore]);
                         $oneDayBefore = $nextDate->subDays(1);
-                        $updateInvoiceMDate = Invoice::where('user_id',$getUserIdentification->id)->where('status', 0)->update(['one_day_before'=>$oneDayBefore]);
+                        $updateInvoiceMDate = Invoice::where('id',$getInv->id)->update(['one_day_before'=>$oneDayBefore]);
                         if ($getInv->balance == 0) {
                             $updateBal = Invoice::where('id', $getInv->id)->update(['usage_time' => 2147483647]);
                             $updateStatus = Invoice::where('id', $getInv->id)->update(['status' => 1]);
