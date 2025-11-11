@@ -84,7 +84,7 @@
                                         @else   
                                             <td>{{date('d/m/Y',strtotime($customer->due_date))}}</td>
                                         @endif
-                                        @if(App\Models\Invoice::where('user_id',$customer->id)->value('status')==0)
+                                        @if(App\Models\Invoice::where('user_id',$customer->id)->latest('id')->value('status')==0)
                                         <td><span class="badge badge-danger">Disconnected</span></td>
                                         <td><span class="badge badge-danger">Disconnected</span></td>
                                         @else
