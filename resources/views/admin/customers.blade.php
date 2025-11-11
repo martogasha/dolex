@@ -88,8 +88,8 @@
                                         <td><span class="badge badge-danger">Disconnected</span></td>
                                         <td><span class="badge badge-danger">Disconnected</span></td>
                                         @else
-                                         <td>{{date('d/m/Y',strtotime(App\Models\Invoice::where('user_id',$customer->id)->where('status',1)->value('two_days_before')))}}</td>
-                                        <td>{{date('d/m/Y',strtotime(App\Models\Invoice::where('user_id',$customer->id)->where('status',1)->value('one_day_before')))}}</td>
+                                         <td>{{date('d/m/Y',strtotime(App\Models\Invoice::where('user_id',$customer->id)->latest('id')->value('two_days_before')))}}</td>
+                                        <td>{{date('d/m/Y',strtotime(App\Models\Invoice::where('user_id',$customer->id)->latest('id')->value('one_day_before')))}}</td>
                                         @endif
                                     <td>
                                         
