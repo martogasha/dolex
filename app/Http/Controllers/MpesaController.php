@@ -307,7 +307,7 @@ class MpesaController extends Controller
                             'senderMiddleName' => $request->FirstName,
                             'senderPhoneNumber' => $getUserIdentification->phone,
                             'amount' => $request->TransAmount,
-                            'invoice_id' => $getInvoice->id,
+                            
                             'currentMonth' =>$currentMonth,
                             'currentYear' =>$currentYear,
                             ]);
