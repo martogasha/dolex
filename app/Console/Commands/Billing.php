@@ -205,7 +205,6 @@ class Billing extends Command
 
                                             // 3. Send the query and get the response
                                             $response = $client->query($query)->read();
-                                            Log::info($response);
                                             // 4. Handle the response
                                             $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'true']);
                                             
