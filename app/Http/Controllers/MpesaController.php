@@ -123,6 +123,7 @@ class MpesaController extends Controller
                         $currentDate = $userDueDate;
                         $nextDate =  $currentDate->addMonth();
                         }
+                        Log::info($nextDate);
                         
 
                         $updateDueDate = User::where('id', $getUserIdentification->id)->update(['due_date' => $nextDate]);
@@ -319,7 +320,7 @@ class MpesaController extends Controller
                             'currentMonth' =>$currentMonth,
                             'currentYear' =>$currentYear,
                             ]);
-                            
+
                             if($getUserIdentification->id){
                             $updateUserAmount = User::where('id', $getUserIdentification->id)->update(['amount' => $createPayment->amount]);
                             $updateUserDate = User::where('id', $getUserIdentification->id)->update(['payment_date' => $createPayment->originationTime]);
