@@ -166,49 +166,56 @@ class Billing extends Command
                         $updatePaymentDate = User::where('id',$getUser->id)->update(['payment_date'=>null]);
                         $updateDueDate = User::where('id',$getUser->id)->update(['due_date'=>$nextDate]);
                                     
-            // Get the MikroTik API client using the configured facade
-            $config = new Config([
-            'host' => '197.248.58.124',
-            'user' => 'admin',
-            'pass' => 'KND@2020',
-            'port' => 8728,
-        ]);
-        $client = new Client($config);
-        $mikId = $getUser->mikrotik_id;
+                      try{
+                              // Get the MikroTik API client using the configured facade
+                                            $config = new Config([
+                                            'host' => '197.248.58.124',
+                                            'user' => 'admin',
+                                            'pass' => 'KND@2020',
+                                            'port' => 8728,
+                                        ]);
+                                        $client = new Client($config);
+                                        $mikId = $getUser->mikrotik_id;
 
-            // Create a query for the /ppp/profile/print command
-            $getUser = User::where('mikrotik_id',$getUser->mikrotik_id)->value('dis_status');
-            if($getUser=='true'){
-            $query = new Query('/ppp/profile/print');
-        
-            // 2. Build the RouterOS API query to disable the secret
-            $query = (new Query('/ppp/secret/set'))
-                ->equal('.id', $mikId)
-                ->equal('disabled', 'no');
+                                            // Create a query for the /ppp/profile/print command
+                                            $getUser = User::where('mikrotik_id',$getUser->mikrotik_id)->value('dis_status');
+                                            if($getUser=='true'){
+                                            $query = new Query('/ppp/profile/print');
+                                        
+                                            // 2. Build the RouterOS API query to disable the secret
+                                            $query = (new Query('/ppp/secret/set'))
+                                                ->equal('.id', $mikId)
+                                                ->equal('disabled', 'no');
 
-            // 3. Send the query and get the response
-            $response = $client->query($query)->read();
+                                            // 3. Send the query and get the response
+                                            $response = $client->query($query)->read();
 
-            // 4. Handle the response
-            $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'false']);
-            
-            
-            }
-            else{
-                 $query = new Query('/ppp/profile/print');
-        
-            // 2. Build the RouterOS API query to disable the secret
-            $query = (new Query('/ppp/secret/set'))
-                ->equal('.id', $mikId)
-                ->equal('disabled', 'yes');
+                                            // 4. Handle the response
+                                            $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'false']);
+                                            
+                                            
+                                            }
+                                            else{
+                                                $query = new Query('/ppp/profile/print');
+                                        
+                                            // 2. Build the RouterOS API query to disable the secret
+                                            $query = (new Query('/ppp/secret/set'))
+                                                ->equal('.id', $mikId)
+                                                ->equal('disabled', 'yes');
 
-            // 3. Send the query and get the response
-            $response = $client->query($query)->read();
-            Log::info($response);
-            // 4. Handle the response
-            $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'true']);
-            
-            }
+                                            // 3. Send the query and get the response
+                                            $response = $client->query($query)->read();
+                                            Log::info($response);
+                                            // 4. Handle the response
+                                            $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'true']);
+                                            
+                                            }
+                      }
+                                    catch (\Exception $e) {
+                                            // 5. Handle any connection or API errors
+                                            Log::info('Billed but no connection');
+                                            return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
+                                        }
           
 
         

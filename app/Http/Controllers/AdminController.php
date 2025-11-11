@@ -25,6 +25,7 @@ use Session;
 use RouterOS\Client;
 use RouterOS\Query;
 use RouterOS\Config;
+use Illuminate\Support\Facades\Log;
 
 
 class AdminController extends Controller
@@ -2292,7 +2293,7 @@ class AdminController extends Controller
                try {
             // Get the MikroTik API client using the configured facade
             $config = new Config([
-            'host' => '197.248.58.123',
+            'host' => '197.248.58.124',
             'user' => 'admin',
             'pass' => 'KND@2020',
             'port' => 8728,
@@ -2320,6 +2321,7 @@ class AdminController extends Controller
 
         } catch (\Exception $e) {
             // 5. Handle any connection or API errors
+            Log::info('edit successfull but no connection to mikrotik');
             return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
         }
 
