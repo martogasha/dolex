@@ -313,18 +313,22 @@ class MpesaController extends Controller
                             'originationTime' => $dateFormat,
                             'senderFirstName' => $getUserIdentification->first_name,
                             'senderMiddleName' => $request->FirstName,
-                            'senderPhoneNumber' => $getUserIdentification->phone,
+                            'senderPhoneNumber' => '0707',
                             'amount' => $request->TransAmount,
                             
                             'currentMonth' =>$currentMonth,
                             'currentYear' =>$currentYear,
                             ]);
+                            
+                            if($getUserIdentification->id){
                             $updateUserAmount = User::where('id', $getUserIdentification->id)->update(['amount' => $createPayment->amount]);
                             $updateUserDate = User::where('id', $getUserIdentification->id)->update(['payment_date' => $createPayment->originationTime]);
                             $getUser = User::find($getUserIdentification->id);
                             $getBalance = $getUser->balance;
                             $currentBalance = $getUser->balance - $request->TransAmount;
                             $updateUserBalance = User::where('id', $getUserIdentification->id)->update(['balance' => $currentBalance]);
+                            }
+                     
 
 
                 }
