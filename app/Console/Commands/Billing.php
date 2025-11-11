@@ -115,9 +115,11 @@ class Billing extends Command
                     $updateAmount = User::where('id',$getUser->id)->update(['amount'=>$storeCash->amount]);
                     $updatePaymentDate = User::where('id',$getUser->id)->update(['payment_date'=>$storeCash->date]);
                     $updateDueDate = User::where('id',$getUser->id)->update(['due_date'=>$nextDate]);
-                    $twoDaysBefore = $nextDate->subDays(3);
+                    $dateForm = Carbon::parse($nextDate);
+                    $twoDaysBefore = $dateForm->subDays(3);
                     $updateInvoiceMessageDate = Invoice::where('user_id',$getUser->id)->where('id',$createInvoice->id)->update(['two_days_before'=>$twoDaysBefore]);
-                    $oneDayBefore = $nextDate->subDays(1);
+                    $dateFor = Carbon::parse($nextDate);
+                    $oneDayBefore = $dateFor->subDays(1);
                     $updateInvoiceMDate = Invoice::where('user_id',$getUser->id)->where('id',$createInvoice->id)->update(['one_day_before'=>$oneDayBefore]);
                 }
                 else{
