@@ -2258,7 +2258,7 @@ class AdminController extends Controller
         $edit->due_date = $request->due_date;
         $edit->balance = $currentBal;
         $edit->save();
-        $getInvoiceId = Invoice::where('user_id',$id)->where('status',0)->first();
+        $getInvoiceId = Invoice::where('user_id',$id)->latest('id')->first();
         $paymentDate = Carbon::parse($request->payment_date);
         $currentMonth = date('m');
         if($request->payment_date){
@@ -2272,19 +2272,19 @@ class AdminController extends Controller
                 'payment_method' => 'Mpesa',
                 'currentMonth' =>$currentMonth,
             ]);
-            $updatePaymentId = Invoice::where('user_id',$id)->where('status',0)->update(['payment_id'=>$createPay->id]);
+            $updatePaymentId = Invoice::where('user_id',$id)->latest('id')->update(['payment_id'=>$createPay->id]);
             $dateFormat = Carbon::parse($request->due_date);
-            $updateInvoiceDate = Invoice::where('user_id',$id)->where('status',0)->update(['invoice_date'=>$dateFormat]);
+            $updateInvoiceDate = Invoice::where('user_id',$id)->latest('id')->update(['invoice_date'=>$dateFormat]);
             $dateForm = Carbon::parse($request->due_date);
             $twoDaysBefore = $dateForm->subDays(3);
-            $updateInvoiceMessageDate = Invoice::where('user_id',$id)->where('status',0)->update(['two_days_before'=>$twoDaysBefore]);
+            $updateInvoiceMessageDate = Invoice::where('user_id',$id)->latest('id')->update(['two_days_before'=>$twoDaysBefore]);
             $dateFor = Carbon::parse($request->due_date);
             $oneDayBefore = $dateFor->subDays(1);
-            $updateInvoiceMDate = Invoice::where('user_id',$id)->where('status',0)->update(['one_day_before'=>$oneDayBefore]);
-            $updateInvoiceStatus = Invoice::where('user_id',$id)->where('status',0)->update(['status'=>1]);
+            $updateInvoiceMDate = Invoice::where('user_id',$id)->latest('id')->update(['one_day_before'=>$oneDayBefore]);
+            $updateInvoiceStatus = Invoice::where('user_id',$id)->latest('id')->update(['status'=>1]);
         }
         $dateFormat = Carbon::parse($request->due_date);
-        $updateInvoiceDate = Invoice::where('user_id',$id)->where('status',0)->update(['invoice_date'=>$dateFormat]);
+        $updateInvoiceDate = Invoice::where('user_id',$id)->latest('id')->update(['invoice_date'=>$dateFormat]);
         $getUser = User::find($id);
         if($getUser->payment_date!=null){
            
