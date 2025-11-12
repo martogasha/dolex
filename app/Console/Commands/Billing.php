@@ -27,6 +27,7 @@ use RouterOS\Client;
 use RouterOS\Query;
 use RouterOS\Config;
 use Illuminate\Support\Facades\Log; 
+use Illuminate\Support\Facades\Http;
 
 class Billing extends Command
 {
@@ -86,7 +87,7 @@ class Billing extends Command
                     'shortcode' => 'DOLEX TECH',
                     
                 ];
-                $respons = Http::post(' https://sms.imarabiz.com/api/services/sendsms/', $postData);
+                $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
                 }
                 $getOneDayDate =  Invoice::where('user_id',$getUser->id)->latest('id')->value('one_day_before');
                 
@@ -104,7 +105,7 @@ class Billing extends Command
                     'shortcode' => 'DOLEX TECH',
                     
                 ];
-                $respons = Http::post(' https://sms.imarabiz.com/api/services/sendsms/', $postData);
+                $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
                 }
                
 
