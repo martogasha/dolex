@@ -328,7 +328,7 @@ class MpesaController extends Controller
                             'currentYear' =>$currentYear,
                             ]);
 
-                            if($getUserIdentification->id){
+                            if($getUserIdentification){
                             $updateUserAmount = User::where('id', $getUserIdentification->id)->update(['amount' => $createPayment->amount]);
                             $updateUserDate = User::where('id', $getUserIdentification->id)->update(['payment_date' => $createPayment->originationTime]);
                             $getUser = User::find($getUserIdentification->id);
