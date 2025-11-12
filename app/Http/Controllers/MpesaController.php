@@ -319,9 +319,9 @@ class MpesaController extends Controller
                             $createPayment = Mpesa::create([
                             'reference' => $request->TransID,
                             'originationTime' => $dateFormat,
-                            'senderFirstName' => $request->FirstName,
+                            'senderFirstName' => $request->BillRefNumber,
                             'senderMiddleName' => $request->FirstName,
-                            'senderPhoneNumber' => '0707',
+                            'senderPhoneNumber' => $request->BillRefNumber,
                             'amount' => $request->TransAmount,
                             
                             'currentMonth' =>$currentMonth,
