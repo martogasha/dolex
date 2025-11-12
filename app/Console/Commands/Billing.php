@@ -73,8 +73,9 @@ class Billing extends Command
 
                 $getTwoDayDate =  Invoice::where('user_id',$getUser->id)->latest('id')->value('two_days_before');
                 $dateFormat = Carbon::parse($getTwoDayDate);
+                 Log::info($dateFormat);
                 if($dateFormat < Carbon::now()){
-                    Log::info($dateFormat);
+                   
                 $postData = [
                     'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
                     'partnerID' => 15,
@@ -88,9 +89,11 @@ class Billing extends Command
                 $respons = Http::post(' https://sms.imarabiz.com/api/services/sendsms/', $postData);
                 }
                 $getOneDayDate =  Invoice::where('user_id',$getUser->id)->latest('id')->value('one_day_before');
+                
                 $dateForm = Carbon::parse($getOneDayDate);
+                Log::info($dateForm);
                  if($dateForm < Carbon::now()){
-                    Log::info($dateForm);
+                    
                 $postData = [
                     'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
                     'partnerID' => 15,
