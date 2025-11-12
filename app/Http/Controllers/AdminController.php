@@ -296,13 +296,13 @@ class AdminController extends Controller
             $mikrotikUsers = $client->query($secretsQuery)->read();
             
             foreach ($mikrotikUsers as $mikrotikUser){
-                if($mikrotikUser['comment']){
+                if(isset($mikrotikUser['comment'])){
                     $comment = $mikrotikUser['comment'];
                 }
                 else{
                     $comment = null;
                 }
-                if($mikrotikUser['profile']){
+                if(isset($mikrotikUser['profile'])){
                     $profile = $mikrotikUser['profile'];
                 }
                 else{
