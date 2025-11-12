@@ -78,6 +78,8 @@ class sendSms extends Command
                         
                     ];
                     $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
+                    $minusOneMonth = $twoDays->subMonth();
+                    $invoiceMinus = Invoice::where('id',$getTwoDayDate->id)->update(['two_days_before'=>$minusOneMonth]);
                 }
             }
           
@@ -97,6 +99,8 @@ class sendSms extends Command
                             
                         ];
                         $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
+                          $minusOneMon = $oneDay->subMonth();
+                        $invoiceMin = Invoice::where('id',$getOneDayDate->id)->update(['one_day_before'=>$minusOneMon]);
                     }
                 }
                
