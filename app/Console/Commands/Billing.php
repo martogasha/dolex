@@ -72,7 +72,7 @@ class Billing extends Command
             }
             else{
 
-                $getTwoDayDate =  Invoice::where('user_id',$getUser->id)->latest('id')->value('two_days_before');
+                $getTwoDayDate =  Invoice::where('user_id',$getUser->id)->where('status',1)->latest('id')->value('two_days_before');
                 Log::info($getTwoDayDate);
                 if($getTwoDayDate < Carbon::now()){  
                 $postData = [
@@ -85,7 +85,7 @@ class Billing extends Command
                 ];
                 $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
                 }
-                $getOneDayDate =  Invoice::where('user_id',$getUser->id)->latest('id')->value('one_day_before');
+                $getOneDayDate =  Invoice::where('user_id',$getUser->id)->where('status',1)->latest('id')->value('one_day_before');
                 Log::info($getOneDayDate);
              
                  if($getOneDayDate < Carbon::now()){
