@@ -64,39 +64,46 @@ class Billing extends Command
     {
         $gets = User::where('role',2)->get();
         foreach($gets as $get ){
-
-            $getTwoDayDate =  Invoice::where('user_id',$get->id)->where('status',1)->latest('id')->value('two_days_before');
-                Log::info($getTwoDayDate);
-                if($getTwoDayDate < Carbon::now()){  
-                $postData = [
-                    'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
-                    'partnerID' => 15,
-                    'mobile' => $get->phoneOne,
-                    'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/m/Y',strtotime($get->due_date)).'. Pay to avoid disconnection. PAYBILL: 6589582 ACC NO: '.$get->phone.'',
-                    'shortcode' => 'DOLEX TECH',
-                    
-                ];
-                $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
+            $getTwoDayDate =  Invoice::where('user_id',$get->id)->latest('id')->first();
+            if($getTwoDayDate->status ==1){
+                $twoDays = $getTwoDayDate->two_days_before;
+                Log::info($twoDays);
+                if($twoDays < Carbon::now()){  
+                    $postData = [
+                        'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
+                        'partnerID' => 15,
+                        'mobile' => $get->phoneOne,
+                        'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/m/Y',strtotime($get->due_date)).'. Pay to avoid disconnection. PAYBILL: 6589582 ACC NO: '.$get->phone.'',
+                        'shortcode' => 'DOLEX TECH',
+                        
+                    ];
+                    $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
                 }
-                $getOneDayDate =  Invoice::where('user_id',$get->id)->where('status',1)->latest('id')->value('one_day_before');
-                Log::info($getOneDayDate);
-             
-                 if($getOneDayDate < Carbon::now()){
-                    
-                $postData = [
-                    'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
-                    'partnerID' => 15,
-                    'mobile' => $get->phoneOne,
-                    'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/m/Y',strtotime($get->due_date)).'. Pay to avoid disconnection. PAYBILL: 6589582 ACC NO: '.$get->phone.'',
-                    'shortcode' => 'DOLEX TECH',
-                    
-                ];
-                $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
+            }
+          
+                $getOneDayDate =  Invoice::where('user_id',$get->id)->latest('id')->first();
+                if($getOneDayDate->status==1){
+                    $oneDay = $getOneDayDate->one_day_before;
+                    Log::info($oneDay);
+                
+                    if($oneDay < Carbon::now()){
+                        
+                        $postData = [
+                            'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
+                            'partnerID' => 15,
+                            'mobile' => $get->phoneOne,
+                            'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/m/Y',strtotime($get->due_date)).'. Pay to avoid disconnection. PAYBILL: 6589582 ACC NO: '.$get->phone.'',
+                            'shortcode' => 'DOLEX TECH',
+                            
+                        ];
+                        $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
+                    }
                 }
+               
         }
 
           
-        $getUsers = User::where('due_date', '<', Carbon::now())->where('role',2)->get();
+        $getUsers = User::where('due_date', '<', Carbon::now())->where('role', 2)->get();
         
         $currentMonth = date('m');
       foreach ($getUsers as $getUser){
