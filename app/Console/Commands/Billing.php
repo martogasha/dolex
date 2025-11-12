@@ -62,7 +62,7 @@ class Billing extends Command
      */
     public function handle()
     {
-        $getUsers = User::where('due_date', '<', Carbon::now())->get();
+        $getUsers = User::where('due_date', '<', Carbon::now())->where('role',2)->get();
         
         $currentMonth = date('m');
       foreach ($getUsers as $getUser){
@@ -73,35 +73,40 @@ class Billing extends Command
             else{
 
                 $getTwoDayDate =  Invoice::where('user_id',$getUser->id)->latest('id')->value('two_days_before');
+                Log::info($dateFormat);
                 $dateFormat = Carbon::parse($getTwoDayDate);
-                 Log::info($dateFormat);
+                 
                 if($dateFormat < Carbon::now()){
                    
                 $postData = [
                     'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
                     'partnerID' => 15,
                     'mobile' => $getUser->phoneOne,
-                    'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/m/Y',strtotime($getUser->due_date)).'. Pay to avoid disconnection.
-                                                            PAYBILL: 6589582
-                                                            ACC NO: '.$getUser->phone.'',
+                    'message' => '
+                    Dear customer, your DOLEX subscription is due for renewal on '.date('d/m/Y',strtotime($getUser->due_date)).'. Pay to avoid disconnection.
+PAYBILL: 6589582
+ACC NO: '.$getUser->phone.'
+                    ',
                     'shortcode' => 'DOLEX TECH',
                     
                 ];
                 $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
                 }
                 $getOneDayDate =  Invoice::where('user_id',$getUser->id)->latest('id')->value('one_day_before');
-                
-                $dateForm = Carbon::parse($getOneDayDate);
                 Log::info($dateForm);
+                $dateForm = Carbon::parse($getOneDayDate);
+                
                  if($dateForm < Carbon::now()){
                     
                 $postData = [
                     'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
                     'partnerID' => 15,
                     'mobile' => $getUser->phoneOne,
-                    'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/m/Y',strtotime($getUser->due_date)).'. Pay to avoid disconnection.
-                                                            PAYBILL: 6589582
-                                                            ACC NO: '.$getUser->phone.'',
+                    'message' => '
+                    Dear customer, your DOLEX subscription is due for renewal on '.date('d/m/Y',strtotime($getUser->due_date)).'. Pay to avoid disconnection.
+PAYBILL: 6589582
+ACC NO: '.$getUser->phone.'
+                    ',
                     'shortcode' => 'DOLEX TECH',
                     
                 ];
