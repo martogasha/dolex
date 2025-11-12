@@ -79,11 +79,7 @@ class Billing extends Command
                     'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
                     'partnerID' => 15,
                     'mobile' => $getUser->phoneOne,
-                    'message' => '
-                    Dear customer, your DOLEX subscription is due for renewal on '.date('d/m/Y',strtotime($getUser->due_date)).'. Pay to avoid disconnection.
-PAYBILL: 6589582
-ACC NO: '.$getUser->phone.'
-                    ',
+                    'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/m/Y',strtotime($getUser->due_date)).'. Pay to avoid disconnection. PAYBILL: 6589582 ACC NO: '.$getUser->phone.'',
                     'shortcode' => 'DOLEX TECH',
                     
                 ];
@@ -97,11 +93,7 @@ ACC NO: '.$getUser->phone.'
                     'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
                     'partnerID' => 15,
                     'mobile' => $getUser->phoneOne,
-                    'message' => '
-                    Dear customer, your DOLEX subscription is due for renewal on '.date('d/m/Y',strtotime($getUser->due_date)).'. Pay to avoid disconnection.
-PAYBILL: 6589582
-ACC NO: '.$getUser->phone.'
-                    ',
+                    'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/m/Y',strtotime($getUser->due_date)).'. Pay to avoid disconnection. PAYBILL: 6589582 ACC NO: '.$getUser->phone.'',
                     'shortcode' => 'DOLEX TECH',
                     
                 ];
