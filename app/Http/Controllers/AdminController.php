@@ -308,7 +308,18 @@ class AdminController extends Controller
                 else{
                     $profile = null;
                 }
-                
+                  if(isset($mikrotikUser['password'])){
+                    $password = $mikrotikUser['password'];
+                }
+                else{
+                    $password = null;
+                }
+                  if(isset($mikrotikUser['disabled'])){
+                    $disabled = $mikrotikUser['disabled'];
+                }
+                else{
+                    $disabled = null;
+                }
                 
                 $getUserId = User::where('mikrotik_id',$mikrotikUser['.id'])->value('id');
                 if($getUserId==null){
@@ -319,9 +330,9 @@ class AdminController extends Controller
                         'first_name'=>$mikrotikUser['name'],
                         'location'=>$comment,
                         'last_name'=>$profile,
-                        'password'=>$mikrotikUser['password'],
+                        'password'=>$password,
                         'mikrotik_id'=>$mikrotikUser['.id'],
-                        'dis_status'=>$mikrotikUser['disabled'],
+                        'dis_status'=>$disabled,
                         'role'=>3,
                         'due_date'=>$now,
             
