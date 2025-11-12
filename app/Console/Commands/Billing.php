@@ -67,9 +67,14 @@ class Billing extends Command
         $currentMonth = date('m');
       foreach ($getUsers as $getUser){
             $getExistingInvoice = Invoice::where('user_id',$getUser->id)->where('status',0)->latest('id')->first();
-                   $getTwoDayDate =  Invoice::where('user_id',$getUser->id)->latest('id')->value('two_days_before');
-                if($getTwoDayDate < Carbon::now()){
-                   
+            if ($getExistingInvoice){
+      
+            }
+            else{
+
+                $getTwoDayDate =  Invoice::where('user_id',$getUser->id)->latest('id')->value('two_days_before');
+                Log::info($getTwoDayDate);
+                if($getTwoDayDate < Carbon::now()){  
                 $postData = [
                     'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
                     'partnerID' => 15,
@@ -81,6 +86,7 @@ class Billing extends Command
                 $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
                 }
                 $getOneDayDate =  Invoice::where('user_id',$getUser->id)->latest('id')->value('one_day_before');
+                Log::info($getOneDayDate);
              
                  if($getOneDayDate < Carbon::now()){
                     
@@ -94,11 +100,8 @@ class Billing extends Command
                 ];
                 $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
                 }
-            if ($getExistingInvoice){
-      
-            }
-            else{
                
+
                 $currentBalance = $getUser->balance;
                 $packageAmount = $getUser->package_amount;
                 $newBalance = $currentBalance + $packageAmount;
