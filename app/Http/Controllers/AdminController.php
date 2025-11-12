@@ -288,7 +288,7 @@ class AdminController extends Controller
             'port' => 8728,
         ]);
 
-        try {
+        
             // Establish a connection to the MikroTik router
             $client = new Client($config);
             // Fetch all PPPoE secrets (configured users)
@@ -318,7 +318,7 @@ class AdminController extends Controller
                         $storePPPoe = User::create([
                         'first_name'=>$mikrotikUser['name'],
                         'location'=>$comment,
-                        'last_name'=>$mikrotikUser['profile'],
+                        'last_name'=>$profile,
                         'password'=>$mikrotikUser['password'],
                         'mikrotik_id'=>$mikrotikUser['.id'],
                         'dis_status'=>$mikrotikUser['disabled'],
@@ -395,9 +395,7 @@ class AdminController extends Controller
                 }
 
             return redirect()->back()->with('success','Updated Success');
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        
     }
         
         else{
