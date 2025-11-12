@@ -80,6 +80,7 @@ class MpesaController extends Controller
         $currentMonth = date('m');
         $currentYear = date('Y');
             $getUserIdentification = User::where('phone',$request->BillRefNumber )->first();
+            $getInvoice = null;
             if($getUserIdentification){
                 $userDueDate = Carbon::parse($getUserIdentification->due_date);
                 $getInvoice = Invoice::where('user_id', $getUserIdentification->id)->where('status', 0)->first();
