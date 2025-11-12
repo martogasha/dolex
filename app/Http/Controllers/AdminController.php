@@ -296,13 +296,28 @@ class AdminController extends Controller
             $mikrotikUsers = $client->query($secretsQuery)->read();
             
             foreach ($mikrotikUsers as $mikrotikUser){
+                if($mikrotikUser['comment']!=null){
+                    $comment = $mikrotikUser['comment'];
+                }
+                else{
+                    $comment = null;
+                }
+                if($mikrotikUser['profile']!=null){
+                    $profile = $mikrotikUser['profile'];
+                }
+                else{
+                    $profile = null;
+                }
+                
+                
                 $getUserId = User::where('mikrotik_id',$mikrotikUser['.id'])->value('id');
                 if($getUserId==null){
                     $now = Carbon::now();
-                    if(isset($mikrotikUser['comment'])){
+                    
+
                         $storePPPoe = User::create([
                         'first_name'=>$mikrotikUser['name'],
-                        'location'=>$mikrotikUser['comment'],
+                        'location'=>$comment,
                         'last_name'=>$mikrotikUser['profile'],
                         'password'=>$mikrotikUser['password'],
                         'mikrotik_id'=>$mikrotikUser['.id'],
@@ -311,20 +326,7 @@ class AdminController extends Controller
                         'due_date'=>$now,
             
                          ]);
-                    }
-                    else{
-                         $storePPPoe = User::create([
-                        'first_name'=>$mikrotikUser['name'],
-                        
-                        'last_name'=>$mikrotikUser['profile'],
-                        'password'=>$mikrotikUser['password'],
-                        'mikrotik_id'=>$mikrotikUser['.id'],
-                        'dis_status'=>$mikrotikUser['disabled'],
-                        'role'=>3,
-                        'due_date'=>$now,
-            
-                         ]);
-                    }
+                    
                        
                             $now = Carbon::now();
                             $date1 = $now;
