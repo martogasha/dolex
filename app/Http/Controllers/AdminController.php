@@ -312,7 +312,7 @@ class AdminController extends Controller
                     $password = $mikrotikUser['password'];
                 }
                 else{
-                    $password = null;
+                    $password = 123;
                 }
                   if(isset($mikrotikUser['disabled'])){
                     $disabled = $mikrotikUser['disabled'];
