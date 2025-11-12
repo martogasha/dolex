@@ -67,8 +67,8 @@ class Billing extends Command
             $getTwoDayDate =  Invoice::where('user_id',$get->id)->latest('id')->first();
             if($getTwoDayDate->status ==1){
                 $twoDays = $getTwoDayDate->two_days_before;
-                Log::info($twoDays);
-                if($twoDays < Carbon::now()){  
+               
+                if($twoDays = Carbon::now()){  
                     $postData = [
                         'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
                         'partnerID' => 15,
@@ -84,9 +84,9 @@ class Billing extends Command
                 $getOneDayDate =  Invoice::where('user_id',$get->id)->latest('id')->first();
                 if($getOneDayDate->status==1){
                     $oneDay = $getOneDayDate->one_day_before;
-                    Log::info($oneDay);
+                    
                 
-                    if($oneDay < Carbon::now()){
+                    if($oneDay = Carbon::now()){
                         
                         $postData = [
                             'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
