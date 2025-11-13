@@ -65,13 +65,16 @@ class sendSms extends Command
           $get =  $getUsers = User::where('role', 2)->get();
           
         foreach($gets as $get){
-                $getInvoice = Invoice::where('user_id',$get->id)->latest('id')->first();
-                $twoDays = $getInvoice->two_days_before;
-              Log::info($twoDays);
+                $getInvoices = Invoice::where('user_id',$get->id)->latest('id')->get();
+                foreach($getInvoices as $getInvoice){
+                    $twoDays = $getInvoice->two_days_before;
+                                Log::info($twoDays);
        
                     $dateFor = Carbon::parse($twoDays);
                         $minusOneMonth = $dateFor->addMonth();
                         $invoiceMinus = Invoice::where('id',$get->id)->update(['two_days_before'=>$minusOneMonth]);
+                }
+              
                                      
         }
     }
