@@ -63,11 +63,11 @@ class sendSms extends Command
     public function handle()
     {
           $gets = User::where('role',2)->get();
-        foreach($gets as $get ){
+        foreach($gets as $get){
             $getTwoDayDate =  Invoice::where('user_id',$get->id)->where('two_days_before', Carbon::now())->latest('id')->first();
-            if($getTwoDayDate->status ==1){
+            
                 $twoDays = $getTwoDayDate->two_days_before;
-                if($twoDays = Carbon::now()){  
+              
                     $postData = [
                         'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
                         'partnerID' => 15,
@@ -81,11 +81,7 @@ class sendSms extends Command
                         $invoiceMinus = Invoice::where('id',$getTwoDayDate->id)->update(['two_days_before'=>$minusOneMonth]);
                     
                     
-                }
-            }
-          
-            
-               
+                              
         }
     }
 }
