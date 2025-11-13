@@ -65,7 +65,7 @@ class sendSms extends Command
           $gets = User::where('role',2)->get();
         foreach($gets as $get){
             $getTwoDayDate =  Invoice::where('user_id',$get->id)->where('two_days_before', Carbon::now())->first();
-            if($getTwoDayDate){
+            
     
                 $twoDays = $getTwoDayDate->two_days_before;
               
@@ -80,7 +80,7 @@ class sendSms extends Command
                     $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
                         $minusOneMonth = $twoDays->subMonth();
                         $invoiceMinus = Invoice::where('id',$getTwoDayDate->id)->update(['two_days_before'=>$minusOneMonth]);
-            }
+            
         
                     
                     
