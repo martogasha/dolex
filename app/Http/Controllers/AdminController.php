@@ -2297,7 +2297,7 @@ class AdminController extends Controller
             $getLatestInvoice = Invoice::where('user_id',$id)->latest('id')->first();
             $getPreviousInvoices = Invoice::where('id','!=',$getLatestInvoice->id)->get();
             foreach($getPreviousInvoices as $getPreviousInvoice){
-                $updateInvoiceStatas = invoice::where('id',$getPreviousInvoice)->update(['statas'=>1]);
+                $updateInvoiceStatas = invoice::where('id',$getPreviousInvoice->id)->update(['statas'=>1]);
 
             }
         }
