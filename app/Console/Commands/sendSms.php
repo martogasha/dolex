@@ -67,8 +67,8 @@ class sendSms extends Command
             $getTwoDayDate =  Invoice::where('user_id',$get->id)->latest('id')->first();
             if($getTwoDayDate->status ==1){
                 $twoDays = $getTwoDayDate->two_days_before;
-               
-                if($twoDays = Carbon::now()){  
+                $oneDay = $getTwoDayDate->one_day_before;
+                if($twoDays = Carbon::now() || $oneDay = Carbon::now()){  
                     $postData = [
                         'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
                         'partnerID' => 15,
@@ -83,26 +83,7 @@ class sendSms extends Command
                 }
             }
           
-                $getOneDayDate =  Invoice::where('user_id',$get->id)->latest('id')->first();
-                if($getOneDayDate->status==1){
-                    $oneDay = $getOneDayDate->one_day_before;
-                    
-                
-                    if($oneDay = Carbon::now()){
-                        
-                        $postData = [
-                            'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
-                            'partnerID' => 15,
-                            'mobile' => $get->phoneOne,
-                            'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/m/Y',strtotime($get->due_date)).'. Pay to avoid disconnection. PAYBILL: 6589582 ACC NO: '.$get->phone.'',
-                            'shortcode' => 'DOLEX TECH',
-                            
-                        ];
-                        $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
-                          $minusOneMon = $oneDay->subMonth();
-                        $invoiceMin = Invoice::where('id',$getOneDayDate->id)->update(['one_day_before'=>$minusOneMon]);
-                    }
-                }
+            
                
         }
     }
