@@ -64,7 +64,7 @@ class sendSms extends Command
     {
           $gets = User::where('role',2)->get();
         foreach($gets as $get){
-            $getTwoDayDate =  Invoice::where('user_id',$get->id)->where('two_days_before', Carbon::now())->latest('id')->first();
+            $getTwoDayDate =  Invoice::where('user_id',$get->id)->where('two_days_before', Carbon::now())->first();
             if($getTwoDayDate){
     
                 $twoDays = $getTwoDayDate->two_days_before;
