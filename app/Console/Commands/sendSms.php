@@ -62,11 +62,11 @@ class sendSms extends Command
      */
     public function handle()
     {
-          $getings =  Invoice::where('two_days_before', '<', Carbon::now())->get();
-          $gets = $getings->unique('id');
+          $get =  $getUsers = User::where('role', 2)->get();
+          
         foreach($gets as $get){
-            $unique = Invoice::where('two_days_before', '<', Carbon::now())->latest('id')->first();
-                $twoDays = $unique->two_days_before;
+                $getInvoice = Invoice::where('user_id',$get->id)->latest('id')->first();
+                $twoDays = $getInvoice->two_days_before;
               Log::info($twoDays);
        
                     $dateFor = Carbon::parse($twoDays);
