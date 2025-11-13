@@ -62,7 +62,7 @@ class sendSms extends Command
      */
     public function handle()
     {
-          $get =  $getUsers = User::where('role', 2)->get();
+          $gets =  $getUsers = User::where('role', 2)->get();
           
         foreach($gets as $get){
                 $getInvoices = Invoice::where('user_id',$get->id)->latest('id')->get();
