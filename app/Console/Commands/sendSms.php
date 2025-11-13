@@ -64,27 +64,20 @@ class sendSms extends Command
     {
           $gets =  Invoice::where('two_days_before', Carbon::now())->get();
         foreach($gets as $get){
-            
-            
-    
                 $twoDays = $get->two_days_before;
-              
+              Log::info($twoDays);
                     $postData = [
                         'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
                         'partnerID' => 15,
-                        'mobile' => $get->phoneOne,
-                        'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/m/Y',strtotime($get->due_date)).'. Pay to avoid disconnection. PAYBILL: 6589582 ACC NO: '.$get->phone.'',
+                        'mobile' => $get->user->phoneOne,
+                        'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/m/Y',strtotime($get->user->due_date)).'. Pay to avoid disconnection. PAYBILL: 6589582 ACC NO: '.$get->user->phone.'',
                         'shortcode' => 'DOLEX TECH',
                         
                     ];
                     $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
                         $minusOneMonth = $twoDays->subMonth();
                         $invoiceMinus = Invoice::where('id',$get->id)->update(['two_days_before'=>$minusOneMonth]);
-            
-        
-                    
-                    
-                              
+                                     
         }
     }
 }
