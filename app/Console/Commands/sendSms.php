@@ -67,8 +67,7 @@ class sendSms extends Command
             $getTwoDayDate =  Invoice::where('user_id',$get->id)->latest('id')->first();
             if($getTwoDayDate->status ==1){
                 $twoDays = $getTwoDayDate->two_days_before;
-                $oneDay = $getTwoDayDate->one_day_before;
-                if($twoDays = Carbon::now() || $oneDay = Carbon::now()){  
+                if($twoDays = Carbon::now()){  
                     $postData = [
                         'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
                         'partnerID' => 15,
@@ -78,15 +77,9 @@ class sendSms extends Command
                         
                     ];
                     $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
-                    if($twoDays = Carbon::now()){
                         $minusOneMonth = $twoDays->subMonth();
                         $invoiceMinus = Invoice::where('id',$getTwoDayDate->id)->update(['two_days_before'=>$minusOneMonth]);
-                    }
                     
-                    if($oneDay = Carbon::now()){
-                        $minusMonth = $oneDay->subMonth();
-                        $invoiceMinusOne = Invoice::where('id',$getTwoDayDate->id)->update(['one_day_before'=>$minusMonth]);
-                    }
                     
                 }
             }
