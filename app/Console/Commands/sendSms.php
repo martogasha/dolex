@@ -62,7 +62,7 @@ class sendSms extends Command
      */
     public function handle()
     {
-          $gets =  Invoice::where('two_days_before', '<', Carbon::now())->where('statas',0)->get();
+          $gets =  Invoice::where('two_days_before', '<', Carbon::now())->where('status',1)->where('statas',0)->get();
           
         foreach($gets as $get){
                 $twoDays = $get->two_days_before;
@@ -73,7 +73,7 @@ class sendSms extends Command
                         $invoiceMinus = Invoice::where('id',$get->id)->update(['two_days_before'=>$minusOneMonth]);
                                      
         }
-        $ones =  Invoice::where('one_day_before', '<', Carbon::now())->where('statas',0)->get();
+        $ones =  Invoice::where('one_day_before', '<', Carbon::now())->where('status',1)->where('statas',0)->get();
           
         foreach($ones as $one){
                 $oneDay = $one->one_day_before;
