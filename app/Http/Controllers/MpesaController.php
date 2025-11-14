@@ -152,7 +152,7 @@ class MpesaController extends Controller
                                 // Get the MikroTik API client using the configured facade
                             try{
                                             $config = new Config([
-                                            'host' => '197.248.58.121',
+                                            'host' => '197.248.58.123',
                                             'user' => 'admin',
                                             'pass' => 'KND@2020',
                                             'port' => 8728,
