@@ -62,45 +62,7 @@ class Billing extends Command
      */
     public function handle()
     {
-        $gets = User::where('role',2)->get();
-        foreach($gets as $get ){
-            $getTwoDayDate =  Invoice::where('user_id',$get->id)->latest('id')->first();
-            if($getTwoDayDate->status ==1){
-                $twoDays = $getTwoDayDate->two_days_before;
-               
-                if($twoDays = Carbon::now()){  
-                    $postData = [
-                        'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
-                        'partnerID' => 15,
-                        'mobile' => $get->phoneOne,
-                        'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/m/Y',strtotime($get->due_date)).'. Pay to avoid disconnection. PAYBILL: 6589582 ACC NO: '.$get->phone.'',
-                        'shortcode' => 'DOLEX TECH',
-                        
-                    ];
-                    $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
-                }
-            }
-          
-                $getOneDayDate =  Invoice::where('user_id',$get->id)->latest('id')->first();
-                if($getOneDayDate->status==1){
-                    $oneDay = $getOneDayDate->one_day_before;
-                    
-                
-                    if($oneDay = Carbon::now()){
-                        
-                        $postData = [
-                            'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
-                            'partnerID' => 15,
-                            'mobile' => $get->phoneOne,
-                            'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/m/Y',strtotime($get->due_date)).'. Pay to avoid disconnection. PAYBILL: 6589582 ACC NO: '.$get->phone.'',
-                            'shortcode' => 'DOLEX TECH',
-                            
-                        ];
-                        $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
-                    }
-                }
-               
-        }
+      
 
           
         $getUsers = User::where('due_date', '<', Carbon::now())->where('role', 2)->get();
@@ -163,6 +125,12 @@ class Billing extends Command
                     $dateFor = Carbon::parse($nextDate);
                     $oneDayBefore = $dateFor->subDays(1);
                     $updateInvoiceMDate = Invoice::where('user_id',$getUser->id)->where('id',$createInvoice->id)->update(['one_day_before'=>$oneDayBefore]);
+                        $getLatestInvoice = Invoice::where('user_id',$getUser->id)->latest('id')->first();
+                        $getPreviousInvoices = Invoice::where('id','!=',$getLatestInvoice->id)->where('user_id',$getUser->id)->get();
+                        foreach($getPreviousInvoices as $getPreviousInvoice){
+                            $updateInvoiceStatas = invoice::where('id',$getPreviousInvoice->id)->update(['statas'=>1]);
+
+            }
                 }
                 else{
                     if ($currentBalance<0){

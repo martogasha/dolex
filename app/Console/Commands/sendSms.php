@@ -73,5 +73,16 @@ class sendSms extends Command
                         $invoiceMinus = Invoice::where('id',$get->id)->update(['two_days_before'=>$minusOneMonth]);
                                      
         }
+        $ones =  Invoice::where('one_day_before', '<', Carbon::now())->where('statas',0)->get();
+          
+        foreach($ones as $one){
+                $oneDay = $one->one_day_before;
+              Log::info($one->user->phoneOne);
+       
+                    $dateFor = Carbon::parse($oneDay);
+                        $minusOneMonth = $dateFor->addMonth();
+                        $invoiceMinus = Invoice::where('id',$one->id)->update(['two_days_before'=>$minusOneMonth]);
+                                     
+        }
     }
 }

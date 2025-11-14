@@ -143,6 +143,11 @@ class MpesaController extends Controller
                         if ($getInv->balance == 0) {
                             $updateBal = Invoice::where('id', $getInv->id)->update(['usage_time' => 2147483647]);
                             $updateStatus = Invoice::where('id', $getInv->id)->update(['status' => 1]);
+                               $getLatestInvoice = Invoice::where('id', $getInv->id)->first();
+                                $getPreviousInvoices = Invoice::where('id','!=',$getLatestInvoice->id)->where('user_id',$getUserIdentification->id)->get();
+                                foreach($getPreviousInvoices as $getPreviousInvoice){
+                                    $updateInvoiceStatas = invoice::where('id',$getPreviousInvoice->id)->update(['statas'=>1]);
+                                }
                                 // Get the MikroTik API client using the configured facade
                             try{
                                             $config = new Config([
