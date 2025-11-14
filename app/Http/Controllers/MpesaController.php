@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use RouterOS\Client;
 use RouterOS\Query;
 use RouterOS\Config;
+use App\Models\Cache;
 
 class MpesaController extends Controller
 {
@@ -151,7 +152,7 @@ class MpesaController extends Controller
                                 // Get the MikroTik API client using the configured facade
                             try{
                                             $config = new Config([
-                                            'host' => '197.248.58.123',
+                                            'host' => '197.248.58.121',
                                             'user' => 'admin',
                                             'pass' => 'KND@2020',
                                             'port' => 8728,
@@ -196,6 +197,10 @@ class MpesaController extends Controller
                                     catch (\Exception $e) {
                                             // 5. Handle any connection or API errors
                                             Log::info('payment paid but no connection');
+                                            $cache = Cache::create([
+                                                'user_id' => $getUserIdentification->id,
+                                                'status' => 1,
+                                            ]);
                                             return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
                                         }
 

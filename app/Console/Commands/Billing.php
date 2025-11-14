@@ -17,6 +17,7 @@ use App\Models\Product;
 use App\Models\Qproduct;
 use App\Models\Quotation;
 use App\Models\User;
+use App\Models\Cache;
 use Carbon\Carbon;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
@@ -225,6 +226,10 @@ class Billing extends Command
                                     catch (\Exception $e) {
                                             // 5. Handle any connection or API errors
                                             Log::info('Billed but no connection');
+                                            $cache = Cache::create([
+                                                'user_id' => $getUser->id,
+                                                'status' => 0,
+                                            ]);
                                             return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
                                         }
           
