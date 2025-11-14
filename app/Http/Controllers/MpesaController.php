@@ -340,6 +340,16 @@ class MpesaController extends Controller
                             $getBalance = $getUser->balance;
                             $currentBalance = $getUser->balance - $request->TransAmount;
                             $updateUserBalance = User::where('id', $getUserIdentification->id)->update(['balance' => $currentBalance]);
+                            
+                            $getMessageDate = Invoice::where('user_id', $getUserIdentification->id)->where('statas',0)->first();
+                            $dateFor = Carbon::parse($getMessageDate->two_days_before);
+                            $addMonth = $dateFor->addMonth();
+                            $dateForm = Carbon::parse($getMessageDate->one_day_before);
+                            $addOneMonth = $dateForm->addMonth();
+                            $updateInvoice = Invoice::where('id', $getMessageDate->id)->update([
+                                                    'two_days_before' => $addMonth,
+                                                    'one_day_before' => $addOneMonth,
+                                                ]);
                             }
                      
 
