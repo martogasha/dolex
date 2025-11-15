@@ -191,8 +191,8 @@ class Billing extends Command
                                         $mikId = $getUser->mikrotik_id;
 
                                             // Create a query for the /ppp/profile/print command
-                                            $getUser = User::where('mikrotik_id',$getUser->mikrotik_id)->value('dis_status');
-                                            if($getUser=='true'){
+                                            $getUse = User::where('mikrotik_id',$getUser->mikrotik_id)->value('dis_status');
+                                            if($getUse=='true'){
                                             $query = new Query('/ppp/profile/print');
                                         
                                             // 2. Build the RouterOS API query to disable the secret
