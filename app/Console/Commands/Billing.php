@@ -222,6 +222,21 @@ class Billing extends Command
                                             $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'true']);
                                             
                                             }
+                                            $usernameToDisconnect = $getUser->first_name;
+                                            $query = new Query('/ppp/active/print');
+                                            $query->where('name', $usernameToDisconnect);
+                                            $activeConnections = $client->query($query)->read();
+                                             // Check if a connection was found
+                                            if (empty($activeConnections)) {
+                                                // Handle case where user is not found or not active
+                                                Log::info('user is not found or not active');
+                                            }
+                                            $connectionId = $activeConnections[0]['.id'];
+                                             // Remove the active connection
+                                            $removeQuery = new Query('/ppp/active/remove');
+                                            $removeQuery->equal('.id', $connectionId);
+                                            $client->query($removeQuery)->read();
+                                            Log::info('user found active');
                       }
                                     catch (\Exception $e) {
                                             // 5. Handle any connection or API errors
