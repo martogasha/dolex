@@ -179,8 +179,10 @@ class Billing extends Command
                         $updatePaymentDate = User::where('id',$getUser->id)->update(['payment_date'=>null]);
                         $updateDueDate = User::where('id',$getUser->id)->update(['due_date'=>$nextDate]);
                                     
-                      try{
+                      
                               // Get the MikroTik API client using the configured facade
+                            if($getUser){
+                                  try{
                                             $config = new Config([
                                             'host' => '197.248.58.123',
                                             'user' => 'admin',
@@ -237,7 +239,7 @@ class Billing extends Command
                                             $removeQuery->equal('.id', $connectionId);
                                             $client->query($removeQuery)->read();
                                             Log::info('user found active');
-                      }
+                                }
                                     catch (\Exception $e) {
                                             // 5. Handle any connection or API errors
                                             Log::info('Billed but no connection');
@@ -247,6 +249,7 @@ class Billing extends Command
                                             ]);
                                             return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
                                         }
+                            }
           
 
         
