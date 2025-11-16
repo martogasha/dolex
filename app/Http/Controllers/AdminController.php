@@ -2305,6 +2305,15 @@ class AdminController extends Controller
         $updateInvoiceDate = Invoice::where('user_id',$id)->latest('id')->update(['invoice_date'=>$dateFormat]);
         $getUser = User::find($id);
         if($getUser->payment_date!=null){
+            if($request->one_day_before){
+            $oneDaysBefore = Carbon::parse($request->one_day_before);
+            $updateOneDay = Invoice::where('user_id',$id)->where('statas',0)->update(['one_day_before'=>$oneDaysBefore]);
+            }
+            if($request->two_days_before){
+            $twoDaysBefore = Carbon::parse($request->two_days_before);
+            $updateTwoDay = Invoice::where('user_id',$id)->where('statas',0)->update(['two_days_before'=>$twoDaysBefore]);
+            }
+            
            
 
                     try {
@@ -2339,6 +2348,10 @@ class AdminController extends Controller
                     } catch (\Exception $e) {
                         // 5. Handle any connection or API errors
                         Log::info('edit successfull but no connection to mikrotik');
+                        $cache = Cache::create([
+                            'user_id' => $getUser->id,
+                            'status' => 2,
+                        ]);
                         return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
                     }
 

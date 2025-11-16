@@ -96,6 +96,18 @@
                                     <input type="date" value="{{ old('due_date', $customer->due_date ? \Carbon\Carbon::parse($customer->due_date)->format('Y-m-d') : '') }}" class="form-control" name="due_date"/>
                                 </div>
                             </div>
+                             <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                <div class="form-group">
+                                    <label for="dob">3Days MSG *</label>
+                                    <input type="date" value="" class="form-control" name="two_days_before"/>
+                                </div>
+                            </div>
+                             <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                <div class="form-group">
+                                    <label for="dob">1Day MSG *</label>
+                                    <input type="date" value="" class="form-control" name="one_day_before"/>
+                                </div>
+                            </div>
                             <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <div class="form-group">
                                         <label>Select</label>
