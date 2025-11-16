@@ -65,7 +65,7 @@ class Downtime extends Command
     {
        $caches = Cache::all();
         foreach($caches as $cache){
-            if($cache->status==0){
+            if($cache){
            // Get the MikroTik API client using the configured facade
                             try{
                                             $config = new Config([
@@ -114,65 +114,12 @@ class Downtime extends Command
                                 }
                                     catch (\Exception $e) {
                                             // 5. Handle any connection or API errors
-                                            Log::info('Billed but no connection');
+                                            Log::info('cache not executed');
                     
                                             return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
                                         }
             }
-            else{
-// Get the MikroTik API client using the configured facade
-                            try{
-                                            $config = new Config([
-                                            'host' => '197.248.58.123',
-                                            'user' => 'admin',
-                                            'pass' => 'KND@2020',
-                                            'port' => 8728,
-                                        ]);
-                                        $client = new Client($config);
-                                        $mikId = $cache->user->mikrotik_id;
-
-                                            // Create a query for the /ppp/profile/print command
-                                            $getUser = User::where('mikrotik_id',$cache->user->mikrotik_id)->value('dis_status');
-                                            if($getUser=='true'){
-                                            $query = new Query('/ppp/profile/print');
-                                        
-                                            // 2. Build the RouterOS API query to disable the secret
-                                            $query = (new Query('/ppp/secret/set'))
-                                                ->equal('.id', $mikId)
-                                                ->equal('disabled', 'no');
-
-                                            // 3. Send the query and get the response
-                                            $response = $client->query($query)->read();
-
-                                            // 4. Handle the response
-                                            $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'false']);
-                                            
-                                            
-                                            }
-                                            else{
-                                                $query = new Query('/ppp/profile/print');
-                                        
-                                            // 2. Build the RouterOS API query to disable the secret
-                                            $query = (new Query('/ppp/secret/set'))
-                                                ->equal('.id', $mikId)
-                                                ->equal('disabled', 'yes');
-
-                                            // 3. Send the query and get the response
-                                            $response = $client->query($query)->read();
-
-                                            // 4. Handle the response
-                                            $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'true']);
-                                            
-                                            }
-                                            $deleteCache = Cache::where('id',$cache->id)->delete();
-                                }
-                                    catch (\Exception $e) {
-                                            // 5. Handle any connection or API errors
-                                            Log::info('payment paid but no connection');
-                    
-                                            return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
-                                        }
-            }
+       
         }
     }
 }
