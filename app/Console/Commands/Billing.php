@@ -231,7 +231,7 @@ class Billing extends Command
                                              // Check if a connection was found
                                             if (empty($activeConnections)) {
                                                 // Handle case where user is not found or not active
-                                                Log::info('user is not found or not active');
+                                               
                                             }
                                             else{
                                             $connectionId = $activeConnections[0]['.id'];
@@ -239,7 +239,7 @@ class Billing extends Command
                                             $removeQuery = new Query('/ppp/active/remove');
                                             $removeQuery->equal('.id', $connectionId);
                                             $client->query($removeQuery)->read();
-                                            Log::info('user found active');
+                                            
                                             }
                                           
                                 }
