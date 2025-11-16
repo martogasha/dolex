@@ -79,7 +79,7 @@ class sendSms extends Command
         foreach($ones as $one){
                 $oneDay = $one->one_day_before;
               
-            Log::info($get->user->phone);
+            Log::info($one->user->phone);
        
                     $dateFor = Carbon::parse($oneDay);
                         $minusOneMonth = $dateFor->addMonth();
