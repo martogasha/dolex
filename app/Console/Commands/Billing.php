@@ -178,7 +178,11 @@ class Billing extends Command
                         $updateAmount = User::where('id',$getUser->id)->update(['amount'=>0]);
                         $updatePaymentDate = User::where('id',$getUser->id)->update(['payment_date'=>null]);
                         $updateDueDate = User::where('id',$getUser->id)->update(['due_date'=>$nextDate]);
-                                    
+                                      $getLatestInvoice = Invoice::where('id', $createInvoice->id)->first();
+                                $getPreviousInvoices = Invoice::where('id','!=',$getLatestInvoice->id)->where('user_id',$getUser->id)->get();
+                                foreach($getPreviousInvoices as $getPreviousInvoice){
+                                    $updateInvoiceStatas = invoice::where('id',$getPreviousInvoice->id)->update(['statas'=>1]);
+                                }
                       
                               // Get the MikroTik API client using the configured facade
                             if($getUser){
