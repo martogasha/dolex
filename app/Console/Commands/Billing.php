@@ -233,12 +233,15 @@ class Billing extends Command
                                                 // Handle case where user is not found or not active
                                                 Log::info('user is not found or not active');
                                             }
+                                            else{
                                             $connectionId = $activeConnections[0]['.id'];
                                              // Remove the active connection
                                             $removeQuery = new Query('/ppp/active/remove');
                                             $removeQuery->equal('.id', $connectionId);
                                             $client->query($removeQuery)->read();
                                             Log::info('user found active');
+                                            }
+                                          
                                 }
                                     catch (\Exception $e) {
                                             // 5. Handle any connection or API errors
@@ -247,7 +250,7 @@ class Billing extends Command
                                                 'user_id' => $getUser->id,
                                                 'status' => 0,
                                             ]);
-                                            Log::info($e);
+                                            
                                             return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
                                         }
                             }
