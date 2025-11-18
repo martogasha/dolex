@@ -72,7 +72,7 @@ class sendSms extends Command
                         'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
                         'partnerID' => 15,
                         'mobile' => $get->user->phoneOne,
-                        'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/F/Y',strtotime($get->user->due_date)).'. Pay to avoid disconnection. PAYBILL: 6589582 ACC NO: '.$get->user->phone.'',
+                        'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/F/Y',strtotime($get->user->due_date)).'. Pay to avoid disconnection. PAYBILL: 6589582 <br>ACC NO: '.$get->user->phone.'',
                         'shortcode' => 'DOLEX TECH',
                         
                     ];
@@ -93,7 +93,7 @@ class sendSms extends Command
                         'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
                         'partnerID' => 15,
                         'mobile' => $one->user->phoneOne,
-                        'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/F/Y',strtotime($one->user->due_date)).'. Pay to avoid disconnection. PAYBILL: 6589582 ACC NO: '.$one->user->phone.'',
+                        'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/F/Y',strtotime($one->user->due_date)).'. Pay to avoid disconnection. PAYBILL: 6589582 <br>ACC NO: '.$one->user->phone.'',
                         'shortcode' => 'DOLEX TECH',
                         
                     ];
