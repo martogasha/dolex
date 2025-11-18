@@ -73,7 +73,7 @@ class sendSms extends Command
                         'partnerID' => 15,
                         'mobile' => $get->user->phoneOne,
                         
-                        'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/F/Y',strtotime($get->user->due_date)).'. Pay to avoid disconnection.
+                        'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/F/Y',strtotime($get->one_day_before)).'. Pay to avoid disconnection.
 PAYBILL: 6589582
 ACC NO: '.$get->user->phone.'',
                         'shortcode' => 'DOLEX TECH',
@@ -97,7 +97,7 @@ ACC NO: '.$get->user->phone.'',
                         'partnerID' => 15,
                         'mobile' => $one->user->phoneOne,
                         
-                        'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/F/Y',strtotime($one->user->due_date)).'. Pay to avoid disconnection.
+                        'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/F/Y',strtotime($one->one_day_before)).'. Pay to avoid disconnection.
 PAYBILL: 6589582
 ACC NO: '.$one->user->phone.'',
                         'shortcode' => 'DOLEX TECH',
