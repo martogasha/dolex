@@ -2287,12 +2287,23 @@ class AdminController extends Controller
             $updatePaymentId = Invoice::where('user_id',$id)->latest('id')->update(['payment_id'=>$createPay->id]);
             $dateFormat = Carbon::parse($request->due_date);
             $updateInvoiceDate = Invoice::where('user_id',$id)->latest('id')->update(['invoice_date'=>$dateFormat]);
+            if($request->one_day_before){
+
+            }
+            else{
             $dateForm = Carbon::parse($request->due_date);
             $twoDaysBefore = $dateForm->subDays(3);
             $updateInvoiceMessageDate = Invoice::where('user_id',$id)->latest('id')->update(['two_days_before'=>$twoDaysBefore]);
+            }
+           if($request->one_day_before){
+
+           }
+           else{
             $dateFor = Carbon::parse($request->due_date);
             $oneDayBefore = $dateFor->subDays(1);
             $updateInvoiceMDate = Invoice::where('user_id',$id)->latest('id')->update(['one_day_before'=>$oneDayBefore]);
+           }
+          
             $updateInvoiceStatus = Invoice::where('user_id',$id)->latest('id')->update(['status'=>1]);
             $getLatestInvoice = Invoice::where('user_id',$id)->latest('id')->first();
             $getPreviousInvoices = Invoice::where('id','!=',$getLatestInvoice->id)->where('user_id',$id)->get();
