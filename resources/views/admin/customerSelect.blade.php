@@ -11,7 +11,7 @@
                     <li>
                         <a href="{{url('admin')}}">Home</a>
                     </li>
-                    <li id="smallTitleSelect">Select Customers</li>
+                    <li id="smallTitleSelect">Select Customers ({{App\Models\User::where('role',3)->count()}})</li>
                 </ul>
             </div>
             <!-- Breadcubs Area End Here -->
