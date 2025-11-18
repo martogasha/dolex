@@ -122,11 +122,13 @@ class MpesaController extends Controller
                         $getUser = User::where('mikrotik_id',$getUserIdentification->mikrotik_id)->value('dis_status');
                         if($getUser=='true'){
                         $currentDate = $createPay->date;
-                        $nextDate =  $currentDate->addMonth();
+                        $nextD =  $currentDate->addMonth();
+                        $nextDate = $nextD->addDay();
                         }
                         else{
                         $currentDate = $userDueDate;
-                        $nextDate =  $currentDate->addMonth();
+                        $nextD =  $currentDate->addMonth();
+                        $nextDate = $nextD->addDay();
                         }
                         
                         

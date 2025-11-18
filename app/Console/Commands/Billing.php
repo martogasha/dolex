@@ -115,7 +115,8 @@ class Billing extends Command
                     ]);
                     $updateCashId = Invoice::where('id',$createInvoice->id)->update(['payment_id'=>$storeCash->id]);
                     $currentDate = $dateFormat;
-                    $nextDate =  $currentDate->addMonth();
+                    $nextD =  $currentDate->addMonth();
+                    $nextDate = $nextD->addDay();
                     $updateBalance = User::where('id',$getUser->id)->update(['balance'=>$newBalance]);
                     $updateAmount = User::where('id',$getUser->id)->update(['amount'=>$storeCash->amount]);
                     $updatePaymentDate = User::where('id',$getUser->id)->update(['payment_date'=>$storeCash->date]);
