@@ -2295,7 +2295,7 @@ class AdminController extends Controller
             $twoDaysBefore = $dateForm->subDays(3);
             $updateInvoiceMessageDate = Invoice::where('user_id',$id)->latest('id')->update(['two_days_before'=>$twoDaysBefore]);
             }
-           if($request->one_day_before){
+           if($request->two_days_before){
 
            }
            else{
