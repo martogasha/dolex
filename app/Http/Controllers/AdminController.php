@@ -2292,7 +2292,8 @@ class AdminController extends Controller
 
             }
             else{
-            
+             $dateFormat = Carbon::parse($request->due_date);
+             $nextDate = $dateFormat->addDay();
             $twoDaysBefore = $nextDate->subDays(3);
             $updateInvoiceMessageDate = Invoice::where('user_id',$id)->latest('id')->update(['two_days_before'=>$twoDaysBefore]);
             }
@@ -2300,7 +2301,8 @@ class AdminController extends Controller
 
            }
            else{
-            
+             $dateFormat = Carbon::parse($request->due_date);
+            $nextDate = $dateFormat->addDay();
             $oneDayBefore = $nextDate->subDays(1);
             $updateInvoiceMDate = Invoice::where('user_id',$id)->latest('id')->update(['one_day_before'=>$oneDayBefore]);
            }
