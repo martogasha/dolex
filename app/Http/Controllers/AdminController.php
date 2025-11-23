@@ -26,8 +26,7 @@ use RouterOS\Client;
 use RouterOS\Query;
 use RouterOS\Config;
 use Illuminate\Support\Facades\Log;
-
-
+use App\Models\Cache;
 class AdminController extends Controller
 {
     public function admin(){
