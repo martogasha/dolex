@@ -2255,6 +2255,8 @@ class AdminController extends Controller
         return redirect()->back()->with('success','Customer Activated');
     }
     public function editC(Request $request, $id){
+        $dateFormat = Carbon::parse($request->due_date);
+        $nextDate = $dateFormat->addDay();
         $edit = User::find($id);
         $bal = $edit->balance;
         $currentBal = $bal + $request->cBalance;
@@ -2267,7 +2269,7 @@ class AdminController extends Controller
         $edit->package_amount = $request->package_amount;
         $edit->amount = $request->package_amount;
         $edit->payment_date = $request->payment_date;
-        $edit->due_date = $request->due_date;
+        $edit->due_date = $nextDate;
         $edit->balance = $currentBal;
         $edit->save();
         $getInvoiceId = Invoice::where('user_id',$id)->latest('id')->first();
@@ -2285,22 +2287,22 @@ class AdminController extends Controller
                 'currentMonth' =>$currentMonth,
             ]);
             $updatePaymentId = Invoice::where('user_id',$id)->latest('id')->update(['payment_id'=>$createPay->id]);
-            $dateFormat = Carbon::parse($request->due_date);
+            
             $updateInvoiceDate = Invoice::where('user_id',$id)->latest('id')->update(['invoice_date'=>$dateFormat]);
             if($request->one_day_before){
 
             }
             else{
-            $dateForm = Carbon::parse($request->due_date);
-            $twoDaysBefore = $dateForm->subDays(3);
+            
+            $twoDaysBefore = $nextDate->subDays(3);
             $updateInvoiceMessageDate = Invoice::where('user_id',$id)->latest('id')->update(['two_days_before'=>$twoDaysBefore]);
             }
            if($request->two_days_before){
 
            }
            else{
-            $dateFor = Carbon::parse($request->due_date);
-            $oneDayBefore = $dateFor->subDays(1);
+            
+            $oneDayBefore = $nextDate->subDays(1);
             $updateInvoiceMDate = Invoice::where('user_id',$id)->latest('id')->update(['one_day_before'=>$oneDayBefore]);
            }
           
@@ -2312,8 +2314,8 @@ class AdminController extends Controller
 
             }
         }
-        $dateFormat = Carbon::parse($request->due_date);
-        $updateInvoiceDate = Invoice::where('user_id',$id)->latest('id')->update(['invoice_date'=>$dateFormat]);
+        
+        $updateInvoiceDate = Invoice::where('user_id',$id)->latest('id')->update(['invoice_date'=>$nextDate]);
         $getUser = User::find($id);
         if($getUser->payment_date!=null){
             if($request->one_day_before){
