@@ -25,6 +25,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
          $schedule->command('billing')->daily();
+         $schedule->command('billing')->daily('01:00');
+         $schedule->command('billing')->daily('02:00');
          $schedule->command('sendSms')->dailyAt('09:00');
          $schedule->command('downtime')->everyMinute();
     }
