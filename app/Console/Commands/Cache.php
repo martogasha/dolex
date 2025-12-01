@@ -113,7 +113,7 @@ class Cache extends Command
                                 }
                                     catch (\Exception $e) {
                                             // 5. Handle any connection or API errors
-                                            Log::info('payment paid but no connection');
+                                            Log::info('Billed but no connection');
                     
                                             return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
                                         }

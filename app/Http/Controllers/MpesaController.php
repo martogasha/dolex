@@ -80,7 +80,9 @@ class MpesaController extends Controller
         $dateFormat = Carbon::parse($dateFormats);
         $currentMonth = date('m');
         $currentYear = date('Y');
-            $getUserIdentification = User::where('phone',$request->BillRefNumber )->first();
+        $accountNumber = $request->BillRefNumber;
+        $cleanedAccountNumber = str_replace(' ', '', $accountNumber);
+            $getUserIdentification = User::where('phone',$cleanedAccountNumber)->first();
             $getInvoice = null;
             if($getUserIdentification){
                 $userDueDate = Carbon::parse($getUserIdentification->due_date);
@@ -331,9 +333,9 @@ class MpesaController extends Controller
                             $createPayment = Mpesa::create([
                             'reference' => $request->TransID,
                             'originationTime' => $dateFormat,
-                            'senderFirstName' => $request->BillRefNumber,
+                            'senderFirstName' => $cleanedAccountNumber,
                             'senderMiddleName' => $request->FirstName,
-                            'senderPhoneNumber' => $request->BillRefNumber,
+                            'senderPhoneNumber' => $cleanedAccountNumber,
                             'amount' => $request->TransAmount,
                             
                             'currentMonth' =>$currentMonth,
