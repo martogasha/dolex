@@ -62,25 +62,36 @@
                                         <td><span class="badge badge-success">Active</span></td>
                                         @endif   
                                             <td>
-                                        <div class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                            aria-expanded="false">
-                                                <span class="flaticon-more-button-of-three-dots"></span>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                @if($customer->role==3)
-                                                <form action="{{url('activate')}}" method="post">
-                                                    @csrf
-                                                    <input type="hidden" value="{{$customer->id}}" name="user_id">
-                                                    <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Activate</button>
-                                                </form>
-                                                @else
-                                                <button class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Activated</button>
-                                                @endif
+                                                <div class="dropdown">
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                        <span class="flaticon-more-button-of-three-dots"></span>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        @if($customer->role==3)
+                                                        <form action="{{url('activate')}}" method="post">
+                                                            @csrf
+                                                            <input type="hidden" value="{{$customer->id}}" name="user_id">
+                                                            <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Activate</button>
+                                                        </form>
+                                                        @else
+                                                        <button class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Activated</button>
+                                                        @endif
+                                                        <br>
+                                                          @if($customer->role==3)
+                                                        <form action="{{url('noneActive')}}" method="post">
+                                                            @csrf
+                                                            <input type="hidden" value="{{$customer->id}}" name="user_id">
+                                                            <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Deactivate</button>
+                                                        </form>
+                                                        @else
+                                                        <button class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Deactivated</button>
+                                                        @endif  
 
-                                            </div>
-                                        </div>
-                                    </td>
+                                                    </div>
+                                                </div>
+                                             </td>
+                                             
                                     </tr>
                                     @endforeach
 

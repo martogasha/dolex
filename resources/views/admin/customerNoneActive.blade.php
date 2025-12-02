@@ -68,8 +68,8 @@
                                                 <span class="flaticon-more-button-of-three-dots"></span>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                @if($customer->role==3)
-                                                <form action="{{url('noneActive')}}" method="post">
+                                                @if($customer->role==4)
+                                                <form action="{{url('activate')}}" method="post">
                                                     @csrf
                                                     <input type="hidden" value="{{$customer->id}}" name="user_id">
                                                     <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Activate</button>
