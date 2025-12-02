@@ -298,6 +298,10 @@
                                     Customers</a>
                             </li>
                             <li class="nav-item">
+                                <a href="{{url('noneActivecustomers')}}" class="nav-link"><i class="fas fa-angle-right"></i>Non-Active
+                                    Customers</a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{url('addCustomer')}}" class="nav-link"><i
                                         class="fas fa-angle-right"></i>Add Customer</a>
                             </li>

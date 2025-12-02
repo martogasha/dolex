@@ -239,13 +239,25 @@ class AdminController extends Controller
         }
 
     }
+    public function noneActivecustomers(){
+        if (Auth::check()){
+            $customers = User::where('role', 4)->orderByDesc('id')->get();
+            return view('admin.customerNoneActive',[
+                'customers'=>$customers,
+            ]);
+        }
+        else{
+            return redirect(url('login'));
+        }
+
+    }
       public function pppoe(){
         if (Auth::check()){
             // Get MikroTik connection details from .env
         $config = new Config([
-            'host' => '192.168.88.1',
+            'host' => '197.248.58.123',
             'user' => 'admin',
-            'pass' => 'password',
+            'pass' => 'KND@2020',
             'port' => 8728,
         ]);
 
@@ -256,20 +268,21 @@ class AdminController extends Controller
             // Fetch all PPPoE secrets (configured users)
             $secretsQuery = new Query('/ppp/secret/getall');
             $pppSecrets = $client->query($secretsQuery)->read();
-            dd($pppSecrets);
+           
 
             // Fetch all active PPPoE connections
             $activeQuery = new Query('/ppp/active/getall');
             $pppActive = $client->query($activeQuery)->read();
             dd($pppActive);
 
-            return response()->json([
-                'secrets' => $pppSecrets,
-                'active_connections' => $pppActive,
-            ]);
+        
+          
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+          return view('admin.livePppoe',[
+            'secrets'=>$pppSecrets
+        ]);
     }
         
         else{
@@ -2252,6 +2265,12 @@ class AdminController extends Controller
         $customer->role = 2;
         $customer->save();
         return redirect()->back()->with('success','Customer Activated');
+    }
+     public function noneActive(Request $request){
+        $customer = User::find($request->user_id);
+        $customer->role = 4;
+        $customer->save();
+        return redirect()->back()->with('success','Customer Deactivated');
     }
     public function editC(Request $request, $id){
         $dateFormat = Carbon::parse($request->due_date);
