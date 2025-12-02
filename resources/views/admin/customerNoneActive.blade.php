@@ -48,7 +48,7 @@
                                 <tbody id="myTable">
                                     @foreach($customers as $customer)
                                     <tr>
-                                         @if($customer->role==3)
+                                         @if($customer->role==4)
                                         <td><span class="badge badge-warning">Not Active</span></td> 
                                         @else
                                         <td><span class="badge badge-success">Active</span></td>
