@@ -306,8 +306,10 @@ class AdminController extends Controller
             // Fetch all PPPoE secrets (configured users)
             $secretsQuery = new Query('/ppp/secret/getall');
             $mikrotikUsers = $client->query($secretsQuery)->read();
+        
             
             foreach ($mikrotikUsers as $mikrotikUser){
+             
                 if(isset($mikrotikUser['comment'])){
                     $comment = $mikrotikUser['comment'];
                 }
