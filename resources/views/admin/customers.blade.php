@@ -66,7 +66,7 @@
                                         <td><b style="color: red">Ksh: {{$customer->balance}}</b></td>
 
                                     @endif
-                                    
+                                    <td>{{$customer->mikrotik_id}}</td>
                                     <td>{{$customer->first_name}}</td>
                                     <td>{{$customer->phone}}</td>
                                     <td>{{$customer->location}}</td>
