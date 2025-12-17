@@ -34,7 +34,6 @@
                                 <thead>
                                 <tr>
                                     <th>Connection</th>
-                                    <th>Balance</th>
                                     <th>Name</th>
                                     <th>A/c</th>
                                     <th>Comment</th>
@@ -56,16 +55,7 @@
                                             <td><span class="badge badge-success">Active</span></td>
                                         @endif  
 
-                                        @if($customer->package_amount==null)
-                                            <td><b style="color: red">TERMINATED</b></td>
-
-                                        @elseif($customer->balance<=0)
-                                            <td><b style="color: green">Ksh: {{$customer->balance}}</b></td>
-
-                                        @else
-                                        <td><b style="color: red">Ksh: {{$customer->balance}}</b></td>
-
-                                    @endif
+                                     
                                     
                                     <td>{{$customer->first_name}}</td>
                                     <td>{{$customer->phone}}</td>
