@@ -153,6 +153,37 @@ class MpesaController extends Controller
                                 foreach($getPreviousInvoices as $getPreviousInvoice){
                                     $updateInvoiceStatas = invoice::where('id',$getPreviousInvoice->id)->update(['statas'=>1]);
                                 }
+                                if($request->TransAmount==1500){
+                                    $bandwidth = '6MBPS';
+                                }
+                                if($request->TransAmount==2000){
+                                    $bandwidth = '8MBPS';
+                                }
+                                if($request->TransAmount==2500){
+                                    $bandwidth = '10MBPS';
+                                }
+                                if($request->TransAmount==3000){
+                                    $bandwidth = '12MBPS';
+                                }
+                                if($request->TransAmount==3500){
+                                    $bandwidth = '14MBPS';
+                                }
+                                if($request->TransAmount==4000){
+                                    $bandwidth = '16MBPS';
+                                }
+                                if($request->TransAmount==4500){
+                                    $bandwidth = '18MBPS';
+                                }
+                                if($request->TransAmount==5000){
+                                    $bandwidth = '20MBPS';
+                                }
+                                if($request->TransAmount==1){
+                                    $bandwidth = '6MBPS';
+                                }
+                                if($request->TransAmount==2){
+                                    $bandwidth = '8MBPS';
+                                }
+                                $updateUserProfile = User::where('id', $getUserIdentification->id)->update(['last_name' => $bandwidth]);
                                 // Get the MikroTik API client using the configured facade
                             try{
                                             $config = new Config([
@@ -207,6 +238,44 @@ class MpesaController extends Controller
                                             ]);
                                             return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
                                         }
+                                            
+                      try {
+                                // Get the MikroTik API client using the configured facade
+                                $config = new Config([
+                                'host' => '197.248.58.123',
+                                'user' => 'admin',
+                                'pass' => 'KND@2020',
+                                'port' => 8728,
+                            ]);
+                            $client = new Client($config);
+                            $query = (new Query('/ppp/secret/print'))->where('.id', $getUserIdentification->mikrotik_id);
+                            $secrets = $client->query($query)->read();
+                            // $secrets will be an array containing the user's details if found.
+                            
+                            if (!empty($secrets)) {
+                            $secretId = $secrets[0]['.id']; // Get the ID of the first matching user
+
+                            $updateQuery = (new Query('/ppp/secret/set'))
+                                ->equal('.id', $secretId)
+                                ->equal('profile', $bandwidth); // Change the assigned profile
+                                // ->equal('comment', 'Updated by Laravel'); // Add or change comments
+
+                            $client->query($updateQuery)->read(); // Execute the update
+                        }
+                 
+                                
+                        
+                    
+
+                    } catch (\Exception $e) {
+                        // 5. Handle any connection or API errors
+                        Log::info('profile not updated');
+                        $cache = Cache::create([
+                            'user_id' => $getUser->id,
+                            'status' => 3,
+                        ]);
+                        return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
+                    }
 
                         } else {
 
