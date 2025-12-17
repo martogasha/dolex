@@ -91,7 +91,13 @@ class MpesaController extends Controller
             
                 
                 if (!is_null($getInvoice)) {
-                        $currentBalance = $getUserIdentification->balance - $request->TransAmount;
+                        $currentBal = 1500 - $request->TransAmount;
+                        if($currentBal > 0){
+                            $currentBalance = $currentBal;
+                        }
+                        else{
+                            $currentBalance = 0;
+                        }
                         $createPayment = Mpesa::create([
                             'reference' => $request->TransID,
                             'originationTime' => $dateFormat,
