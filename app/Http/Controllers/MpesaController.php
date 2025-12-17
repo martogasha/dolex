@@ -146,7 +146,7 @@ class MpesaController extends Controller
                         $dateFor = Carbon::parse($nextDate);
                         $oneDayBefore = $dateFor->subDays(1);
                         $updateInvoiceMDate = Invoice::where('id',$getInv->id)->update(['one_day_before'=>$oneDayBefore]);
-                        if ($request->TransAmount >= 1500) {
+                        if ($request->TransAmount >= 1500 || $request->TransAmount == 1 || $request->TransAmount == 2) {
                             $updateBal = Invoice::where('id', $getInv->id)->update(['usage_time' => 2147483647]);
                             $updateStatus = Invoice::where('id', $getInv->id)->update(['status' => 1]);
                                $getLatestInvoice = Invoice::where('id', $getInv->id)->first();
