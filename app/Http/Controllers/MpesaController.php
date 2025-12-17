@@ -120,6 +120,7 @@ class MpesaController extends Controller
                         $updateInvoiceMAmount = Invoice::where('id', $getInvoice->id)->update(['mpesa_amount' => $createPayment->amount]);
                         $updateIBalance = Payment::where('id', $createPay->id)->update(['invoice_balance' => $currentBalance]);
                         $updateUserAmount = User::where('id', $getUserIdentification->id)->update(['amount' => $createPayment->amount]);
+                        $updateUserProfileAmount = User::where('id', $getUserIdentification->id)->update(['last_name' => $createPayment->amount]);
                         $updateUserDate = User::where('id', $getUserIdentification->id)->update(['payment_date' => $createPay->date]);
                         $getUser = User::where('mikrotik_id',$getUserIdentification->mikrotik_id)->value('dis_status');
                         if($getUser=='true'){
@@ -145,7 +146,7 @@ class MpesaController extends Controller
                         $dateFor = Carbon::parse($nextDate);
                         $oneDayBefore = $dateFor->subDays(1);
                         $updateInvoiceMDate = Invoice::where('id',$getInv->id)->update(['one_day_before'=>$oneDayBefore]);
-                        if ($getInv->balance == 0) {
+                        if ($request->TransAmount >= 1500) {
                             $updateBal = Invoice::where('id', $getInv->id)->update(['usage_time' => 2147483647]);
                             $updateStatus = Invoice::where('id', $getInv->id)->update(['status' => 1]);
                                $getLatestInvoice = Invoice::where('id', $getInv->id)->first();
@@ -239,43 +240,43 @@ class MpesaController extends Controller
                                             return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
                                         }
                                             
-                      try {
-                                // Get the MikroTik API client using the configured facade
-                                $config = new Config([
-                                'host' => '197.248.58.123',
-                                'user' => 'admin',
-                                'pass' => 'KND@2020',
-                                'port' => 8728,
-                            ]);
-                            $client = new Client($config);
-                            $query = (new Query('/ppp/secret/print'))->where('.id', $getUserIdentification->mikrotik_id);
-                            $secrets = $client->query($query)->read();
-                            // $secrets will be an array containing the user's details if found.
-                            
-                            if (!empty($secrets)) {
-                            $secretId = $secrets[0]['.id']; // Get the ID of the first matching user
+                                        try {
+                                                    // Get the MikroTik API client using the configured facade
+                                                    $config = new Config([
+                                                    'host' => '197.248.58.123',
+                                                    'user' => 'admin',
+                                                    'pass' => 'KND@2020',
+                                                    'port' => 8728,
+                                                ]);
+                                                $client = new Client($config);
+                                                $query = (new Query('/ppp/secret/print'))->where('.id', $getUserIdentification->mikrotik_id);
+                                                $secrets = $client->query($query)->read();
+                                                // $secrets will be an array containing the user's details if found.
+                                                
+                                                if (!empty($secrets)) {
+                                                $secretId = $secrets[0]['.id']; // Get the ID of the first matching user
 
-                            $updateQuery = (new Query('/ppp/secret/set'))
-                                ->equal('.id', $secretId)
-                                ->equal('profile', $bandwidth); // Change the assigned profile
-                                // ->equal('comment', 'Updated by Laravel'); // Add or change comments
+                                                $updateQuery = (new Query('/ppp/secret/set'))
+                                                    ->equal('.id', $secretId)
+                                                    ->equal('profile', $bandwidth); // Change the assigned profile
+                                                    // ->equal('comment', 'Updated by Laravel'); // Add or change comments
 
-                            $client->query($updateQuery)->read(); // Execute the update
-                        }
-                 
-                                
-                        
-                    
+                                                $client->query($updateQuery)->read(); // Execute the update
+                                            }
+                                    
+                                                    
+                                            
+                                        
 
-                    } catch (\Exception $e) {
-                        // 5. Handle any connection or API errors
-                        Log::info('profile not updated');
-                        $cache = Cache::create([
-                            'user_id' => $getUser->id,
-                            'status' => 3,
-                        ]);
-                        return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
-                    }
+                                        } catch (\Exception $e) {
+                                            // 5. Handle any connection or API errors
+                                            Log::info('profile not updated');
+                                            $cache = Cache::create([
+                                                'user_id' => $getUser->id,
+                                                'status' => 3,
+                                            ]);
+                                            return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
+                                        }
 
                         } else {
 
