@@ -89,12 +89,12 @@
                                         <td><span class="badge badge-danger">Disconnected</span></td>
                                         @else
                                         @if(App\Models\Invoice::where('user_id',$customer->id)->latest('id')->value('two_days_before') < App\Models\User::where('id',$customer->id)->value('due_date'))
-                                         <td>{{date('d/m/Y',strtotime(App\Models\Invoice::where('user_id',$customer->id)->latest('id')->value('two_days_before')))}}</td>
+                                         <td>{{date('d/m/Y H:i:s',strtotime(App\Models\Invoice::where('user_id',$customer->id)->latest('id')->value('two_days_before')))}}</td>
                                          @else
                                          <td><span class="badge badge-success">Msg Sent</span></td></td>
                                          @endif
                                         @if(App\Models\Invoice::where('user_id',$customer->id)->latest('id')->value('one_day_before') < App\Models\User::where('id',$customer->id)->value('due_date'))
-                                        <td>{{date('d/m/Y',strtotime(App\Models\Invoice::where('user_id',$customer->id)->latest('id')->value('one_day_before')))}}</td>
+                                        <td>{{date('d/m/Y H:i:s',strtotime(App\Models\Invoice::where('user_id',$customer->id)->latest('id')->value('one_day_before')))}}</td>
                                           @else
                                          <td><span class="badge badge-success">Msg Sent</span></td></td>
                                          @endif
