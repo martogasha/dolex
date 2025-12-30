@@ -28,6 +28,10 @@ class Kernel extends ConsoleKernel
          $schedule->command('billing')->daily('01:00');
          $schedule->command('billing')->daily('02:00');
          $schedule->command('sendSms')->dailyAt('09:00');
+         $schedule->command('sendSms')->dailyAt('12:00');
+         $schedule->command('sendSms')->dailyAt('15:00');
+         $schedule->command('sendSms')->dailyAt('19:00');
+         $schedule->command('sendSms')->dailyAt('22:00');
          $schedule->command('downtime')->everyMinute();
     }
 
