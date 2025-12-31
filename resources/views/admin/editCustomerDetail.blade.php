@@ -93,7 +93,7 @@
                             <div class="col-xl-3 col-lg-6 col-12 form-group">
                                 <div class="form-group">
                                     <label for="dob">Due Date *</label>
-                                    <input type="date" value="{{ old('one_day_before', $customer->one_day_before ? \Carbon\Carbon::parse($customer->one_day_before)->format('Y-m-d') : '') }}" class="form-control" name="due_date"/>
+                                    <input type="date" value="{{ old('due_date', $customer->due_date ? \Carbon\Carbon::parse($customer->due_date)->format('Y-m-d') : '') }}" class="form-control" name="due_date"/>
                                 </div>
                             </div>
                              <div class="col-xl-3 col-lg-6 col-12 form-group">
