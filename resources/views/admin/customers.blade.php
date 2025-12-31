@@ -82,7 +82,7 @@
                                             <td><span class="badge badge-danger">Not Paid</span>
                                             </td>
                                         @else   
-                                            <td>{{date('d/m/Y',strtotime($customer->due_date))}}</td>
+                                            <td>{{date('d/m/Y H:i:s',strtotime($customer->due_date))}}</td>
                                         @endif
                                         @if(App\Models\Invoice::where('user_id',$customer->id)->latest('id')->value('status')==0)
                                         <td><span class="badge badge-danger">Disconnected</span></td>
