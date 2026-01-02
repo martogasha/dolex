@@ -160,28 +160,28 @@ class MpesaController extends Controller
                                 foreach($getPreviousInvoices as $getPreviousInvoice){
                                     $updateInvoiceStatas = invoice::where('id',$getPreviousInvoice->id)->update(['statas'=>1]);
                                 }
-                                if($request->TransAmount==1500){
+                                if($request->TransAmount>=1500 && $request->TransAmount < 2000){
                                     $bandwidth = '6MBPS';
                                 }
-                                if($request->TransAmount==2000){
+                                if($request->TransAmount>=2000 && $request->TransAmount < 2500){
                                     $bandwidth = '8MBPS';
                                 }
-                                if($request->TransAmount==2500){
+                                if($request->TransAmount>=2500 && $request->TransAmount < 3000){
                                     $bandwidth = '10MBPS';
                                 }
-                                if($request->TransAmount==3000){
+                                if($request->TransAmount>=3000 && $request->TransAmount < 3500){
                                     $bandwidth = '12MBPS';
                                 }
-                                if($request->TransAmount==3500){
+                                if($request->TransAmount>=3500 && $request->TransAmount < 4000){
                                     $bandwidth = '14MBPS';
                                 }
-                                if($request->TransAmount==4000){
+                                if($request->TransAmount>=4000 && $request->TransAmount < 4500){
                                     $bandwidth = '16MBPS';
                                 }
-                                if($request->TransAmount==4500){
+                                if($request->TransAmount>=4500 && $request->TransAmount < 5000){
                                     $bandwidth = '18MBPS';
                                 }
-                                if($request->TransAmount==5000){
+                                if($request->TransAmount>=5000 && $request->TransAmount > 5000){
                                     $bandwidth = '20MBPS';
                                 }
                                 if($request->TransAmount==1){
