@@ -287,8 +287,8 @@ class MpesaController extends Controller
                         } else {
 
                             if ($getInv->balance < 0) {
-                                Log::info('Paid More');
-                                dd('paid More');
+                                Log::info('Paid less');
+                                dd('paid less');
                                 $updateBal = Invoice::where('id', $getInv->id)->update(['usage_time' => 2147483647]);
                                 $updateStatus = Invoice::where('id', $getInv->id)->update(['status' => 1]);
                                 $getIn = Invoice::where('user_id', $getUserIdentification->id)->where('status', 0)->first();
