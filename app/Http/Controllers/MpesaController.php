@@ -276,7 +276,7 @@ class MpesaController extends Controller
 
                                         } catch (\Exception $e) {
                                             // 5. Handle any connection or API errors
-                                            Log::info('profile not updated');
+                                            Log::info('Paid but profile not updated');
                                             $cache = Cache::create([
                                                 'user_id' => $getUser->id,
                                                 'status' => 3,
