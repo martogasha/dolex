@@ -65,7 +65,7 @@ class Downtime extends Command
     {
        $caches = Cache::all();
         foreach($caches as $cache){
-            if($cache->status==0 || $cache->status==2){
+            if($cache->status==0 || $cache->status==2 || $cache->status==1){
            // Get the MikroTik API client using the configured facade
                             try{
                                             $config = new Config([
