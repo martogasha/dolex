@@ -2349,10 +2349,8 @@ class AdminController extends Controller
             $twoDaysBefore = Carbon::parse($request->two_days_before);
             $updateTwoDay = Invoice::where('user_id',$id)->where('statas',0)->update(['two_days_before'=>$twoDaysBefore]);
             }
-            
-           
-
-                    try {
+                    if($getUser->payment_date==null){
+                                    try {
                                 // Get the MikroTik API client using the configured facade
                                 $config = new Config([
                                 'host' => '197.248.58.123',
@@ -2383,7 +2381,7 @@ class AdminController extends Controller
 
                     } catch (\Exception $e) {
                         // 5. Handle any connection or API errors
-                        Log::info('edit successfull but no connection to mikrotik');
+                        Log::info('edit successfull but no connection to mikrotik to enable');
                         $cache = Cache::create([
                             'user_id' => $getUser->id,
                             'status' => 2,
@@ -2421,13 +2419,21 @@ class AdminController extends Controller
 
                     } catch (\Exception $e) {
                         // 5. Handle any connection or API errors
-                        Log::info('edit successfull but no connection to mikrotik');
+                        Log::info('edit successfull but no connection to mikrotik to update profile');
                         $cache = Cache::create([
                             'user_id' => $getUser->id,
-                            'status' => 2,
+                            'status' => 3,
                         ]);
                         return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
                     }
+
+                    }
+                    else{
+
+                    }
+           
+
+        
 
         }
         return redirect(url('customers'))->with('success','CUSTOMER EDIT SUCCESS');
