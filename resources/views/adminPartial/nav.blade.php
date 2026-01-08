@@ -286,9 +286,7 @@
                     <li class="nav-item sidebar-nav-item">
                         <a href="#" class="nav-link"><i class="flaticon-classmates"></i><span>Customers</span></a>
                         <ul class="nav sub-group-menu">
-                             <li class="nav-item">
-                                <a href="{{url('pppoe')}}" class="nav-link"><i class="fas fa-angle-right"></i>PPPOE</a>
-                            </li>
+                           
                             <li class="nav-item">
                                 <a href="{{url('customers')}}" class="nav-link"><i class="fas fa-angle-right"></i>Active
                                     Customers</a>
@@ -301,10 +299,7 @@
                                 <a href="{{url('noneActivecustomers')}}" class="nav-link"><i class="fas fa-angle-right"></i>Non-Active
                                     Customers</a>
                             </li>
-                            <li class="nav-item">
-                                <a href="{{url('addCustomer')}}" class="nav-link"><i
-                                        class="fas fa-angle-right"></i>Add Customer</a>
-                            </li>
+                         
                         </ul>
                     </li>
                     @endif
