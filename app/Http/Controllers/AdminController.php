@@ -293,133 +293,138 @@ class AdminController extends Controller
          public function storePppoe(){
         if (Auth::check()){
             // Get MikroTik connection details from .env
-        $config = new Config([
-            'host' => '197.248.58.123',
-            'user' => 'admin',
-            'pass' => 'KND@2020',
-            'port' => 8728,
-        ]);
+                try {
+                            $config = new Config([
+                                'host' => '197.248.58.123',
+                                'user' => 'admin',
+                                'pass' => 'KND@2020',
+                                'port' => 8728,
+                            ]);
 
-        
-            // Establish a connection to the MikroTik router
-            $client = new Client($config);
-            // Fetch all PPPoE secrets (configured users)
-            $secretsQuery = new Query('/ppp/secret/getall');
-            $mikrotikUsers = $client->query($secretsQuery)->read();
-        
-            
-            foreach ($mikrotikUsers as $mikrotikUser){
-             
-                if(isset($mikrotikUser['comment'])){
-                    $comment = $mikrotikUser['comment'];
-                }
-                else{
-                    $comment = null;
-                }
-                if(isset($mikrotikUser['profile'])){
-                    $profile = $mikrotikUser['profile'];
-                }
-                else{
-                    $profile = null;
-                }
-                  if(isset($mikrotikUser['password'])){
-                    $password = $mikrotikUser['password'];
-                }
-                else{
-                    $password = 123;
-                }
-                  if(isset($mikrotikUser['disabled'])){
-                    $disabled = $mikrotikUser['disabled'];
-                }
-                else{
-                    $disabled = null;
-                }
-                
-                $getUserId = User::where('mikrotik_id',$mikrotikUser['.id'])->value('id');
-                if($getUserId==null){
-                    $now = Carbon::now();
                     
-
-                        $storePPPoe = User::create([
-                        'first_name'=>$mikrotikUser['name'],
-                        'location'=>$comment,
-                        'last_name'=>$profile,
-                        'password'=>$password,
-                        'mikrotik_id'=>$mikrotikUser['.id'],
-                        'dis_status'=>$disabled,
-                        'role'=>3,
-                        'due_date'=>$now,
-            
-                         ]);
+                        // Establish a connection to the MikroTik router
+                        $client = new Client($config);
+                        // Fetch all PPPoE secrets (configured users)
+                        $secretsQuery = new Query('/ppp/secret/getall');
+                        $mikrotikUsers = $client->query($secretsQuery)->read();
                     
-                       
-                            $now = Carbon::now();
-                            $date1 = $now;
-                            $date2 =$now;
-
-                            $diff = abs(strtotime($date2) - strtotime($date1));
-
-                            $years = floor($diff / (365*60*60*24));
-                            $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
-                            $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
-                            if ($months==1){
-                                $usage_time = $days+30;
+                        
+                        foreach ($mikrotikUsers as $mikrotikUser){
+                        
+                            if(isset($mikrotikUser['comment'])){
+                                $comment = $mikrotikUser['comment'];
                             }
                             else{
-                                $usage_time = $days;
+                                $comment = null;
                             }
-                            $createInvoice = Invoice::create([
-                                'invoice_date'=>$now,
-                                'amount'=>0,
-                                'user_id'=>$storePPPoe->id,
-                                'usage_time'=>$usage_time,
-                                'balance'=>0,
-                                'status'=>0,
-                                'statas'=>0,
-                            ]);
-                        
-                                    
-                        }
-
+                            if(isset($mikrotikUser['profile'])){
+                                $profile = $mikrotikUser['profile'];
+                            }
+                            else{
+                                $profile = null;
+                            }
+                            if(isset($mikrotikUser['password'])){
+                                $password = $mikrotikUser['password'];
+                            }
+                            else{
+                                $password = 123;
+                            }
+                            if(isset($mikrotikUser['disabled'])){
+                                $disabled = $mikrotikUser['disabled'];
+                            }
+                            else{
+                                $disabled = null;
+                            }
+                            
+                            $getUserId = User::where('mikrotik_id',$mikrotikUser['.id'])->value('id');
+                            if($getUserId==null){
+                                $now = Carbon::now();
                                 
-            }
-                    $client = new Client($config);
 
-            // Create a query for the /ppp/profile/print command
-            $query = new Query('/ppp/profile/print');
+                                    $storePPPoe = User::create([
+                                    'first_name'=>$mikrotikUser['name'],
+                                    'location'=>$comment,
+                                    'last_name'=>$profile,
+                                    'password'=>$password,
+                                    'mikrotik_id'=>$mikrotikUser['.id'],
+                                    'dis_status'=>$disabled,
+                                    'role'=>3,
+                                    'due_date'=>$now,
+                        
+                                    ]);
+                                
+                                
+                                        $now = Carbon::now();
+                                        $date1 = $now;
+                                        $date2 =$now;
 
-            // Send the query and get the response from the router
-            $responses = $client->query($query)->read();
-            
-            foreach ($responses as $response){
-                $getProfile = Profile::where('idProf',$response['.id'])->value('idProf');
-                if($getProfile==null && $response['default'] == 'false'){
-              
-                      // Using the standard PHP preg_replace() function
-            $string = $response['name'];
-            $only_digits = preg_replace("/[^0-9]/", '', $string);
+                                        $diff = abs(strtotime($date2) - strtotime($date1));
 
-            // Cast the cleaned string to an integer
-            $number = (int) $only_digits;
+                                        $years = floor($diff / (365*60*60*24));
+                                        $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+                                        $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+                                        if ($months==1){
+                                            $usage_time = $days+30;
+                                        }
+                                        else{
+                                            $usage_time = $days;
+                                        }
+                                        $createInvoice = Invoice::create([
+                                            'invoice_date'=>$now,
+                                            'amount'=>0,
+                                            'user_id'=>$storePPPoe->id,
+                                            'usage_time'=>$usage_time,
+                                            'balance'=>0,
+                                            'status'=>0,
+                                            'statas'=>0,
+                                        ]);
+                                    
+                                                
+                                    }
 
-            // Alternatively, use the intval() function
-            $number = intval($only_digits);
+                                            
+                        }
+                                $client = new Client($config);
+
+                        // Create a query for the /ppp/profile/print command
+                        $query = new Query('/ppp/profile/print');
+
+                        // Send the query and get the response from the router
+                        $responses = $client->query($query)->read();
+                        
+                        foreach ($responses as $response){
+                            $getProfile = Profile::where('idProf',$response['.id'])->value('idProf');
+                            if($getProfile==null && $response['default'] == 'false'){
+                        
+                                // Using the standard PHP preg_replace() function
+                        $string = $response['name'];
+                        $only_digits = preg_replace("/[^0-9]/", '', $string);
+
+                        // Cast the cleaned string to an integer
+                        $number = (int) $only_digits;
+
+                        // Alternatively, use the intval() function
+                        $number = intval($only_digits);
+                                
+
+                        // Result: 123456
+                        $storePPPoeProfile = Profile::create([
+                            'profile'=>$response['name'],
+                            'status'=>$response['default'],
+                            'idProf'=>$response['.id'],
+                            'value'=>$number,       
+                                
+                        ]);
+                        
+                        }
                     
+                            }
 
-            // Result: 123456
-               $storePPPoeProfile = Profile::create([
-                'profile'=>$response['name'],
-                'status'=>$response['default'],
-                'idProf'=>$response['.id'],
-                 'value'=>$number,       
-                    
-            ]);
-            
+                        return redirect()->back()->with('success','Updated Success');
             }
-          
-                }
-
-            return redirect()->back()->with('success','Updated Success');
+                 catch (\Exception $e) {
+                                         return redirect()->back()->with('error','TRY AGAIN');
+                                        }
         
     }
         
