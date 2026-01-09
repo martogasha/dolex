@@ -69,7 +69,7 @@ class Downtime extends Command
            // Get the MikroTik API client using the configured facade
                             try{
                                             $config = new Config([
-                                            'host' => '197.248.58.123',
+                                            'host' => '197.248.79.153',
                                             'user' => 'admin',
                                             'pass' => 'KND@2020',
                                             'port' => 8728,
@@ -126,7 +126,7 @@ class Downtime extends Command
                            try {
                                 // Get the MikroTik API client using the configured facade
                                 $config = new Config([
-                                'host' => '197.248.58.123',
+                                'host' => '197.248.79.153',
                                 'user' => 'admin',
                                 'pass' => 'KND@2020',
                                 'port' => 8728,
@@ -166,7 +166,7 @@ class Downtime extends Command
                                   try {
                                     // Get the MikroTik API client using the configured facade
                                     $config = new Config([
-                                    'host' => '197.248.58.123',
+                                    'host' => '197.248.79.153',
                                     'user' => 'admin',
                                     'pass' => 'KND@2020',
                                     'port' => 8728,
