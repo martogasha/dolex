@@ -292,8 +292,7 @@
                                     Customers</a>
                             </li>
                              <li class="nav-item">
-                                <a href="{{url('Selectcustomers')}}" class="nav-link"><i class="fas fa-angle-right"></i>Select
-                                    Customers</a>
+                                <a href="{{url('Selectcustomers')}}" class="nav-link"><i class="fas fa-angle-right"></i>From Mikrotik to System</a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{url('noneActivecustomers')}}" class="nav-link"><i class="fas fa-angle-right"></i>Non-Active
