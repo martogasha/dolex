@@ -55,11 +55,11 @@
                             </div>
                             <div class="col-xl-3 col-lg-6 col-12 form-group">
                                 <label>Account No:</label>
-                                <input type="text" value="{{$customer->phone}}" class="form-control" name="phone">
+                                <input type="text" value="{{$customer->phone}}" class="form-control" name="phone" required>
                             </div>
                             <div class="col-xl-3 col-lg-6 col-12 form-group">
                                 <label>Phone No:</label>
-                                <input type="text" value="{{$customer->phoneOne}}" class="form-control" name="phoneOne">
+                                <input type="text" value="{{$customer->phoneOne}}" class="form-control" name="phoneOne" required>
                             </div>
                             <div class="col-xl-3 col-lg-6 col-12 form-group">
                                 <label>Location</label>
@@ -71,7 +71,7 @@
                             </div>
                             <div class="col-xl-3 col-lg-6 col-12 form-group">
                                 <label>Package Amount *</label>
-                                <input type="text" value="{{$customer->package_amount}}" class="form-control" name="package_amount"/>
+                                <input type="text" value="{{$customer->package_amount}}" class="form-control" name="package_amount" required/>
 
                             </div>
                             <div class="col-xl-3 col-lg-6 col-12 form-group">
