@@ -45,7 +45,7 @@
         <div class="nav-bar-header-one" >
             <div class="header-logo" style="background-color: white">
                 <a href="{{url('admin')}}">
-                    <img src="{{asset('img/jp.png')}}" alt="logo"><span>Japcom Networks</span>
+                    <img src="{{asset('img/jp.png')}}" alt="logo"><span>Henix Networks</span>
                 </a>
             </div>
             <div class="toggle-button sidebar-toggle">

@@ -1,5 +1,5 @@
 @include('adminPartial.nav')
-<title>Admin | Japcom</title>
+<title>Admin | Henix</title>
         <!-- Sidebar Area End Here -->
         <div class="dashboard-content-one">
             <!-- Breadcubs Area Start Here -->
@@ -314,9 +314,9 @@
             <!-- Social Media Start Here -->
             <!-- Social Media End Here -->
             <!-- Footer Area Start Here -->
-            <footer class="footer-wrap-layout1">
-                <div class="copyright">© Copyrights <a href="#">Japcom Networks</a> 2021. All rights reserved. Designed by <a
-                        href="#">Japcom Networks</a></div>
+          <footer class="footer-wrap-layout1">
+                <div class="copyright">© Copyrights <a href="#">Henix</a> 2026. All rights reserved. Designed by <a
+                        href="#">Henix Technologies</a></div>
             </footer>
             <!-- Footer Area End Here -->
         </div>

@@ -55,7 +55,8 @@
             </div>
             <!-- Add New Teacher Area End Here -->
             <footer class="footer-wrap-layout1">
-                <div class="copyright">© Copyrights <a href="#">akkhor</a> 2019. All rights reserved. Designed by <a href="#">PsdBosS</a></div>
+                <div class="copyright">© Copyrights <a href="#">Henix</a> 2026. All rights reserved. Designed by <a
+                        href="#">Henix Technologies</a></div>
             </footer>
         </div>
     </div>

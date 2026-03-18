@@ -1,5 +1,5 @@
 @include('adminPartial.nav')
-<title>Cash Payments | Japcom</title>
+<title>Cash Payments | Henix</title>
         <!-- Sidebar Area End Here -->
         <div class="dashboard-content-one">
             <!-- Breadcubs Area Start Here -->
@@ -68,8 +68,8 @@
             </div>
             <!-- Student Table Area End Here -->
             <footer class="footer-wrap-layout1">
-                <div class="copyright">© Copyrights <a href="#">Dolex</a> 2023. All rights reserved. Designed by <a
-                        href="#">Dolex Technologies</a></div>
+                <div class="copyright">© Copyrights <a href="#">Henix</a> 2023. All rights reserved. Designed by <a
+                        href="#">Henix Technologies</a></div>
             </footer>
         </div>
     </div>

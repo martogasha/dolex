@@ -1,8 +1,8 @@
 @include('adminPartial.nav')
 @if(!is_null($receipt->invoice_id))
-<title>{{$receipt->invoice->user->first_name}} Receipt - Japcom Networks</title>
+<title>{{$receipt->invoice->user->first_name}} Receipt - Henix Networks</title>
 @else
-    <title>{{$receipt->senderFirstName}} Receipt - Japcom Networks</title>
+    <title>{{$receipt->senderFirstName}} Receipt - Henix Networks</title>
 
 @endif
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
@@ -36,7 +36,7 @@
             <div class="col-sm-6">
                 <div>
                     <span class="text-sm text-grey-m2 align-middle" style="padding-left: 70px"><img src="{{asset('img/jp.png')}}" alt="logo"></span>
-                    <span class="text-600 text-110 text-blue align-middle"><br style="color:blue">Japcom Networks Limited</span>
+                    <span class="text-600 text-110 text-blue align-middle"><br style="color:blue">Henix Networks Limited</span>
                 </div>
             </div>
             <div class="col-12 col-lg-10 offset-lg-1">

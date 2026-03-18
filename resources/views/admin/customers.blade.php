@@ -1,5 +1,5 @@
 @include('adminPartial.nav')
-<title>Customers List | Japcom</title>
+<title>Active Customers | Henix</title>
 <!------ Include the above in your HEAD tag ---------->
 
         <!-- Sidebar Area End Here -->
@@ -125,9 +125,9 @@
                     </div>
             </div>
             <!-- Student Table Area End Here -->
-            <footer class="footer-wrap-layout1">
-                <div class="copyright">© Copyrights <a href="#">Dolex</a> 2023. All rights reserved. Designed by <a
-                        href="#">Dolex Technologies</a></div>
+           <footer class="footer-wrap-layout1">
+                <div class="copyright">© Copyrights <a href="#">Henix</a> 2023. All rights reserved. Designed by <a
+                        href="#">Henix Technologies</a></div>
             </footer>
         </div>
     </div>
