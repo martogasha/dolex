@@ -34,6 +34,8 @@ Route::get('/', [IndexController::class, 'index']);
 Route::get('admin', [AdminController::class, 'admin']);
 Route::get('disableC/{id}', [AdminController::class, 'disablePppoeSecret']);
 Route::get('getPppoeProfiles', [AdminController::class, 'getPppoeProfiles']);
+Route::get('bandwidth', [AdminController::class, 'bandwidth']);
+Route::get('refresh', [AdminController::class, 'refresh']);
 Route::get('storePppoe', [AdminController::class, 'storePppoe']);
 Route::get('createInvoice', [AdminController::class, 'cInvoice']);
 Route::get('editUser/{id}', [AdminController::class, 'editUser']);

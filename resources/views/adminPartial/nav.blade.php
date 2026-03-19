@@ -244,7 +244,7 @@
         <div class="sidebar-main sidebar-menu-one sidebar-expand-md sidebar-color">
             <div class="mobile-sidebar-header d-md-none">
                 <div class="header-logo">
-                    <a href="{{url('admin')}}"><h3 style="color: white">Japcom Networks</h3></a>
+                    <a href="{{url('admin')}}"><h3 style="color: white">Henix Networks</h3></a>
                 </div>
             </div>
             <div class="sidebar-menu-content">
@@ -367,6 +367,15 @@
                             <li class="nav-item">
                                 <a href="{{url('bill')}}" class="nav-link"><i
                                         class="fas fa-angle-right"></i>Bill Customer</a>
+                            </li>
+                        </ul>
+                    </li>
+                     <li class="nav-item sidebar-nav-item">
+                        <a href="#" class="nav-link"><i class="flaticon-couple"></i><span>Bandwith Monitor</span></a>
+                        <ul class="nav sub-group-menu">
+                            <li class="nav-item">
+                                <a href="{{url('bandwidth')}}" class="nav-link"><i
+                                        class="fas fa-angle-right"></i>Bandwith Monitor</a>
                             </li>
                         </ul>
                     </li>

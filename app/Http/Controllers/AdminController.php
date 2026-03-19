@@ -2487,5 +2487,65 @@ class AdminController extends Controller
         return redirect(url('customers'))->with('success','CUSTOMER TERMINATED SUCCESS');
 
     }
+      public function bandwidth(){
+        $client = new Client([
+        'host' => '197.248.79.153',
+        'user' => 'admin',
+        'pass' => 'KND@2020',
+        'port' => 8728,
+    ]);
+
+    // Monitor traffic on ether1
+    $query = new Query('/interface/monitor-traffic');
+    $query->equal('interface', 'sfp-sfpplus1');
+    $query->equal('once', ''); // Use for single check, remove for stream
+
+    $traffic = $client->query($query)->read();
+    $tx_speed = $traffic[0]['tx-bits-per-second'] / 1024 / 1024;
+    $rx_speed = $traffic[0]['rx-bits-per-second']/ 1024 / 1024;
+    $upload = round($tx_speed, 1);
+    $download = round($rx_speed, 1);
+      
+      return view('admin.bandwidthMonitor',[
+            'upload'=>$upload,
+            'download'=>$download
+        ]);
+
+    }
+        public function refresh(){
+        $client = new Client([
+        'host' => '197.248.79.153',
+        'user' => 'admin',
+        'pass' => 'KND@2020',
+        'port' => 8728,
+    ]);
+
+    // Monitor traffic on ether1
+    $query = new Query('/interface/monitor-traffic');
+    $query->equal('interface', 'pppoe_bridge');
+    $query->equal('once', ''); // Use for single check, remove for stream
+
+    $traffic = $client->query($query)->read();
+    $tx_speed = $traffic[0]['tx-bits-per-second'] / 1024 / 1024;
+    $rx_speed = $traffic[0]['rx-bits-per-second']/ 1024 / 1024;
+    $upload = round($rx_speed, 1);
+    $download = round($tx_speed, 1);
+    return '              
+                                <div class="student-report">
+                                      <div class="student-count pseudo-bg-yellow">
+                                        <h4 class="item-title">Download Speed</h4>
+                                        <div class="item-number">'.$download.' Mbps</div>
+                                    </div>
+                                    <div class="student-count pseudo-bg-blue">
+                                        <h4 class="item-title">Upload Speed</h4>
+                                        <div class="item-number">'.$upload.' Mbps</div>
+                                    </div>
+                                  
+                                </div>
+            ';
+      
+      
+
+    }
 
 }

@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>JAPCOM | Login</title>
+    <title>HENIX | Login</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
@@ -38,7 +38,7 @@
     <div class="login-page-content">
         <div class="login-box">
             <div class="item-logo">
-                <img src="img/jp.png" alt="logo"><h3>Japcom Networks</h3>
+                <img src="img/jp.png" alt="logo"><h3>Henix Networks</h3>
                 @include('flash-message')
             </div>
             <form action="{{route('Login')}}" class="login-form" method="post">
