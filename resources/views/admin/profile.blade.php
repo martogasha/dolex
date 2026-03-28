@@ -71,7 +71,7 @@
                                         <input type="password" placeholder="Confirm Password" id="confirmPassword" class="form-control">
                                     </div>
                                     <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                        <div id="CheckPasswordMatch">
+                                        <div id="CheckPasswordMatch" style="color:red;">
                                         </div>
                                     </div>
 

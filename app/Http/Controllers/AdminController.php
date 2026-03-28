@@ -13,6 +13,7 @@ use App\Models\Notice;
 use App\Models\Payment;
 use App\Models\Profile;
 use App\Models\Product;
+use App\Models\Band;
 use App\Models\Qproduct;
 use App\Models\Quotation;
 use App\Models\User;
@@ -2513,6 +2514,8 @@ class AdminController extends Controller
     $rx_speed = $traffic[0]['rx-bits-per-second']/ 1024 / 1024;
     $upload = round($rx_speed, 1);
     $download = round($tx_speed, 1);
+
+    
     return '              
                                 <div class="student-report">
                                       <div class="student-count pseudo-bg-yellow">
@@ -2533,6 +2536,89 @@ class AdminController extends Controller
       
       
 
+    }
+            public function refreshBandwidth(){
+            try{
+                    $client = new Client([
+        'host' => '197.248.79.153',
+        'user' => 'admin',
+        'pass' => 'KND@2020',
+        'port' => 8728,
+    ]);
+
+    // Monitor traffic on ether1
+    $query = new Query('/interface/monitor-traffic');
+    $query->equal('interface', 'pppoe_bridge');
+    $query->equal('once', ''); // Use for single check, remove for stream
+
+    $traffic = $client->query($query)->read();
+    $tx_speed = $traffic[0]['tx-bits-per-second'] / 1024 / 1024;
+    $rx_speed = $traffic[0]['rx-bits-per-second']/ 1024 / 1024;
+    $upload = round($rx_speed, 1);
+    $download = round($tx_speed, 1);
+    
+    return '              
+                                <div class="arrow-F-uE7IX8- arrowToSell-2niuhIkD- arrowSellShudder-mudaBhtR-" style="transform: rotate('.$upload.'deg);">
+          <div class="arrowMain-4Z6WqtKf-"></div>
+          <div class="arrowHidden-chDYo-JT-"></div>
+        </div>
+            ';
+
+            }
+            catch (\Exception $e) {}
+    
+      
+      
+
+    }
+        public function refreshPercentage(){
+            try{
+                $latestBand = Band::latest()->take(2)->get();
+                $latestRecord = $latestBand->first();
+                $download = $latestRecord->download;
+                $secondLatestRecord = $latestBand[1];
+                $downloadOne = $secondLatestRecord->download;
+                $percent = $download / $downloadOne;
+                $percentag = $percent*100;
+                $percentage = round($percentag);
+
+                   
+    
+    return '              
+            <span class="speedometerSignal-pyzN--tL- redColor-Hpg7doOR-">'.$percentage.' %</span>
+            ';
+
+            }
+            catch (\Exception $e) {}
+    
+      
+      
+
+    }
+    public function testing(){
+     // 1. Configure the API connection
+    $config = new Config([
+        'host' => '197.248.79.153',
+        'user' => 'admin',
+        'pass' => 'KND@2020',
+        'port' => 8728,
+    ]);
+
+    $client = new Client($config);
+
+    // 2. Build the query to get simple queues
+    $query = new Query('/queue/simple/getall');
+    
+    // Optional: Filter by name
+    // $query->where('name', 'My_Queue_Name');
+
+    // 3. Send request
+    $response = $client->query($query)->read();
+    dd($response);
+
+    // The max-limit is usually in format "upload/download" (e.g., "1M/10M")
+    return response()->json($response);
+         
     }
 
 }
