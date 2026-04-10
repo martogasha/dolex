@@ -16,6 +16,7 @@ use App\Models\Profile;
 use App\Models\Product;
 use App\Models\Qproduct;
 use App\Models\Quotation;
+use App\Models\Logging;
 use App\Models\User;
 use App\Models\Cache;
 use Carbon\Carbon;
@@ -64,6 +65,7 @@ class Downtime extends Command
     public function handle()
     {
        $caches = Cache::all();
+       $dateNow = Carbon::now();
         foreach($caches as $cache){
             if($cache->status==0 || $cache->status==2 || $cache->status==1){
            // Get the MikroTik API client using the configured facade
@@ -92,7 +94,11 @@ class Downtime extends Command
 
                                             // 4. Handle the response
                                             $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'false']);
-                                            
+                                            $createLogSeven = Logging::create([
+                                                    'user_id' => $cache->user->id,
+                                                    'reason' => 7,
+                                                    'date' => $dateNow,
+                                                ]);
                                             
                                             }
                                             else{
@@ -108,6 +114,11 @@ class Downtime extends Command
 
                                             // 4. Handle the response
                                             $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'true']);
+                                            $createLogEight = Logging::create([
+                                                    'user_id' => $cache->user->id,
+                                                    'reason' => 8,
+                                                    'date' => $dateNow,
+                                                ]);
                                             
                                             }
                                             $deleteCache = Cache::where('id',$cache->id)->delete();

@@ -16,6 +16,7 @@ use App\Models\Profile;
 use App\Models\Product;
 use App\Models\Qproduct;
 use App\Models\Quotation;
+use App\Models\Logging;
 use App\Models\User;
 use Carbon\Carbon;
 use Dompdf\Dompdf;
@@ -63,6 +64,7 @@ class Cache extends Command
     public function handle()
     {
         $caches = Cache::all();
+        $dateNow = Carbon::now();
         foreach($caches as $cache){
             if($cache->status==0){
            // Get the MikroTik API client using the configured facade
@@ -92,7 +94,7 @@ class Cache extends Command
                                             // 4. Handle the response
                                             $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'false']);
                                             
-                                            
+                                             
                                             }
                                             else{
                                                 $query = new Query('/ppp/profile/print');
@@ -107,9 +109,11 @@ class Cache extends Command
 
                                             // 4. Handle the response
                                             $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'true']);
+                                             
                                             
                                             }
                                             $deleteCache = Cache::where('id',$cache->id)->delete();
+                                               
                                 }
                                     catch (\Exception $e) {
                                             // 5. Handle any connection or API errors
@@ -119,7 +123,7 @@ class Cache extends Command
                                         }
             }
             else{
-// Get the MikroTik API client using the configured facade
+                                            // Get the MikroTik API client using the configured facade
                             try{
                                             $config = new Config([
                                             'host' => '197.248.79.153',
@@ -145,7 +149,11 @@ class Cache extends Command
 
                                             // 4. Handle the response
                                             $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'false']);
-                                            
+                                            $createLogNine = Logging::create([
+                                                    'user_id' => $cache->user->id,
+                                                    'reason' => 9,
+                                                    'date' => $dateNow,
+                                                ]);
                                             
                                             }
                                             else{
@@ -161,6 +169,11 @@ class Cache extends Command
 
                                             // 4. Handle the response
                                             $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'true']);
+                                            $createLogTen = Logging::create([
+                                                    'user_id' => $cache->user->id,
+                                                    'reason' => 10,
+                                                    'date' => $dateNow,
+                                                ]);
                                             
                                             }
                                             $deleteCache = Cache::where('id',$cache->id)->delete();

@@ -18,6 +18,7 @@ use App\Models\Qproduct;
 use App\Models\Quotation;
 use App\Models\User;
 use App\Models\Cache;
+use App\Models\Logging;
 use Carbon\Carbon;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
@@ -69,6 +70,7 @@ class Billing extends Command
         $getUsers = User::where('due_date', '<', Carbon::now())->where('role', 2)->get();
         
         $currentMonth = date('m');
+        $dateNow = Carbon::now();
       foreach ($getUsers as $getUser){
             $getExistingInvoice = Invoice::where('user_id',$getUser->id)->where('status',0)->latest('id')->first();
             if ($getExistingInvoice){
@@ -113,6 +115,11 @@ class Billing extends Command
                         'status'=>1,
                         'currentMonth'=>$currentMonth
                     ]);
+                        $createLogThree = Logging::create([
+                            'user_id' => $getUser->id,
+                            'reason' => 3,
+                            'date' => $dateFormat,
+                        ]);
                     $updateCashId = Invoice::where('id',$createInvoice->id)->update(['payment_id'=>$storeCash->id]);
                     $currentDate = $dateFormat;
                     $nextDate =  $currentDate->addMonth();
@@ -162,6 +169,11 @@ class Billing extends Command
                         $updateAmount = User::where('id',$getUser->id)->update(['amount'=>0]);
                         $updatePaymentDate = User::where('id',$getUser->id)->update(['payment_date'=>null]);
                         $updateDueDate = User::where('id',$getUser->id)->update(['due_date'=>$nextDate]);
+                            $createLogFour = Logging::create([
+                                'user_id' => $getUser->id,
+                                'reason' => 4,
+                                'date' => $currentDate,
+                            ]);
                     }
                     else{
                         $createInvoice = Invoice::create([
@@ -211,6 +223,12 @@ class Billing extends Command
 
                                             // 4. Handle the response
                                             $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'false']);
+
+                                                $createLogFive = Logging::create([
+                                                    'user_id' => $getUser->id,
+                                                    'reason' => 5,
+                                                    'date' => $dateNow,
+                                                ]);
                                             
                                             
                                             }
@@ -226,6 +244,11 @@ class Billing extends Command
                                             $response = $client->query($query)->read();
                                             // 4. Handle the response
                                             $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'true']);
+                                                $createLogSix = Logging::create([
+                                                    'user_id' => $getUser->id,
+                                                    'reason' => 6,
+                                                    'date' => $dateNow,
+                                                ]);
                                             
                                             }
                                             $usernameToDisconnect = $getUser->first_name;

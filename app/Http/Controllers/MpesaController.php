@@ -79,6 +79,7 @@ class MpesaController extends Controller
         
         $dateFormats = $request->TransTime;
         $dateFormat = Carbon::parse($dateFormats);
+        $dateNow = Carbon::now();
         $currentMonth = date('m');
         $currentYear = date('Y');
         $accountNumber = $request->BillRefNumber;
@@ -224,6 +225,11 @@ class MpesaController extends Controller
 
                                             // 4. Handle the response
                                             $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'false']);
+                                                $createLogOne = Logging::create([
+                                                    'user_id' => $getUserIdentification->id,
+                                                    'reason' => 1,
+                                                    'date' => $dateNow,
+                                                ]);
                                             
                                             
                                             }
@@ -240,6 +246,11 @@ class MpesaController extends Controller
 
                                             // 4. Handle the response
                                             $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'true']);
+                                             $createLogTwo = Logging::create([
+                                                    'user_id' => $getUserIdentification->id,
+                                                    'reason' => 2,
+                                                    'date' => $dateNow,
+                                                ]);
                                             
                                             }
                                 }
@@ -275,6 +286,7 @@ class MpesaController extends Controller
                                                     // ->equal('comment', 'Updated by Laravel'); // Add or change comments
 
                                                 $client->query($updateQuery)->read(); // Execute the update
+                                                
                                             }
                                     
                                                     
@@ -424,6 +436,7 @@ class MpesaController extends Controller
                             'currentMonth' =>$currentMonth,
                             'currentYear' =>$currentYear,
                             ]);
+                            
 
                             if($getUserIdentification){
                             $updateUserAmount = User::where('id', $getUserIdentification->id)->update(['amount' => $createPayment->amount]);
@@ -443,6 +456,12 @@ class MpesaController extends Controller
                                                     'one_day_before' => $addOneMonth,
                                                 ]);
                             }
+                            $createLogEleven = Logging::create([
+                            'user_id' => $getUserIdentification->id,
+                            'reason' => 11,
+                            'date' => $createPayment->originationTime,
+                            'amount' => $createPayment->amount,
+                        ]);
                      
 
 
