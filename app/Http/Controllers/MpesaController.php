@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\Controller;
 use App\Models\Invoice;
 use App\Models\Mpesa;
+use App\Models\Logging;
 use App\Models\Payment;
 use App\Models\User;
 use Carbon\Carbon;
@@ -119,6 +120,12 @@ class MpesaController extends Controller
                             'status' => 1,
                             'payment_method' => 'Mpesa',
                             'currentMonth' =>$currentMonth,
+                        ]);
+                          $createLog = Logging::create([
+                            'user_id' => $getUserIdentification->id,
+                            'reason' => 0,
+                            'date' => $createPayment->originationTime,
+                            'amount' => $createPayment->amount,
                         ]);
                         $updateInvoiceBalance = Invoice::where('id', $getInvoice->id)->update(['balance' => $currentBalance]);
                         $updateInvoicePaymentId = Invoice::where('id', $getInvoice->id)->update(['payment_id' => $createPay->id]);
