@@ -231,7 +231,7 @@ class AdminController extends Controller
     }
     public function logs(){
         if (Auth::check()){
-            $logs = Logging::all();
+            $logs = Logging::latest()->get();
             return view('admin.logs',[
                 'logs'=>$logs,
             ]);
