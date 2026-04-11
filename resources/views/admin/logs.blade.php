@@ -73,7 +73,7 @@
                                     <td>Customer Disabled</td>
                                     @break
                                     @case(12)
-                                    <td>Customer Eddited Success</td>
+                                    <td>Customer Edit Success</td>
                                     @break
                                     
                                     @endswitch
