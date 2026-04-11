@@ -52,6 +52,7 @@ Route::post('deleteUser', [AdminController::class, 'deleteUser'])->name('deleteU
 Route::post('deleteC', [AdminController::class, 'deleteC'])->name('deleteC');
 Route::post('Login', [AuthController::class, 'login'])->name('Login');
 Route::get('customers', [AdminController::class, 'customers']);
+Route::get('logs', [AdminController::class, 'logs']);
 Route::get('Selectcustomers', [AdminController::class, 'Selectcustomers']);
 Route::get('noneActivecustomers', [AdminController::class, 'noneActivecustomers']);
 Route::get('pppoe', [AdminController::class, 'pppoe']);

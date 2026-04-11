@@ -14,6 +14,7 @@ use App\Models\Payment;
 use App\Models\Profile;
 use App\Models\Product;
 use App\Models\Band;
+use App\Models\Logging;
 use App\Models\Qproduct;
 use App\Models\Quotation;
 use App\Models\User;
@@ -221,6 +222,18 @@ class AdminController extends Controller
             $customers = User::where('role', 2)->orderByDesc('id')->get();
             return view('admin.customers',[
                 'customers'=>$customers,
+            ]);
+        }
+        else{
+            return redirect(url('login'));
+        }
+
+    }
+    public function logs(){
+        if (Auth::check()){
+            $logs = Logging::all();
+            return view('admin.logs',[
+                'logs'=>$logs,
             ]);
         }
         else{
@@ -2283,6 +2296,7 @@ class AdminController extends Controller
     public function editC(Request $request, $id){
        
         $dateFormat = Carbon::parse($request->due_date);
+        $dateNow = Carbon::now();
         $nextDate = $dateFormat->addDay();
         $edit = User::find($id);
         $bal = $edit->balance;
@@ -2299,6 +2313,11 @@ class AdminController extends Controller
         $edit->due_date = $nextDate;
         $edit->balance = $currentBal;
         $edit->save();
+        $createLogTwelve = Logging::create([
+            'user_id' => $id,
+            'reason' => 12,
+            'date' => $dateNow,
+        ]);
         $getInvoiceId = Invoice::where('user_id',$id)->latest('id')->first();
         $paymentDate = Carbon::parse($request->payment_date);
         $currentMonth = date('m');

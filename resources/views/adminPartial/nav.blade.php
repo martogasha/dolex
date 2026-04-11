@@ -252,36 +252,8 @@
                     <li class="nav-item sidebar-nav-item">
                         <a href="{{url('admin')}}" class="nav-link"><i class="flaticon-dashboard"></i><span>Dashboard</span></a>
                     </li>
-                    @if(\Illuminate\Support\Facades\Auth::user()->products==5)
-                    <li class="nav-item sidebar-nav-item">
-                        <a href="#" class="nav-link"><i class="flaticon-classmates"></i><span>Products</span></a>
-                        <ul class="nav sub-group-menu">
-                            <li class="nav-item">
-                                <a href="{{url('products')}}" class="nav-link"><i class="fas fa-angle-right"></i>All
-                                    Products</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{url('addProduct')}}" class="nav-link"><i
-                                        class="fas fa-angle-right"></i>Add Product</a>
-                            </li>
-                        </ul>
-                    </li>
-                    @endif
-                    @if(\Illuminate\Support\Facades\Auth::user()->users==6)
-                    <li class="nav-item sidebar-nav-item">
-                        <a href="#" class="nav-link"><i class="flaticon-classmates"></i><span>Users</span></a>
-                        <ul class="nav sub-group-menu">
-                            <li class="nav-item">
-                                <a href="{{url('employees')}}" class="nav-link"><i class="fas fa-angle-right"></i>All
-                                    Users</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{url('addEmployee')}}" class="nav-link"><i
-                                        class="fas fa-angle-right"></i>Add User</a>
-                            </li>
-                        </ul>
-                    </li>
-                    @endif
+              
+                 
                     @if(\Illuminate\Support\Facades\Auth::user()->customers==7)
                     <li class="nav-item sidebar-nav-item">
                         <a href="#" class="nav-link"><i class="flaticon-classmates"></i><span>Customers</span></a>
@@ -376,6 +348,15 @@
                             <li class="nav-item">
                                 <a href="{{url('bandwidth')}}" class="nav-link"><i
                                         class="fas fa-angle-right"></i>Bandwith Monitor</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item sidebar-nav-item">
+                        <a href="#" class="nav-link"><i class="flaticon-couple"></i><span>Logs</span></a>
+                        <ul class="nav sub-group-menu">
+                            <li class="nav-item">
+                                <a href="{{url('logs')}}" class="nav-link"><i
+                                        class="fas fa-angle-right"></i>Logs</a>
                             </li>
                         </ul>
                     </li>
