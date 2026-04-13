@@ -254,7 +254,6 @@
                     </li>
               
                  
-                    @if(\Illuminate\Support\Facades\Auth::user()->customers==7)
                     <li class="nav-item sidebar-nav-item">
                         <a href="#" class="nav-link"><i class="flaticon-classmates"></i><span>Customers</span></a>
                         <ul class="nav sub-group-menu">
@@ -273,8 +272,7 @@
                          
                         </ul>
                     </li>
-                    @endif
-                    @if(\Illuminate\Support\Facades\Auth::user()->payments==8)
+                   
                     <li class="nav-item sidebar-nav-item">
                         <a href="#" class="nav-link"><i
                                 class="flaticon-multiple-users-silhouette"></i><span>Payments</span></a>
@@ -288,51 +286,9 @@
                             </li>
                         </ul>
                     </li>
-                    @endif
-                    @if(\Illuminate\Support\Facades\Auth::user()->expenses==9)
-                    <li class="nav-item sidebar-nav-item">
-                        <a href="#" class="nav-link"><i class="flaticon-couple"></i><span>Expenses</span></a>
-                        <ul class="nav sub-group-menu">
-                            <li class="nav-item">
-                                <a href="{{url('expenses')}}" class="nav-link"><i class="fas fa-angle-right"></i>All
-                                    Expenses</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{url('addExpense')}}" class="nav-link"><i
-                                        class="fas fa-angle-right"></i>Add Expense</a>
-                            </li>
-                        </ul>
-                    </li>
-                    @endif
-                    @if(\Illuminate\Support\Facades\Auth::user()->estimate==10)
-                    <li class="nav-item sidebar-nav-item">
-                        <a href="#" class="nav-link"><i class="flaticon-couple"></i><span>Estimate</span></a>
-                        <ul class="nav sub-group-menu">
-                            <li class="nav-item">
-                                <a href="{{url('quotation')}}" class="nav-link"><i class="fas fa-angle-right"></i>Create Estimate</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{url('viewQuotation')}}" class="nav-link"><i
-                                        class="fas fa-angle-right"></i>All Estimate</a>
-                            </li>
-                        </ul>
-                    </li>
-                    @endif
-                    @if(\Illuminate\Support\Facades\Auth::user()->invoice==11)
-                    <li class="nav-item sidebar-nav-item">
-                        <a href="#" class="nav-link"><i class="flaticon-couple"></i><span>Invoice</span></a>
-                        <ul class="nav sub-group-menu">
-                            <li class="nav-item">
-                                <a href="{{url('viewInvoice')}}" class="nav-link"><i
-                                        class="fas fa-angle-right"></i>All invoices</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{url('createInvoice')}}" class="nav-link"><i
-                                        class="fas fa-angle-right"></i>Create Invoices</a>
-                            </li>
-                        </ul>
-                    </li>
-                    @endif
+            
+             
+          
                     <li class="nav-item sidebar-nav-item">
                         <a href="#" class="nav-link"><i class="flaticon-couple"></i><span>Billing</span></a>
                         <ul class="nav sub-group-menu">
