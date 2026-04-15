@@ -114,6 +114,7 @@ class Billing extends Command
                                         
                             $updateUserProfile = User::where('id', $getUser->id)->update(['last_name' => $bandwidth]);
                             $updateUserProfileAmount = User::where('id', $getUser->id)->update(['package_amount' => $currentBalance]);
+                            $updateAmount = User::where('id',$getUser->id)->update(['amount'=>$currentBalance]);
                             $packageAmount = $getUser->package_amount;
                             $newBalance = 0;
                             $date1 = $getUser->payment_date;
@@ -154,6 +155,7 @@ class Billing extends Command
                                     $createLogThree = Logging::create([
                                         'user_id' => $getUser->id,
                                         'reason' => 3,
+                                        'amount' => $currentBalance,
                                         'date' => $dateFormat,
                                     ]);
                                 $updateCashId = Invoice::where('id',$createInvoice->id)->update(['payment_id'=>$storeCash->id]);
