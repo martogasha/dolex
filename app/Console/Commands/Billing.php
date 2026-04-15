@@ -108,6 +108,9 @@ class Billing extends Command
                                 if($currentBalance==2){
                                     $bandwidth = '8MBPS';
                                 }
+                                if($currentBalance==0){
+                                    $bandwidth = '1MBPS';
+                                }
                 $updateUserProfile = User::where('id', $getUser->id)->update(['last_name' => $bandwidth]);
                 $packageAmount = $getUser->package_amount;
                 $newBalance = $currentBalance;
