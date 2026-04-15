@@ -78,6 +78,8 @@ class Billing extends Command
             }
             else{
                 $currentBalance = $getUser->balance;
+                if($currentBalance>=1500){
+
                                 if($currentBalance>=1500 && $currentBalance < 2000){
                                     $bandwidth = '6MBPS';
                                 }
@@ -108,9 +110,7 @@ class Billing extends Command
                                 if($currentBalance==2){
                                     $bandwidth = '8MBPS';
                                 }
-                                if($currentBalance==0){
-                                    $bandwidth = '1MBPS';
-                                }
+                               
                 $updateUserProfile = User::where('id', $getUser->id)->update(['last_name' => $bandwidth]);
                 $packageAmount = $getUser->package_amount;
                 $newBalance = $currentBalance;
@@ -212,6 +212,9 @@ class Billing extends Command
                                             ]);
                                             return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
                                         }
+
+                }
+
                 }
                 else{
                     
