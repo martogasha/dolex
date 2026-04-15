@@ -114,7 +114,6 @@ class Billing extends Command
                                         
                             $updateUserProfile = User::where('id', $getUser->id)->update(['last_name' => $bandwidth]);
                             $updateUserProfileAmount = User::where('id', $getUser->id)->update(['package_amount' => $currentBalance]);
-                            $updateAmount = User::where('id',$getUser->id)->update(['amount' => $currentBalance]);
                             $packageAmount = $getUser->package_amount;
                             $newBalance = 0;
                             $date1 = $getUser->payment_date;
@@ -163,7 +162,7 @@ class Billing extends Command
                                 $nextDate =  $currentDate->addMonth();
                                 
                                 $updateBalance = User::where('id',$getUser->id)->update(['balance'=>$newBalance]);
-                                $updateAmount = User::where('id',$getUser->id)->update(['amount'=>$storeCash->amount]);
+                                $updateAmount = User::where('id',$getUser->id)->update(['amount'=>$currentBalance]);
                                 $updatePaymentDate = User::where('id',$getUser->id)->update(['payment_date'=>$storeCash->date]);
                                 $updateDueDate = User::where('id',$getUser->id)->update(['due_date'=>$nextDate]);
                                 $dateForm = Carbon::parse($nextDate);
