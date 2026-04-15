@@ -78,7 +78,7 @@ class Billing extends Command
             }
             else{
                 $currentBalance = $getUser->balance;
-                
+                if($currentBalance>=1500){
 
                                             if($currentBalance>=1500 && $currentBalance < 2000){
                                                 $bandwidth = '6MBPS';
@@ -215,8 +215,25 @@ class Billing extends Command
 
                             }
 
-                
+                }
                 else{
+                          $packageAmount = $getUser->package_amount;
+                            $newBalance = $packageAmount - $currentBalance;
+                            $date1 = $getUser->payment_date;
+                            $date2 =$getUser->due_date;
+                            $dateFormat = Carbon::parse($date2);
+                            $updateUserBalance = User::where('id',$getUser->id)->update(['balance'=>$newBalance]);
+                            $diff = abs(strtotime($date2) - strtotime($date1));
+
+                            $years = floor($diff / (365*60*60*24));
+                            $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+                            $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+                            if ($months==1){
+                                $usage_time = $days+30;
+                            }
+                            else{
+                                $usage_time = $days;
+                            }
                     
                         $createInvoice = Invoice::create([
                             'invoice_date'=>$dateFormat,
