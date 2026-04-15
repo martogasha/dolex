@@ -115,7 +115,7 @@ class Billing extends Command
                             $updateUserProfile = User::where('id', $getUser->id)->update(['last_name' => $bandwidth]);
                             $updateUserProfileAmount = User::where('id', $getUser->id)->update(['package_amount' => $currentBalance]);
                             $packageAmount = $getUser->package_amount;
-                            $newBalance = $currentBalance - $packageAmount;
+                            $newBalance = 0;
                             $date1 = $getUser->payment_date;
                             $date2 =$getUser->due_date;
                             $dateFormat = Carbon::parse($date2);
