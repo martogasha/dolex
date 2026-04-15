@@ -78,7 +78,7 @@ class Billing extends Command
             }
             else{
                 $currentBalance = $getUser->balance;
-                if($currentBalance>=1500){
+                if($currentBalance>=1500 && $currentBalance > -1){
 
                                             if($currentBalance>=1500 && $currentBalance < 2000){
                                                 $bandwidth = '6MBPS';
