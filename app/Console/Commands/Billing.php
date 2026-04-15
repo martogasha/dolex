@@ -113,8 +113,9 @@ class Billing extends Command
                                             }
                                         
                             $updateUserProfile = User::where('id', $getUser->id)->update(['last_name' => $bandwidth]);
+                            $updateUserProfileAmount = User::where('id', $getUser->id)->update(['package_amount' => $currentBalance]);
                             $packageAmount = $getUser->package_amount;
-                            $newBalance = $currentBalance;
+                            $newBalance = $currentBalance - $packageAmount;
                             $date1 = $getUser->payment_date;
                             $date2 =$getUser->due_date;
                             $dateFormat = Carbon::parse($date2);
@@ -130,7 +131,7 @@ class Billing extends Command
                             else{
                                 $usage_time = $days;
                             }
-                            if ($newBalance>=1500){
+                            
                                 $createInvoice = Invoice::create([
                                     'invoice_date'=>$dateFormat,
                                     'amount'=>$getUser->package_amount,
@@ -214,7 +215,7 @@ class Billing extends Command
                                                         return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
                                                     }
 
-                            }
+                            
 
                 }
                 else{
