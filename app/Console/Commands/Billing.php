@@ -78,12 +78,44 @@ class Billing extends Command
             }
             else{
                 $currentBalance = $getUser->balance;
+                                if($currentBalance>=1500 && $currentBalance < 2000){
+                                    $bandwidth = '6MBPS';
+                                }
+                                if($currentBalance>=2000 && $currentBalance < 2500){
+                                    $bandwidth = '8MBPS';
+                                }
+                                if($currentBalance>=2500 && $currentBalance < 3000){
+                                    $bandwidth = '10MBPS';
+                                }
+                                if($currentBalance>=3000 && $currentBalance < 3500){
+                                    $bandwidth = '12MBPS';
+                                }
+                                if($currentBalance>=3500 && $currentBalance < 4000){
+                                    $bandwidth = '14MBPS';
+                                }
+                                if($currentBalance>=4000 && $currentBalance < 4500){
+                                    $bandwidth = '16MBPS';
+                                }
+                                if($currentBalance>=4500 && $currentBalance < 5000){
+                                    $bandwidth = '18MBPS';
+                                }
+                                if($currentBalance>=5000 && $currentBalance > 5000){
+                                    $bandwidth = '20MBPS';
+                                }
+                                if($currentBalance==1){
+                                    $bandwidth = '6MBPS';
+                                }
+                                if($currentBalance==2){
+                                    $bandwidth = '8MBPS';
+                                }
+                $updateUserProfile = User::where('id', $getUser->id)->update(['last_name' => $bandwidth]);
+                $updatePackageAmount = User::where('id',$getUser->id)->update(['package_amount'=>$currentBalance]);
                 $packageAmount = $getUser->package_amount;
-                $newBalance = $currentBalance + $packageAmount;
+                $newBalance = $currentBalance - $packageAmount;
                 $date1 = $getUser->payment_date;
                 $date2 =$getUser->due_date;
                 $dateFormat = Carbon::parse($date2);
-
+                $updateUserBalance = User::where('id',$getUser->id)->update(['balance'=>$newBalance]);
                 $diff = abs(strtotime($date2) - strtotime($date1));
 
                 $years = floor($diff / (365*60*60*24));
@@ -139,43 +171,48 @@ class Billing extends Command
                         foreach($getPreviousInvoices as $getPreviousInvoice){
                             $updateInvoiceStatas = invoice::where('id',$getPreviousInvoice->id)->update(['statas'=>1]);
 
-            }
+                        }
+                        try {
+                                                    // Get the MikroTik API client using the configured facade
+                                                    $config = new Config([
+                                                    'host' => '197.248.79.153',
+                                                    'user' => 'admin',
+                                                    'pass' => 'KND@2020',
+                                                    'port' => 8728,
+                                                ]);
+                                                $client = new Client($config);
+                                                $query = (new Query('/ppp/secret/print'))->where('.id', $getUser->mikrotik_id);
+                                                $secrets = $client->query($query)->read();
+                                                // $secrets will be an array containing the user's details if found.
+                                                
+                                                if (!empty($secrets)) {
+                                                $secretId = $secrets[0]['.id']; // Get the ID of the first matching user
+
+                                                $updateQuery = (new Query('/ppp/secret/set'))
+                                                    ->equal('.id', $secretId)
+                                                    ->equal('profile', $bandwidth); // Change the assigned profile
+                                                    // ->equal('comment', 'Updated by Laravel'); // Add or change comments
+
+                                                $client->query($updateQuery)->read(); // Execute the update
+                                                
+                                            }
+                                    
+                                                    
+                                            
+                                        
+
+                                        } catch (\Exception $e) {
+                                            // 5. Handle any connection or API errors
+                                            Log::info('Billed but profile not updated');
+                                            $cache = Cache::create([
+                                                'user_id' => $getUser->id,
+                                                'status' => 3,
+                                            ]);
+                                            return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
+                                        }
                 }
                 else{
-                    if ($currentBalance<0){
-                        $createInvoice = Invoice::create([
-                            'invoice_date'=>$dateFormat,
-                            'amount'=>$getUser->package_amount,
-                            'user_id'=>$getUser->id,
-                            'usage_time'=>$usage_time,
-                            'balance'=>$newBalance,
-                            'status'=>0,
-                            'statas'=>0,
-                        ]);
-                        $storeCash = Payment::create([
-                            'user_id'=>$getUser->id,
-                            'invoice_id'=>$createInvoice->id,
-                            'amount'=>$currentBalance * -1,
-                            'invoice_balance'=>$newBalance,
-                            'date'=>$dateFormat,
-                            'payment_method'=>'Balance Carry Over',
-                            'status'=>1,
-                            'currentMonth'=>$currentMonth,
-
-                        ]);
-                        $currentDate = $dateFormat;
-                        $nextDate =  $currentDate->addMonth();
-                        $updateBalance = User::where('id',$getUser->id)->update(['balance'=>$newBalance]);
-                        $updateAmount = User::where('id',$getUser->id)->update(['amount'=>0]);
-                        $updatePaymentDate = User::where('id',$getUser->id)->update(['payment_date'=>null]);
-                        $updateDueDate = User::where('id',$getUser->id)->update(['due_date'=>$nextDate]);
-                            $createLogFour = Logging::create([
-                                'user_id' => $getUser->id,
-                                'reason' => 4,
-                                'date' => $currentDate,
-                            ]);
-                    }
-                    else{
+                    
                         $createInvoice = Invoice::create([
                             'invoice_date'=>$dateFormat,
                             'amount'=>$getUser->package_amount,
@@ -323,7 +360,7 @@ class Billing extends Command
           
 
         
-                    }
+                    
 
                 }
 
