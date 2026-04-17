@@ -2364,6 +2364,10 @@ class AdminController extends Controller
         }
         
         $updateInvoiceDate = Invoice::where('user_id',$id)->latest('id')->update(['invoice_date'=>$nextDate]);
+        $updateMessagePaidTwo = Invoice::where('user_id', $id)->latest('id')->update([
+                                'two_days_before_status' => null,
+                                'due_date_status' => null,
+                                ]);
         $getUser = User::find($id);
         if($getUser->payment_date!=null){
             if($request->one_day_before){

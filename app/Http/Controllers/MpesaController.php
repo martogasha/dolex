@@ -199,6 +199,7 @@ class MpesaController extends Controller
                                     $bandwidth = '8MBPS';
                                 }
                                 $updateUserProfile = User::where('id', $getUserIdentification->id)->update(['last_name' => $bandwidth]);
+                                
                                 // Get the MikroTik API client using the configured facade
                             try{
                                             $config = new Config([
@@ -456,6 +457,10 @@ class MpesaController extends Controller
                                                     'one_day_before' => $addOneMonth,
                                                 ]);
                             }
+                            $updateMessagePaidTwo = Invoice::where('user_id', $getUserIdentification->id)->update([
+                                'two_days_before_status' => 1,
+                                'due_date_status' => 1,
+                                ]);
                             $createLogEleven = Logging::create([
                             'user_id' => $getUserIdentification->id,
                             'reason' => 11,

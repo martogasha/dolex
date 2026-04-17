@@ -55,7 +55,7 @@
                                     <td>Customer Enabled</td>
                                     @break
                                     @case(11)
-                                    <td>Paid Early</td>
+                                    <td>Advance Payment</td>
                                     @break
                                     @case(3)
                                     <td>Balance Carried Over</td>

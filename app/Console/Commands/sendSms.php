@@ -84,6 +84,7 @@ ACC NO: '.$get->user->phone.'',
                     $dateFor = Carbon::parse($twoDays);
                         $minusOneMonth = $dateFor->addMonth();
                         $invoiceMinus = Invoice::where('id',$get->id)->update(['two_days_before'=>$minusOneMonth]);
+                        $invoiceUpdateSent = Invoice::where('id',$get->id)->update(['two_days_before_status'=>0]);
                                      
         }
         $ones =  Invoice::where('one_day_before', '<', Carbon::now())->where('status',1)->where('statas',0)->get();
@@ -109,6 +110,7 @@ ACC NO: '.$one->user->phone.'',
                     $dateFor = Carbon::parse($oneDay);
                         $minusOneMonth = $dateFor->addMonth();
                         $invoiceMinus = Invoice::where('id',$one->id)->update(['one_day_before'=>$minusOneMonth]);
+                        $invoiceUpdateSent = Invoice::where('id',$one->id)->update(['due_date_status'=>0]);
                                      
         }
     }
