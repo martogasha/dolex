@@ -15,122 +15,10 @@
             @include('flash-message');
             <!-- Breadcubs Area End Here -->
             <!-- Dashboard summery Start Here -->
-            @if(is_null($notice))
-            <div class="row gutters-20">
-                <h5>Published at:</h5>
-                <div class="col-xl-12 col-sm-12 col-12">
-                    <div class="dashboard-summery-one mg-b-20">
-                        <div class="row align-items-center">
-                            @if(\Illuminate\Support\Facades\Auth::user()->role==0)
-                            <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Add Notice</button>
-                            @endif
-                                <div class="col-6" id="pot">
-                                <h4 style="color: red"><b>Notice Board</b></h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @else
-                <div class="row gutters-20">
-                    <h5>Published at:<b>{{$notice->date}}</b></h5>
-                    <div class="col-xl-12 col-sm-12 col-12">
-                        @if(\Illuminate\Support\Facades\Auth::user()->role==0)
-                            <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Add Notice</button>
-                            <form action="{{url('deleteNotice',$notice->id)}}" method="post">
-                                @csrf
-                                <button type="submit" class="btn btn-danger">Remove Notice</button>
-                            </form>
-                        @endif
-                        <div class="dashboard-summery-one mg-b-20">
-                            <div class="row align-items-center">
-                                <div class="col-6" id="pot">
-                                    <h4 style="color: red"><b>{{$notice->message}}</b></h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            @endif
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Post Notice</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <form action="{{route('notice')}}" method="post">
-                            @csrf
-                        <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="message-text" class="col-form-label">Message:</label>
-                                    <textarea class="form-control" id="message-text" name="message"></textarea>
-                                </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Send Notice</button>
-                        </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <style>
-                #pot {
-                    bottom: 15%;
-                    position: absolute;
-                    -webkit-animation: linear infinite;
-                    -webkit-animation-name: run;
-                    -webkit-animation-duration: 20s;
-                }
-                @-webkit-keyframes run {
-                    0% {
-                        left: 0;
-                    }
-                    50% {
-                        left: 100%;
-                    }
-                    100% {
-                        left: 0;
-                    }
-                }
-            </style>
-            <div class="dropdown">
-                <div id="hideMonth"><h3><b>{{\Carbon\Carbon::now()->format('F')}} - {{\Carbon\Carbon::now()->format('Y')}}</b> Net Income</h3></div>
-                <div id="showMonth"></div>
-                <div class="row" style="padding-left:200px">
-                    <div class="form-group">
-                        <label for="sel1">Year</label>
-                        <select class="form-control" id="year">
-                            <option value="2022">2022</option>
-                            <option value="2021">2021</option>
-                            <option value="2023">2023</option>
-                            <option value="2024">2024</option>
-                            <option value="2025">2025</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="sel1">Month</label>
-                        <select class="form-control" id="month">
-                            <option value="1">Jan</option>
-                            <option value="2">Feb</option>
-                            <option value="3">Mar</option>
-                            <option value="4">Apr</option>
-                            <option value="5">May</option>
-                            <option value="6">Jun</option>
-                            <option value="7">Jul</option>
-                            <option value="8">Aug</option>
-                            <option value="9">Sept</option>
-                            <option value="10">Oct</option>
-                            <option value="11">Nov</option>
-                            <option value="12">Dec</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
+         
+    
+     
+    
             <div class="row gutters-20" id="report">
                     <div class="col-lg-3 col-sm-6 col-12">
                         <a href="{{url('customers')}}">
@@ -223,20 +111,7 @@
                     </div>
                     </a>
                 </div>
-                <div class="col-lg-3 col-sm-6 col-12">
-                    <div class="card dashboard-card-seven">
-                        <div class="social-media bg-twitter hover-twitter" style="background-color: yellowgreen">
-                            <div class="media media-none--lg">
-
-                                <div class="media-body space-sm">
-                                    <h6 class="item-title">Debt</h6>
-                                </div>
-                            </div>
-                            <span>KSH</span>
-                            <div class="social-like">{{$debt}}</div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
             <div class="row gutters-20" id="basic">
 

@@ -43,11 +43,7 @@
     <!-- Header Menu Area Start Here -->
     <div class="navbar navbar-expand-md header-menu-one bg-light" >
         <div class="nav-bar-header-one" >
-            <div class="header-logo" style="background-color: white">
-                <a href="{{url('admin')}}">
-                    <img src="{{asset('img/jp.png')}}" alt="logo"><span>Henix Networks</span>
-                </a>
-            </div>
+           
             <div class="toggle-button sidebar-toggle">
                 <button type="button" class="item-link">
                         <span class="btn-icon-wrap">
@@ -242,11 +238,9 @@
     <div class="dashboard-page-one">
         <!-- Sidebar Area Start Here -->
         <div class="sidebar-main sidebar-menu-one sidebar-expand-md sidebar-color">
-            <div class="mobile-sidebar-header d-md-none">
-                <div class="header-logo">
-                    <a href="{{url('admin')}}"><h3 style="color: white">Henix Networks</h3></a>
-                </div>
-            </div>
+         <div class="mobile-sidebar-header d-md-none">
+                  
+               </div>
             <div class="sidebar-menu-content">
                 <ul class="nav nav-sidebar-menu sidebar-toggle-view">
                     <li class="nav-item sidebar-nav-item">
@@ -275,7 +269,7 @@
                    
                     <li class="nav-item sidebar-nav-item">
                         <a href="#" class="nav-link"><i
-                                class="flaticon-multiple-users-silhouette"></i><span>Payments</span></a>
+                                class="flaticon-books"></i><span>Payments</span></a>
                         <ul class="nav sub-group-menu">
                             <li class="nav-item">
                                 <a href="{{url('mpesa')}}" class="nav-link"><i class="fas fa-angle-right"></i>Mpesa</a>
@@ -290,7 +284,7 @@
              
           
                     <li class="nav-item sidebar-nav-item">
-                        <a href="#" class="nav-link"><i class="flaticon-couple"></i><span>Billing</span></a>
+                        <a href="#" class="nav-link"><i class="flaticon-shopping-list"></i><span>Billing</span></a>
                         <ul class="nav sub-group-menu">
                             <li class="nav-item">
                                 <a href="{{url('bill')}}" class="nav-link"><i
@@ -308,7 +302,7 @@
                         </ul>
                     </li>
                     <li class="nav-item sidebar-nav-item">
-                        <a href="#" class="nav-link"><i class="flaticon-couple"></i><span>Logs</span></a>
+                        <a href="#" class="nav-link"><i class="flaticon-open-book"></i><span>Logs</span></a>
                         <ul class="nav sub-group-menu">
                             <li class="nav-item">
                                 <a href="{{url('logs')}}" class="nav-link"><i
