@@ -2299,6 +2299,7 @@ class AdminController extends Controller
         $dateNow = Carbon::now();
         $nextDate = $dateFormat->addDay();
         $edit = User::find($id);
+
         $bal = $edit->balance;
         $currentBal = $bal + $request->cBalance;
         $edit->first_name = $request->first_name;
