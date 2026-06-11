@@ -115,8 +115,12 @@
                                                         class="fas fa-book-open text-orange-red"></i>View</a>
                                                 <a class="dropdown-item" href="{{url('editCustomerDetail',$customer->id)}}"><i
                                                         class="fas fa-edit text-blue"></i>Edit</a>
-                                                <button type="button" class="btn btn-danger btn-lg btn-block view" id="{{$customer->id}}" data-toggle="modal" data-target="#west">Terminate</button>
 
+                                                          <form action="{{url('noneActive')}}" method="post">
+                                                            @csrf
+                                                            <input type="hidden" value="{{$customer->id}}" name="user_id">
+                                                            <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Deactivate</button>
+                                                        </form>
                                             </div>
                                         </div>
                                     </td>
