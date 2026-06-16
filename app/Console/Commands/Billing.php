@@ -221,7 +221,7 @@ class Billing extends Command
                 }
                 else{
                           $packageAmount = $getUser->package_amount;
-                            $newBalance = $packageAmount - $currentBalance;
+                            $newBalance = $packageAmount + $currentBal;
                             $date1 = $getUser->payment_date;
                             $date2 =$getUser->due_date;
                             $dateFormat = Carbon::parse($date2);
