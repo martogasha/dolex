@@ -1,353 +1,540 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
-<!-- Mirrored from themelooks.net/demo/serviney/html/preview/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 04 Nov 2021 12:24:10 GMT -->
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Document Title -->
-    <title>Japcom Networks</title>
-
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/png" href="img/jj.png">
-
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:400,500,700%7CSource+Sans+Pro:300i,400,400i,600,700">
-    <link rel="stylesheet" href="ass/css/bootstrap.min.css">
-    <link rel="stylesheet" href="ass/css/font-awesome.min.css">
-    <link rel="stylesheet" href="ass/plugins/swiper/swiper.min.css">
-    <link rel="stylesheet" href="ass/plugins/magnific-popup/magnific-popup.min.css">
-    <link rel="stylesheet" href="ass/css/style.css">
-    <link rel="stylesheet" href="ass/css/responsive.css">
-    <link rel="stylesheet" href="ass/css/colors/theme-color-1.css">
-    <link rel="stylesheet" href="ass/css/custom.css">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="-1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kent hotspot - Log in</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
-<!-- Preloader -->
-<div class="preLoader"></div>
+<body class="dark">
 
-<!-- Main header -->
-<header class="header">
-    <div class="header-top" data-animate="fadeInDown" data-delay=".5">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 col-md-5">
-                    <div class="header-top-right d-flex align-items-center justify-content-center justify-content-md-end">
-                        <form class="parsley-validate d-flex position-relative" action="#">
-                            <input type="text" placeholder="I am looking for" required>
-                            <button type="submit"><i class="fa fa-search"></i></button>
-                        </form>
-                        <div class="client-area position-relative">
-                            <span id="dropdownMenuButton" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account <i class="fa fa-caret-down"></i></span>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="{{url('login')}}">Login</a>
-                                <a class="dropdown-item" href="#">Sign Up</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- two other colors
 
-    <div class="main-header" data-animate="fadeInUp" data-delay=".9">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-9">
-                    <!-- Logo -->
+<body class="lite">
+<body class="dark">
+
+-->
+
+    $(if chap-id)
+    <form name="sendin" action="$(link-login-only)" method="post" style="display:none">
+        <input type="hidden" name="username" />
+        <input type="hidden" name="password" />
+        <input type="hidden" name="dst" value="$(link-orig)" />
+        <input type="hidden" name="popup" value="true" />
+    </form>
+
+    <script src="/md5.js"></script>
+    <script>
+        function doLogin() {
+            document.sendin.username.value = document.login.username.value;
+            document.sendin.password.value = hexMD5('$(chap-id)' + document.login.password.value + '$(chap-challenge)');
+            document.sendin.submit();
+            return false;
+        }
+
+    </script>
+    $(endif)
+    <div class="ie-fixMinHeight">
+        <div class="main">
+            <div class="wrap animated fadeIn">
+                <form name="login" action="$(link-login-only)" method="post" $(if chap-id) onSubmit="return doLogin()" $(endif)>
+                    <input type="hidden" name="dst" value="$(link-orig)" />
+                    <input type="hidden" name="popup" value="true" />
                     <div class="logo">
-                        <a href="{{url('/')}}">
-                            <div class="row">
-                                <img src="img/jj.png" data-rjs="2" alt="VPNet"><b style="font-size: 15px;padding-top: 11px">Japcom Networks</b>
-                            </div>
-                        </a>
+                      <div class="neon">Kent </div>
+                      <div class="flux">Hotspot</div>
                     </div>
-                </div>
-                <div class="col-xl-8 col-lg-8 col-md-5 col-sm-2 col-3">
-                    <nav>
-                        <!-- Header-menu -->
-                        <div class="header-menu">
-                            <ul>
-                                <li class="active"><a href="{{url('/')}}">Home</a></li>
-                                <li><a href="#">Our Story</a></li>
-                                <li>
-                                    <a href="#">Products <i class="fa fa-caret-down"></i></a>
-                                    <ul>
-                                        <li><a href="#">Homes & Small Biz</a></li>
-                                        <li><a href="#">Enterprises</a></li>
-                                        <li><a href="#">Hotspots</a></li>
-                                        <li><a href="#">Value Add Services</a></li>
-                                        <li><a href="#">Smart Savannah</a></li>
-                                    </ul>
-                                </li>                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                        <!-- End of Header-menu -->
-                    </nav>
-                </div>
-                <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 d-none d-sm-block">
-                    <!-- Header Call -->
-                    <div class="header-call text-right">
-                        <span>Call Now</span>
-                        <a href="tel:+254729381059">0729381059</a>
-                    </div>
-                </div>
+
+
+
+                    <p class="info $(if error)alert$(endif)">
+                        $(if error == "")Silakan login untuk mengakses internet full speed $(if trial == 'yes')<br />Uji coba tersedia, <a href="$(link-login-only)?dst=$(link-orig-esc)&amp;username=T-$(mac-esc)">klik disini</a>.$(endif)
+                        $(endif)
+
+                        $(if error)$(error)$(endif)
+                    </p>
+                    <label>
+                        <img class="ico" src="img/user.svg" alt="#" />
+                        <input name="username" type="text" value="$(username)" placeholder="Username" />
+                    </label>
+
+                    <label>
+                        <img class="ico" src="img/password.svg" alt="#" />
+                        <input name="password" type="password" placeholder="Password" />
+                    </label>
+
+                    <input type="submit" value="Masuk" />
+
+                </form>
+                <p class="info bt">🚴🏻‍♂️💨 Feel the speed...</p>
+
             </div>
         </div>
     </div>
-</header>
-<!-- End of Main header -->
-
-<!-- Banner -->
-<section>
-    <div class="main-slider swiper-container">
-        <div class="swiper-wrapper">
-            <!-- Single slide -->
-            <div class="swiper-slide position-relative">
-                <img src="ass/img/slide1.jpg" data-rjs="2" alt="">
-                <div class="slide-content container">
-                    <div class="row align-items-center">
-                        <div class="col-xl-6 col-lg-8">
-                            <div class="slide-content-inner">
-                                <h4 data-animate="fadeInUp" data-delay=".05">Best Internet Service Provider In Kenya</h4>
-                                <h2 data-animate="fadeInUp" data-delay=".3">Don’t Suffer The Buffer Speeds Up to 1 Gbps with Unlimited Data</h2>
-                                <a data-animate="fadeInUp" data-delay=".6" href="#" class="btn">Learn More</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End of Single slide -->
-
-            <!-- Single slide -->
-            <div class="swiper-slide position-relative">
-                <img src="ass/img/slide2.jpg" data-rjs="2" alt="">
-                <div class="slide-content container">
-                    <div class="row align-items-center">
-                        <div class=" col-xl-6 col-lg-8">
-                            <div class="slide-content-inner">
-                                <h4 data-animate="fadeInUp" data-delay=".05">There is Now Way to Become a Internet User</h4>
-                                <h2 data-animate="fadeInUp" data-delay=".3">Now a Days Internet Is a Useful Thing, Not Passion</h2>
-                                <a data-animate="fadeInUp" data-delay=".6" href="#" class="btn">Learn More</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End of Single slide -->
+  
+    <div class="section">
+      <div class="price-list">
+        <div class="card">
+          <div class="title">Unlimited Harian</div>
+          <ul class="list">
+            <li>3 Jam:<strong>3rb</strong></li>
+            <li>5 Jam:<strong>5rb</strong></li>
+            <li>12 Jam:<strong>10rb</strong></li>
+          </ul>
+          <hr/>
+          <a href="https://wa.me/62882021996939&text=🤩%20%20Halo%2C%20saya%20mau%20internet%20unlimited%20harian...">WA: 0882021996939</a>
         </div>
-        <!-- Banner Pagination -->
-        <div class="swiper-pagination main-slider-pagination"></div>
+        <div class="card card-blue">
+          <div class="title">Unlimited Mingguan</div>
+          <ul class="list">
+            <li>1 Minggu:<strong>20rb</strong></li>
+            <li>2 Minggu:<strong>30rb</strong></li>
+            <li>4 Minggu:<strong>35rb</strong></li>
+          </ul>
+          <hr/>
+          <a href="https://wa.me/62882021996939&text=🤩%20%20Halo%2C%20saya%20mau%20internet%20unlimited%20mingguan...">WA: 0882021996939</a>
+        </div>
+        <div class="card card-purple">
+          <div class="title">Unlimited Bulanan</div>
+          <ul class="list">
+            <li>2 devices:<strong>50rb</strong></li>
+            <li>5 devices:<strong>100rb</strong></li>
+            <li>Unlimited:<strong>Hubungi Kami</strong></li>
+          </ul>
+          <hr/>
+          <a href="https://wa.me/62882021996939&text=🤩%20%20Halo%2C%20saya%20mau%20internet%20unlimited%20bulanan...">WA: 0882021996939</a>
+        </div>
+      </div>
     </div>
-</section>
-<!-- End of Banner -->
+    <style>
+        :root {
+  --neon-light: #426DFB;
+  --flux-light: #FB4264;
+}
 
-<!-- Abut Us -->
-<!-- End of About Us -->
+a,
+body,
+div,
+form,
+html,
+img,
+input,
+label,
+p,
+span {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-family: sans-serif, Arial
+}
 
-<!-- Services -->
-<section class="theme-bg-overlay bg-img-md-none pt-120 pb-90" data-bg-img="ass/img/rocket.jpg" data-rjs="2">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xl-6 col-lg-8 col-md-10">
-                <div class="section-title section-title-white text-center" data-animate="fadeInUp" data-delay=".1">
-                    <h2>Services We Provide</h2>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-3 col-sm-6">
-                <div class="single-service single-service-white text-center" data-animate="fadeInUp" data-delay=".1">
-                    <img src="ass/img/icons/earth.svg" alt="" class="svg">
-                    <h4>High Speed Internet</h4>
-                    <p>Lorem ipsum dolor sit ametteturmpor incididunt most popular.</p>
-                    <a href="internet.html">Learn More <i class="fa fa-angle-right"></i></a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="single-service single-service-white text-center" data-animate="fadeInUp" data-delay=".4">
-                    <img src="ass/img/icons/phone.svg" alt="" class="svg">
-                    <h4>Phone Service</h4>
-                    <p>Lorem ipsum dolor sit ametteturmpor incididunt most popular.</p>
-                    <a href="mobile.html">Learn More <i class="fa fa-angle-right"></i></a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="single-service single-service-white text-center" data-animate="fadeInUp" data-delay=".7">
-                    <img src="ass/img/icons/tv.svg" alt="" class="svg">
-                    <h4>Cable TV</h4>
-                    <p>Lorem ipsum dolor sit ametteturmpor incididunt most popular.</p>
-                    <a href="cable-tv.html">Learn More <i class="fa fa-angle-right"></i></a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="single-service single-service-white text-center" data-animate="fadeInUp" data-delay="1">
-                    <img src="ass/img/icons/server.svg" alt="" class="svg">
-                    <h4>Dedicated Server</h4>
-                    <p>Lorem ipsum dolor sit ametteturmpor incididunt most popular.</p>
-                    <a href="dedicated-server.html">Learn More <i class="fa fa-angle-right"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- End of Services -->
+body,
+html {
+	min-height: 100%;
+	overflow-x: hidden
+}
 
-<!-- Packages Wrap -->
-<section class="pt-120 pb-55">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xl-6 col-lg-8 col-md-10">
-                <div class="section-title text-center" data-animate="fadeInUp" data-delay=".1">
-                    <h2>Choose Affordable Packages</h2>
-                </div>
-            </div>
-        </div>
+body {
+	background: #a2a09b;
+	background: -webkit-linear-gradient(315deg, hsla(236.6, 0%, 53.52%, 1) 0, hsla(236.6, 0%, 53.52%, 0) 70%), -webkit-linear-gradient(65deg, hsla(220.75, 34.93%, 26.52%, 1) 10%, hsla(220.75, 34.93%, 26.52%, 0) 80%), -webkit-linear-gradient(135deg, hsla(46.42, 36.62%, 83.92%, 1) 15%, hsla(46.42, 36.62%, 83.92%, 0) 80%), -webkit-linear-gradient(205deg, hsla(191.32, 50.68%, 56.45%, 1) 100%, hsla(191.32, 50.68%, 56.45%, 0) 70%);
+	background: linear-gradient(135deg, hsla(236.6, 0%, 53.52%, 1) 0, hsla(236.6, 0%, 53.52%, 0) 70%), linear-gradient(25deg, hsla(220.75, 34.93%, 26.52%, 1) 10%, hsla(220.75, 34.93%, 26.52%, 0) 80%), linear-gradient(315deg, hsla(46.42, 36.62%, 83.92%, 1) 15%, hsla(46.42, 36.62%, 83.92%, 0) 80%), linear-gradient(245deg, hsla(191.32, 50.68%, 56.45%, 1) 100%, hsla(191.32, 50.68%, 56.45%, 0) 70%)
+}
 
-        <!-- Packages -->
-        <div class="row pb-90">
-            <div class="col-lg-3 col-sm-6">
-                <div class="single-package text-center" data-animate="fadeInUp" data-delay=".1">
-                    <h4>Personal Pack</h4>
-                    <span>for personal user</span>
-                    <hr>
-                    <ul class="list-unstyled">
-                        <li>Free installation</li>
-                        <li>Up to <span>15 Mpbs</span> download speed</li>
-                        <li>Unlimited data usages</li>
-                        <li><span>01 year</span> pricing lock guarantee</li>
-                        <li>Unlimited bandwidth</li>
-                    </ul>
-                    <p><sup>Ksh</sup>1250 <span>/Monthly</span></p>
-                    <a href="#" class="btn">Order This Plan</a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="single-package text-center" data-animate="fadeInUp" data-delay=".4">
-                    <span class="pupular-pack">Most popular package</span>
-                    <h4>Family Pack</h4>
-                    <span>for family user</span>
-                    <hr>
-                    <ul class="list-unstyled">
-                        <li>Free installation</li>
-                        <li>Up to <span>25 Mpbs</span> download speed</li>
-                        <li>Unlimited data usages</li>
-                        <li><span>02 year</span> pricing lock guarantee</li>
-                        <li>Unlimited bandwidth</li>
-                    </ul>
-                    <p><sup>Ksh</sup>2450 <span>/Monthly</span></p>
-                    <a href="#" class="btn">Order This Plan</a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="single-package text-center" data-animate="fadeInUp" data-delay=".7">
-                    <h4>Business Pack</h4>
-                    <span>for business user</span>
-                    <hr>
-                    <ul class="list-unstyled">
-                        <li>Free installation</li>
-                        <li>Up to <span>30 Mpbs</span> download speed</li>
-                        <li>Unlimited data usages</li>
-                        <li><span>03 year</span> pricing lock guarantee</li>
-                        <li>Unlimited bandwidth</li>
-                    </ul>
-                    <p><sup>Ksh</sup>4950 <span>/Monthly</span></p>
-                    <a href="#" class="btn">Order This Plan</a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="single-package text-center" data-animate="fadeInUp" data-delay="1">
-                    <h4>Corporate Pack</h4>
-                    <span>for corporate user</span>
-                    <hr>
-                    <ul class="list-unstyled">
-                        <li>Free installation</li>
-                        <li>Up to <span>39 Mpbs</span> download speed</li>
-                        <li>Unlimited data usages</li>
-                        <li><span>Unlimited</span> pricing lock guarantee</li>
-                        <li>Unlimited bandwidth</li>
-                    </ul>
-                    <p><sup>Ksh</sup>7950 <span>/Monthly</span></p>
-                    <a href="#" class="btn">Order This Plan</a>
-                </div>
-            </div>
-        </div>
-        <!-- End of Packages -->
+a {
+	color: #486173
+}
 
-        <!-- Packages Includes -->
+input,
+label {
+	vertical-align: middle;
+	white-space: normal;
+	background: 0 0;
+	line-height: 1
+}
 
-        <!-- End of Packages Includes -->
-    </div>
-</section>
-<!-- End of Packages Wrap -->
+label {
+	position: relative;
+	display: block
+}
 
-<!-- Reviews -->
-<!-- End of Reviews -->
+p::first-letter {
+	text-transform: uppercase
+}
 
-<!-- FAQ -->
-<!-- End of FAQ -->
+.main {
+	min-height: calc(100vh - 90px);
+	width: 100%;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: column;
+	flex-direction: column
+}
 
-<!-- Latest news -->
-<!-- End of Latest news -->
+.ie-fixMinHeight {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex
+}
 
-<!-- Product Carousel -->
-<!-- End of Product Carousel -->
+.ico {
+	height: 16px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin-top: 13px;
+	margin-left: 14px
+}
+/* 
+.logo {
+	max-width: 200px;
+	display: block;
+	margin: 0 auto 30px auto
+}
 
-<!-- Subscription -->
-<!-- End of Subscription -->
+.logo * {
+	fill: #fff
+}
 
-<!-- Brands -->
-<!-- End of Brands -->
+.lite .logo * {
+	fill: #444
+} */
 
-<!-- Footer -->
-<footer class="main-footer">
-    <div class="bottom-footer dark-bg">
-        <div class="container">
-            <div class="row align-items-center">
-                <!-- Copyright -->
-                <div class="col-md-6">
-                    <div class="copyright-text text-center text-md-left">
-                        <p class="mb-md-0">&copy; 2021 japcom. All rights reserved.</p>
-                    </div>
-                </div>
+h1 {
+	text-align: center;
+	color: #fff;
+	font-size: 24px!important
+}
 
-                <!-- Social Profiles -->
-                <div class="col-md-6">
-                    <ul class="social-profiles nav justify-content-center justify-content-md-end">
-                        <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="#" target="_blank"><i class="fa fa-google-plus"></i></a></li>
-                        <li><a href="#" target="_blank"><i class="fa fa-linkedin"></i></a></li>
-                        <li><a href="#" target="_blank"><i class="fa fa-vimeo"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
-<!-- End of Footer -->
+* {
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	font-size: 16px
+}
 
-<!-- Back to top -->
-<div class="back-to-top">
-    <a href="#"> <i class="fa fa-chevron-up"></i></a>
-</div>
+.wrap {
+	margin: auto;
+	padding: 40px;
+	-webkit-transition: width .3s ease-in-out;
+	transition: width .3s ease-in-out
+}
 
-<!-- JS Files -->
-<script src="ass/js/jquery-3.3.1.min.js"></script>
-<script src="ass/js/bootstrap.bundle.min.js"></script>
-<script src="ass/plugins/waypoints/jquery.waypoints.min.js"></script>
-<script src="ass/plugins/waypoints/sticky.min.js"></script>
-<script src="ass/plugins/swiper/swiper.min.js"></script>
-<script src="ass/plugins/magnific-popup/jquery.magnific-popup.min.js"></script>
-<script src="ass/plugins/parsley/parsley.min.js"></script>
-<script src="ass/plugins/retinajs/retina.min.js"></script>
-<script src="ass/plugins/isotope/isotope.pkgd.min.js"></script>
-<script src="ass/js/menu.min.js"></script>
-<script src="ass/js/scripts.js"></script>
-<script src="ass/js/custom.js"></script>
+@media only screen and (min-width:1px) and (max-width:575px) {
+	.wrap {
+		width: 100%
+	}
+}
+
+form {
+	width: 100%;
+	margin-bottom: 20px
+}
+
+@-webkit-keyframes fadeIn {
+	from {
+		opacity: 0
+	}
+	to {
+		opacity: 1
+	}
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0
+	}
+	to {
+		opacity: 1
+	}
+}
+
+.fadeIn {
+	-webkit-animation-name: fadeIn;
+	animation-name: fadeIn
+}
+
+.animated {
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both
+}
+
+.info {
+	color: #fff;
+	text-align: center;
+	margin-bottom: 30px
+}
+
+input {
+	outline: 0;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none
+}
+
+input:focus {
+	outline: 0
+}
+
+input[type=password],
+input[type=text] {
+	width: 100%;
+	border: 1px solid background-color: rgba(255, 255, 255, .8);
+	height: 44px;
+	padding: 3px 20px 3px 40px;
+	margin-bottom: 20px;
+	border-radius: 6px;
+	background-color: rgba(255, 255, 255, .8);
+	-webkit-transition: -webkit-box-shadow .3s ease-in-out;
+	transition: -webkit-box-shadow .3s ease-in-out;
+	transition: box-shadow .3s ease-in-out;
+	transition: box-shadow .3s ease-in-out, -webkit-box-shadow .3s ease-in-out
+}
+
+input[type=password]:focus,
+input[type=text]:focus {
+	-webkit-box-shadow: 0 0 5px 0 rgba(255, 255, 255, 1);
+	box-shadow: 0 0 5px 0 rgba(255, 255, 255, 1)
+}
+
+.bt {
+	opacity: .4
+}
+
+input[type=submit] {
+	background: #3e4d59;
+	color: #fff;
+	border: 0;
+	cursor: pointer;
+	text-align: center;
+	width: 100%;
+	height: 44px;
+	border-radius: 6px;
+	-webkit-transition: background .3s ease-in-out;
+	transition: background .3s ease-in-out
+}
+
+input[type=submit]:focus,
+input[type=submit]:hover {
+	background: #33404a
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+	margin-bottom: 20px
+}
+
+table td {
+	color: #fff;
+	border-bottom: 1px solid #e6e6e6;
+	padding: 10px 4px 10px 0
+}
+
+table td:first-child {
+	font-weight: 700
+}
+
+.lite {
+	background: #fff
+}
+
+.lite input[type=password],
+.lite input[type=text] {
+	border: 1px solid #c3c3c3
+}
+
+.lite .info,
+.lite h1,
+.lite table td {
+	color: #444
+}
+
+.lite input[type=password]:focus,
+.lite input[type=text]:focus {
+	-webkit-box-shadow:   box-shadow: 0 0 2.8rem blue, inset 0 0 2.5rem blue;
+	box-shadow: box-shadow: 0 0 2.8rem blue, inset 0 0 2.5rem blue;
+}
+
+.dark {
+	background: #343434
+}
+
+.dark input[type=submit] {
+  color: #FED128;
+	background: transparent;
+  border: 2px solid #FED128;
+  text-shadow: 0 0 1vw #FA1C16, 0 0 3vw #FA1C16, 0 0 10vw #FA1C16, 0 0 10vw #FA1C16, 0 0 .4vw #FED128, .5vw .5vw .1vw #806914;
+  box-shadow: 0 0 3rem #FA1C16, inset 0 0 1rem #FA1C16;
+}
+
+.dark input[type=submit]:focus,
+.dark input[type=submit]:hover {
+	background: #b92f35
+}
+
+.dark input[type=password],
+.dark input[type=text] {
+  color: lightblue;
+	background-color: transparent;
+  border: 1px solid lightblue;
+  box-shadow: 0 0 2rem blue, inset 0 0 1.8rem blue;
+}
+
+.dark a {
+	color: #dc3a41
+}
+
+.dark table td {
+	border-bottom: 1px solid #505050
+}
+
+.info.alert {
+	color: #da3d41
+}
+
+@media (min-width:576px) {
+	.wrap {
+		width: 410px
+	}
+	* {
+		font-size: 14px
+	}
+}
+
+
+/* Neon Logo */
+.logo {
+  text-align: center;
+}
+@font-face {
+  font-family: neon;
+  src: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/707108/neon.ttf);
+}
+.flux {
+  font-family: neon;
+  font-size: 3em;
+  line-height: 4rem;
+text-shadow: 0 0 1vw #FA1C16, 0 0 3vw #FA1C16, 0 0 10vw #FA1C16, 0 0 10vw #FA1C16, 0 0 .4vw #FED128, .5vw .5vw .1vw #806914;
+    color: #FED128;
+}
+.neon {
+  font-family: neon;
+  font-size: 3em;
+  line-height: 3rem;
+text-shadow: 0 0 1vw #1041FF, 0 0 3vw #1041FF, 0 0 10vw #1041FF, 0 0 10vw #1041FF, 0 0 .4vw #8BFDFE, .5vw .5vw .1vw #147280;
+    color: #28D7FE;
+}
+
+/* Price List */
+.price-list {
+  display: flex;
+  flex-direction: column;
+  padding: 15vh auto;
+}
+
+.dark .price-list .card {
+  background: transparent;
+  margin: 3vh 9vw;
+  padding: 2vh 20px;
+  border-radius: 6px;
+  border: 3px solid lightgreen;
+  box-shadow: 0 0 2.8rem darkgreen, inset 0 0 2.7rem darkgreen;
+}
+
+.dark .price-list .card .title {
+  color: lightgreen;
+  font-size: 1.5em;
+  text-align: center;
+  text-shadow: 0 0 3rem green;
+}
+
+.dark .price-list .card .list {
+  padding-left: 0;
+  position: relative
+}
+
+.dark .price-list .card hr {
+  border-color: lightgreen;
+  height: 0;
+  box-shadow: 0 0 1rem 1px green;
+}
+
+.dark .price-list .card .list li {
+  color: lightgreen;
+  list-style: none;
+  line-height: 2em;
+  display: block;
+}
+
+.dark .price-list .card .list li strong {
+  right: 0;
+  position: absolute;
+}
+
+.dark .price-list .card a {
+  display: block;
+  text-align: center;
+  font-size: 1.1em;
+  margin-top: 10px;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #FED128;
+  text-shadow: 0 0 1vw #FA1C16, 0 0 3vw #FA1C16, 0 0 10vw #FA1C16, 0 0 10vw #FA1C16, 0 0 .4vw #FED128;
+}
+
+/* Blue Card */
+.dark .price-list .card-blue {
+  border: 3px solid lightblue;
+  box-shadow: 0 0 2.8rem blue, inset 0 0 2.7rem blue;
+}
+.dark .price-list .card-blue .title {
+  color: lightblue;
+  text-shadow: 0 0 3rem blue;
+}
+.dark .price-list .card-blue .list li {
+  color: lightblue;
+}
+.dark .price-list .card-blue hr {
+  border-color: lightblue;
+  box-shadow: 0 0 1rem 1px blue;
+}
+
+/* Purple Card */
+.dark .price-list .card-purple {
+  border: 3px solid pink;
+  box-shadow: 0 0 2.8rem purple, inset 0 0 2.7rem purple;
+}
+.dark .price-list .card-purple .title {
+  color: pink;
+  text-shadow: 0 0 3rem purple;
+}
+.dark .price-list .card-purple .list li {
+  color: pink;
+}
+.dark .price-list .card-purple hr {
+  border-color: pink;
+  box-shadow: 0 0 1rem 1px purple;
+}
+
+@media (min-width: 768px) {
+  .price-list {
+    flex-direction: row;
+  }
+  .dark .price-list .card {
+    margin: auto 3vw;
+    width: 30vw;
+  }
+}
+        </style>
 </body>
 
-<!-- Mirrored from themelooks.net/demo/serviney/html/preview/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 04 Nov 2021 12:26:35 GMT -->
 </html>
