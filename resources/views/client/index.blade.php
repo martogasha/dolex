@@ -19,25 +19,7 @@
 
 -->
 
-    $(if chap-id)
-    <form name="sendin" action="$(link-login-only)" method="post" style="display:none">
-        <input type="hidden" name="username" />
-        <input type="hidden" name="password" />
-        <input type="hidden" name="dst" value="$(link-orig)" />
-        <input type="hidden" name="popup" value="true" />
-    </form>
 
-    <script src="/md5.js"></script>
-    <script>
-        function doLogin() {
-            document.sendin.username.value = document.login.username.value;
-            document.sendin.password.value = hexMD5('$(chap-id)' + document.login.password.value + '$(chap-challenge)');
-            document.sendin.submit();
-            return false;
-        }
-
-    </script>
-    $(endif)
     <div class="ie-fixMinHeight">
         <div class="main">
             <div class="wrap animated fadeIn">
@@ -52,10 +34,7 @@
 
 
                     <p class="info $(if error)alert$(endif)">
-                        $(if error == "")Silakan login untuk mengakses internet full speed $(if trial == 'yes')<br />Uji coba tersedia, <a href="$(link-login-only)?dst=$(link-orig-esc)&amp;username=T-$(mac-esc)">klik disini</a>.$(endif)
-                        $(endif)
-
-                        $(if error)$(error)$(endif)
+              
                     </p>
                     <label>
                         <img class="ico" src="img/user.svg" alt="#" />
