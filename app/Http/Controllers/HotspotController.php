@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Exceptions\Controller;
+use Illuminate\Http\JsonResponse;
 
 use Illuminate\Http\Request;
 
