@@ -17,6 +17,6 @@ class HotspotController extends Controller
         ];
 
         // 2. Return the response as JSON
-        return response()->json($data, 200);
+        dd('ok');
     }
 }
