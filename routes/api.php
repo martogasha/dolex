@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MpesaController;
+use App\Http\Controllers\HotspotController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +25,4 @@ Route::get('register', [MpesaController::class, 'register']);
 Route::get('getWebhooks', [MpesaController::class, 'getWebhooks']);
 Route::get('authenticate', [MpesaController::class, 'authenticate']);
 Route::post('storeWebhooks', [MpesaController::class, 'storeWebhooks']);
+Route::post('process-hotspot', [HotspotController::class, 'hotspot']);
