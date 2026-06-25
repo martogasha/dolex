@@ -6,6 +6,7 @@ use App\Http\Controllers\CashController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\MpesaController;
 use App\Http\Controllers\QuotationController;
+use App\Http\Controllers\HotspotController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +33,7 @@ Route::get('/', [IndexController::class, 'index']);
 
 //admin routes
 Route::get('admin', [AdminController::class, 'admin']);
+Route::post('storeHotspotUser', [HotspotController::class, 'storeHotspotUser'])->name('storeHotspotUser');
 Route::get('disableC/{id}', [AdminController::class, 'disablePppoeSecret']);
 Route::get('getPppoeProfiles', [AdminController::class, 'getPppoeProfiles']);
 Route::get('bandwidth', [AdminController::class, 'bandwidth']);

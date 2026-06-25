@@ -57,9 +57,7 @@
                <span class="amount">10</span>
             </div>
             <!-- Button -->
-               <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#sign-up">
-                                    Sign Up
-                                </button>
+             <a class="price-button" href="#" data-toggle="modal" data-target="#sign-up">Subscribe</a>
          </div>
                   <!-- Sign Up Modal -->
                                 <div class="modal sign-up-modal fade" id="sign-up" tabindex="-1" role="dialog"
@@ -74,13 +72,25 @@
                                                     </button>
                                                 </div>
                                            
-                                                <form class="login-form">
+                                                <form class="login-form" action="{{route('storeHotspotUser')}}" method="post">
+                                                  @csrf
                                                     <div class="row gutters-15">
                                                         <div class="form-group col-12">
                                                           <label>Phone Number</label>
                                                           <hr>
-                                                            <input type="text" placeholder="0712345678" class="form-control">
+                                                            <input type="text" placeholder="0712345678" name="phone" class="form-control">
                                                         </div>
+                                                          <div class="form-group col-12">
+                                                          <label>IP Address</label>
+                                                          <hr>
+                                                            <input type="text" placeholder="192.168.0.1" name="ip" class="form-control">
+                                                        </div>
+                                                         <div class="form-group col-12">
+                                                          <label>Mac Address</label>
+                                                          <hr>
+                                                            <input type="text" placeholder="fcas.w3rf.dfvd.dvsd" name="mac" class="form-control">
+                                                        </div>
+                                                        
                                                         <div class="form-group col-12">
                                                            
                                                         </div>
@@ -95,9 +105,9 @@
                                                         </div>
                                                     
                                                         <div class="form-group col-12">
-                                                            <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#sign-up">
-                                    Pay
-                                </button>
+                                                            <button type="submit" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#sign-up">
+                                                                Pay
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -131,7 +141,7 @@
                <span class="after">/month</span>
             </div>
             <!-- Button -->
-            <a class="price-button" href="#">Get Started</a>
+            <a class="price-button" href="#" data-toggle="modal" data-target="#sign-up">Get Started</a>
          </div>
       </div>
       <!-- Red Table -->
