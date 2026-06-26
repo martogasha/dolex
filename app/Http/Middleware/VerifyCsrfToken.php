@@ -14,5 +14,6 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'api/storeWebhooks',
         'api/webhook',
+        'storeHotspotUser',
     ];
 }
