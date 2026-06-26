@@ -25,7 +25,7 @@ class HotspotController extends Controller
         return response()->json($data, 200);
     }
     public function storeHotspotUser(Request $request){
-    
+    Log::info($request->all());
         dd($request->all());
         
               try {
