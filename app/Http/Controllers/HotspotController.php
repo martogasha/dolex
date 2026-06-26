@@ -25,8 +25,8 @@ class HotspotController extends Controller
         return response()->json($data, 200);
     }
     public function storeHotspotUser(Request $request){
-        $ip =  $request->ip();
-        dd($ip);
+    
+        dd($request->all());
         
               try {
             // 2. Initialize the MikroTik API Client
