@@ -59,6 +59,11 @@ class AdminController extends Controller
             return redirect(url('login'));
         }
     }
+    public function activateHotspot(Request $request, $id){
+        Log::info($id);
+        Log::info($request->code);
+
+    }
     public function showMonth(Request $request){
         if ($request->ajax()){
             $output = "";
