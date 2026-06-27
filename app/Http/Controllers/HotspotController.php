@@ -26,7 +26,6 @@ class HotspotController extends Controller
     }
     public function storeHotspotUser(Request $request){
     Log::info($request->all());
-
         
               try {
             // 2. Initialize the MikroTik API Client
@@ -39,8 +38,8 @@ class HotspotController extends Controller
 
             // 3. Build the query payload targeting /ip/hotspot/user/add
             $query = new Query('/ip/hotspot/user/add');
-            $query->equal('name', '0707870863');
-            $query->equal('password', '0707870863');
+            $query->equal('name', 'phone');
+            $query->equal('password', 'phone');
             
             if (!empty($validated['profile'])) {
                 $query->equal('profile', $validated['profile']);
