@@ -33,7 +33,7 @@ Route::get('/', [IndexController::class, 'index']);
 
 //admin routes
 Route::get('admin', [AdminController::class, 'admin']);
-Route::get('activateHotspot', [AdminController::class, 'activateHotspot'])->name('payment.callback');
+Route::get('activateHotspot', [AdminController::class, 'activateHotspot'])->name('activateHotspot');
 Route::post('storeHotspotUser', [HotspotController::class, 'storeHotspotUser'])->name('storeHotspotUser');
 Route::get('disableC/{id}', [AdminController::class, 'disablePppoeSecret']);
 Route::get('getPppoeProfiles', [AdminController::class, 'getPppoeProfiles']);
