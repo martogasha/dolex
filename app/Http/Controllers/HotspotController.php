@@ -38,8 +38,8 @@ class HotspotController extends Controller
 
             // 3. Build the query payload targeting /ip/hotspot/user/add
             $query = new Query('/ip/hotspot/user/add');
-            $query->equal('name', 'phone');
-            $query->equal('password', 'phone');
+            $query->equal('name', $request['phone']);
+            $query->equal('password', $request['phone']);
             
             if (!empty($validated['profile'])) {
                 $query->equal('profile', $validated['profile']);
