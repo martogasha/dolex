@@ -83,7 +83,18 @@ class MpesaController extends Controller
         $currentMonth = date('m');
         $currentYear = date('Y');
         $accountNumber = $request->BillRefNumber;
-        $cleanedAccountNumber = str_replace(' ', '', $accountNumber);
+        $phone = $request->BillRefNumber;
+        $pattern = '/^(\+?\d{1,4}[- ]?)?\d{10}$/'; 
+
+        if (!preg_match($pattern, $phone)) {
+            // String is NOT in the correct phone format
+            Log::info('hotspot');
+            
+            }
+            else{
+                Log::info('pppoe');
+
+                $cleanedAccountNumber = str_replace(' ', '', $accountNumber);
             $getUserIdentification = User::where('phone',$cleanedAccountNumber)->first();
             $getInvoice = null;
             if($getUserIdentification){
@@ -450,6 +461,9 @@ class MpesaController extends Controller
 
 
                 }
+
+            }
+        
 
     }
     public function authenticate(){

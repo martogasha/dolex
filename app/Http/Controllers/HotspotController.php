@@ -29,15 +29,12 @@ class HotspotController extends Controller
         
               try {
             // 2. Initialize the MikroTik API Client
-               $config = [
+            $client = new Client([
                 'host' => '192.168.0.106',
                 'user' => 'admin',
                 'pass' => 'admin',
                 'port' => 8728,
-        ];
-
-        
-            $client = new Client($config);
+            ]);
 
             // 3. Build the query payload targeting /ip/hotspot/user/add
             $query = new Query('/ip/hotspot/user/add');
