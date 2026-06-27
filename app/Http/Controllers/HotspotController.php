@@ -30,10 +30,10 @@ class HotspotController extends Controller
               try {
             // 2. Initialize the MikroTik API Client
                $config = [
-                'host' => '192.168.0.106',
-                'user' => 'admin',
-                'pass' => 'admin',
-                'port' => 8728,
+             'host' => '197.248.79.153',
+                                            'user' => 'admin',
+                                            'pass' => 'KND@2020',
+                                            'port' => 8728,
         ];
 
         
