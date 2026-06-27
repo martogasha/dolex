@@ -36,7 +36,7 @@ class HotspotController extends Controller
                 'port' => 8728,
         ];
 
-        try {
+        
             $client = new Client($config);
 
             // 3. Build the query payload targeting /ip/hotspot/user/add
