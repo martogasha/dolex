@@ -26,7 +26,6 @@ class HotspotController extends Controller
     }
     public function storeHotspotUser(Request $request){
     Log::info($request->all());
-        dd($request->all());
         
               try {
             // 2. Initialize the MikroTik API Client
