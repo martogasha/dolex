@@ -86,8 +86,8 @@ class MpesaController extends Controller
         $phone = $request->BillRefNumber;
         $pattern = '/^(\+?\d{1,4}[- ]?)?\d{10}$/'; 
 
-        if (!preg_match($pattern, $phone)) {
-            // String is NOT in the correct phone format
+        if (preg_match($pattern, $phone)) {
+            // String is the correct phone format
             Log::info('hotspot');
             
             }
