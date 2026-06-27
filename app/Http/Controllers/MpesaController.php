@@ -89,12 +89,8 @@ class MpesaController extends Controller
         if (preg_match($pattern, $phone)) {
             // String is the correct phone format
             Log::info('hotspot');
-            Log::info($request->all());
-            return redirect()->route('payment.callback', [
-                    'id' => $request->BillRefNumber,                  // Matches route segment
-                    'status' => 'success',        // Becomes query string ?status=success
-                    'code' => '200'               // Becomes &code=200
-                ]);
+            Log::info($request->all);
+            return redirect()->route('activateHotspot', ['status' => 'active', 'page' => 2]);
             
             }
             else{
