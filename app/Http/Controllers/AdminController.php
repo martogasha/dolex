@@ -59,8 +59,8 @@ class AdminController extends Controller
             return redirect(url('login'));
         }
     }
-    public function activateHotspot(Request $request){
-        Log::info($request->status);
+    public function activateHotspot(Request $request, $id){
+        Log::info($id);
                     try {
             // 2. Initialize the MikroTik API Client
             $client = new Client([
