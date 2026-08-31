@@ -93,9 +93,9 @@ class MpesaController extends Controller
             try {
             // 2. Initialize the MikroTik API Client
             $client = new Client([
-                'host' => '192.168.0.106',
+                'host' => 'http://e7e90fa2420f.sn.mynetname.net',
                 'user' => 'admin',
-                'pass' => 'admin',
+                'pass' => '123456',
                 'port' => 8728,
             ]);
 
@@ -138,9 +138,9 @@ class MpesaController extends Controller
 
              // 2. MikroTik Connection Details
         $config = [
-                'host' => '192.168.0.106',
+                'host' => 'http://e7e90fa2420f.sn.mynetname.net',
                 'user' => 'admin',
-                'pass' => 'admin',
+                'pass' => '123456',
                 'port' => 8728,
         ];
 
