@@ -37,6 +37,8 @@ Route::get('activateHotspot/{id}', [AdminController::class, 'activateHotspot'])-
 Route::post('storeHotspotUser', [HotspotController::class, 'storeHotspotUser'])->name('storeHotspotUser');
 Route::get('disableC/{id}', [AdminController::class, 'disablePppoeSecret']);
 Route::get('getPppoeProfiles', [AdminController::class, 'getPppoeProfiles']);
+Route::get('addMikrotik', [AdminController::class, 'addMikrotik']);
+Route::post('storeMikrotik', [AdminController::class, 'storeMikrotik']);
 Route::get('bandwidth', [AdminController::class, 'bandwidth']);
 Route::get('refreshBandwidth', [AdminController::class, 'refreshBandwidth']);
 Route::get('refreshPercentage', [AdminController::class, 'refreshPercentage']);
@@ -140,6 +142,7 @@ Route::get('quotation', [AdminController::class, 'quotation']);
 Route::get('singleEstimate/{id}', [AdminController::class, 'singleEstimate']);
 Route::get('singleInvoice/{id}', [AdminController::class, 'singleInvoice']);
 Route::get('addExpense', [AdminController::class, 'addExpense']);
+Route::get('activeUsers', [AdminController::class, 'activeUsers']);
 Route::get('editExpense/{id}', [AdminController::class, 'editExpense']);
 Route::get('mpesaCustomer/{id}', [AdminController::class, 'mpesaCustomer']);
 Route::post('eExpense/{id}', [AdminController::class, 'eExpense']);

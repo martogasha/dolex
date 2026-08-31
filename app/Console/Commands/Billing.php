@@ -102,8 +102,11 @@ class Billing extends Command
                                             if($currentBalance>=4500 && $currentBalance < 5000){
                                                 $bandwidth = '18MBPS';
                                             }
-                                            if($currentBalance>=5000 && $currentBalance > 5000){
+                                            if($currentBalance>=5000 && $currentBalance < 6000){
                                                 $bandwidth = '20MBPS';
+                                            }
+                                            if($currentBalance >= 6000){
+                                                $bandwidth = '30MBPS';
                                             }
                                             if($currentBalance==1){
                                                 $bandwidth = '6MBPS';

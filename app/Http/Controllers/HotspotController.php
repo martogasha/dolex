@@ -26,9 +26,7 @@ class HotspotController extends Controller
     }
     public function storeHotspotUser(Request $request){
     
-        
-        $customer = User::find($id);
-        $account = $customer->phone;
+        $account = $request->ip;
         $cleanedNumber = $request->amount;
         $phoneNumber = $request->phone;
         $modifiedNumber = ltrim($phoneNumber, "0");

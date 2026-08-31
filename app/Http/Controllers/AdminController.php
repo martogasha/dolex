@@ -282,6 +282,40 @@ class AdminController extends Controller
             'customer'=>$customer
         ]);
     }
+    public function addMikrotik(){
+        return view('admin.addMikrotik');
+    }
+
+    public function storeMikrotik(Request $request){
+                try {
+            // Initialize connection using your MikroTik's IP, username, and password
+            $client = new Client([
+                'host' => $request->mikrotik_ip,
+                'user' => $request->mikrotik_user,
+                'pass' => $request->mikrotik_password,
+                'port' => 8728,         // Default API port
+            ]);
+
+            // Create query to get system identity
+            $query = new Query('/system/identity/print');
+
+            // Execute the query
+            $response = $client->query($query)->read();
+
+            // Extract the 'name' from the MikroTik response
+            $routerName = $response[0]['name'] ?? 'Unknown';
+
+         
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error','Mikrotik Not Reached');
+
+        }
+        dd($routerName);
+        return redirect()->back()->with('success','Mikrotik added Success');
+
+    }
+
     public function profile(){
         if (Auth::check()) {
             if (Auth::user()->role==0 || Auth::user()->role==1) {
@@ -1240,11 +1274,13 @@ class AdminController extends Controller
         $invoices = Invoice::where('user_id',$user->id)->latest()->take(2)->get();
         $invs = Invoice::where('user_id',$user->id)->get();
         $invCount = Invoice::where('user_id',$user->id)->count();
+        $logs = Logging::where('user_id',$user->id)->latest()->get();
         return view('admin.customerDetail',[
             'user'=>$user,
             'invoices'=>$invoices,
             'invs'=>$invs,
-            'invCount'=>$invCount
+            'invCount'=>$invCount,
+            'logs'=>$logs
         ]);
 
     }
@@ -2730,5 +2766,100 @@ class AdminController extends Controller
     return response()->json($response);
          
     }
+  public function activeUsers() {
+    try {
+        $client = new Client([
+            'host' => '197.248.79.153',
+            'user' => 'admin',
+            'pass' => 'KND@2020', // Security Note: Store credentials in .env instead
+            'port' => 8728,
+            'timeout' => 10,
+            'attempts' => 2,
+        ]);
+
+        $username = 'HARRISON MUCHIRI';
+
+        /*
+        |--------------------------------------------------------------------------
+        | Check Active PPPoE Session
+        |--------------------------------------------------------------------------
+        */
+        $activeQuery = (new Query('/ppp/active/print'))
+            ->where('name', $username);
+
+        $activeSessions = $client->query($activeQuery)->read();
+
+        if (!empty($activeSessions)) {
+            $session = $activeSessions[0];
+
+            $bytesIn = 0;
+            $bytesOut = 0;
+
+            // MikroTik assigns dynamic interfaces named "<pppoe-username>"
+            $interfaceName = "<pppoe-" . $username . ">";
+
+            // Query the interface to fetch actual traffic counters
+            $interfaceQuery = (new Query('/interface/print'))
+                ->where('name', $interfaceName);
+
+            $interfaces = $client->query($interfaceQuery)->read();
+
+            if (!empty($interfaces)) {
+                $bytesIn = isset($interfaces[0]['rx-byte']) ? (int) $interfaces[0]['rx-byte'] : 0;
+                $bytesOut = isset($interfaces[0]['tx-byte']) ? (int) $interfaces[0]['tx-byte'] : 0;
+
+                
+            }
+
+            return response()->json([
+                'status' => 'online',
+                'uptime' => $session['uptime'] ?? '00:00:00',
+                'traffic' => [
+                    'bytes_in' => $bytesIn,   // Received bytes on interface
+                    'bytes_out' => $bytesOut, // Transmitted bytes on interface
+                    'gb_in' => round($bytesIn / 1e9, 2),   // e.g. 2.45 GB
+                     'gb_out' => round($bytesOut / 1e9, 2), // e.g. 0.12 GB
+                ],
+                'last_logout' => 'Currently Active',
+                'ip_address' => $session['address'] ?? null,
+            ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Check PPPoE Secret/User
+        |--------------------------------------------------------------------------
+        */
+        $userQuery = (new Query('/ppp/secret/print'))
+            ->where('name', $username);
+
+        $users = $client->query($userQuery)->read();
+
+        if (!empty($users)) {
+            return response()->json([
+                'status' => 'offline',
+                'uptime' => '00:00:00',
+                'traffic' => [
+                    'bytes_in' => 0,  // MikroTik secrets do not log traffic counters
+                    'bytes_out' => 0,
+                ],
+                'last_logout' => 'Unavailable',
+            ]);
+        }
+
+        return response()->json([
+            'error' => 'User not found',
+            'username' => $username,
+        ], 404);
+
+    } catch (\Throwable $e) {
+        return response()->json([
+            'error' => 'Connection failed',
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+        ], 500);
+    }
+}
 
 }

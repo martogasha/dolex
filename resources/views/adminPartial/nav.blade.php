@@ -310,6 +310,19 @@
                             </li>
                         </ul>
                     </li>
+                     <li class="nav-item sidebar-nav-item">
+                        <a href="#" class="nav-link"><i class="flaticon-settings"></i><span>Mikrotik Management</span></a>
+                        <ul class="nav sub-group-menu">
+                             <li class="nav-item">
+                                <a href="{{url('listMikrotik')}}" class="nav-link"><i
+                                        class="fas fa-angle-right"></i>List Mikrotiks</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{url('addMikrotik')}}" class="nav-link"><i
+                                        class="fas fa-angle-right"></i>Add Mikrotik</a>
+                            </li>
+                        </ul>
+                    </li>
 
                 </ul>
             </div>

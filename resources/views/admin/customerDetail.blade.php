@@ -14,288 +14,136 @@
             </div>
             <!-- Breadcubs Area End Here -->
             <!-- Teacher Table Area Start Here -->
-            <div class="card height-auto">
-                <div class="card-body">
-                    <div class="heading-layout1">
-                        <div class="item-title">
-                            <h3>Statements for <b style="color: red;">{{$user->first_name}} {{$user->last_name}}</b></h3>
-                        </div>
-                        <div class="dropdown">
-                            <a class="dropdown-toggle" href="#" role="button"
-                               data-toggle="dropdown" aria-expanded="false">...</a>
+          <!-- Dashboard Content Start Here -->
+                <div class="row gutters-20">        
+                                     <div class="col-lg-6 col-xl-6 col-4-xxxl">
+                        <div class="card dashboard-card-six pd-b-20">
+                            <div class="card-body">
+                                <div class="heading-layout1 mg-b-17">
+                                    <div class="item-title">
+                                        <h3>Logs</h3>
+                                    </div>
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                                            aria-expanded="false">...</a>
 
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                            </div>
-                        </div>
-                    </div>
-                    <form action="{{url('filterInvoice')}}" method="post">
-                        @csrf
-                        <input type="hidden" value="{{$user->id}}" name="user_id">
-                        <div class="row gutters-8">
-                            <div class="col-4-xxxl col-xl-4 col-lg-3 col-12 form-group">
-                                <div class="form-group">
-                                    <label for="dob">Start Date *</label>
-                                    <input type="date" class="form-control" name="start_date"/>
-                                </div>                            </div>
-                             <div class="col-4-xxxl col-xl-3 col-lg-3 col-12 form-group">
-                                <div class="form-group">
-                                    <label for="dob">End Date *</label>
-                                    <input type="date" class="form-control" name="end_date"/>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-times text-orange-red"></i>Close</a>
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="notice-box-wrap">
+                                    @foreach($logs as $log)
+                                    <div class="notice-list">
+                                        <div class="post-date bg-pink">{{date('d/m/Y H:i:s',strtotime($log->date))}}</div>
+                                        <h6 class="notice-title"><a href="#">{{$log->user->first_name}} ({{$log->user->phone}})</a></h6>
+                                    @switch($log->reason)
+                                    @case(0)
+                                    <div class="entry-meta">Paid</div>
+                                    @break
+                                    @case(1)
+                                    <div class="entry-meta">Customet Enabled</div>
+                                    @break
+                                    @case(11)
+                                    <div class="entry-meta">Advanced Payment</div>
+                                    @break
+                                    @case(3)
+                                    <div class="entry-meta">Balance Carried Over</div>
+                                    @break
+                                    @case(4)
+                                    <div class="entry-meta">Balance Carried Over One</div>
+                                    @break
+                                    @case(6)
+                                    <div class="entry-meta">Customer Disabled</div>
+                                    @break
+                                    @case(7)
+                                    <div class="entry-meta">Customer Enabled</div>
+                                    @break
+                                    @case(8)
+                                    <div class="entry-meta">Customer Disabled</div>
+                                    @break
+                                    @case(12)
+                                    <div class="entry-meta">Customer Edit Success</div>
+                                    @break
+                                    
+                                    @endswitch
+                                    </div>
+                                    @endforeach
+                            
                                 </div>
                             </div>
-                            <div class="col-4-xxxl col-xl-3 col-lg-3 col-12 form-group">
-                                <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
+                        </div>
+                    </div>
+                 
+                    <div class="col-lg-6 col-xl-6 col-4-xxxl">
+                        <div class="card dashboard-card-six pd-b-20">
+                            <div class="card-body">
+                                <div class="heading-layout1 mg-b-17">
+                                    <div class="item-title">
+                                        <h3>Last Logout</h3>
+                                    </div>
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                                            aria-expanded="false">...</a>
+
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-times text-orange-red"></i>Close</a>
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="notice-box-wrap">
+                                    <div class="notice-list">
+                                        <div class="post-date bg-skyblue">16 June, 2019</div>
+                                        <h6 class="notice-title"><a href="#">Great School manag mene esom text of the
+                                                printing.</a></h6>
+                                        <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
+                                    </div>
+                                    <div class="notice-list">
+                                        <div class="post-date bg-yellow">16 June, 2019</div>
+                                        <h6 class="notice-title"><a href="#">Great School manag printing.</a></h6>
+                                        <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
+                                    </div>
+                                    <div class="notice-list">
+                                        <div class="post-date bg-pink">16 June, 2019</div>
+                                        <h6 class="notice-title"><a href="#">Great School manag meneesom.</a></h6>
+                                        <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
+                                    </div>
+                                    <div class="notice-list">
+                                        <div class="post-date bg-skyblue">16 June, 2019</div>
+                                        <h6 class="notice-title"><a href="#">Great School manag mene esom text of the
+                                                printing.</a></h6>
+                                        <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
+                                    </div>
+                                    <div class="notice-list">
+                                        <div class="post-date bg-yellow">16 June, 2019</div>
+                                        <h6 class="notice-title"><a href="#">Great School manag printing.</a></h6>
+                                        <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
+                                    </div>
+                                    <div class="notice-list">
+                                        <div class="post-date bg-pink">16 June, 2019</div>
+                                        <h6 class="notice-title"><a href="#">Great School manag meneesom.</a></h6>
+                                        <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </form>
-                    <div class="table-responsive">
-                        <table class="table display data-table text-nowrap">
-                            <tr>
-                                <th>Month(<b style="color: orangered">Recent</b>)</th>
-                                <th>Invoice/Payment</th>
-                                <th>Amount</th>
-                                <th>Date</th>
-                                <th>Balance</th>
-                                <th>Action</th>
-                            </tr>
-                            <tbody>
-                            @foreach($invoices as $invoice)
-                                @if($invoice->status==2)
-                                    <tr>
-                                        <td>
-                                            <span class="badge badge-primary">{{\Carbon\Carbon::parse($invoice->invoice_date)->format('F Y')}}</span>
-                                        </td>
-
-
-                                        <td>Invoice
-                                            <hr>
-                                            <p class="text-muted mb-0">Payment</p>
-                                        </td>
-                                        <td>Ksh {{$invoice->amount}}
-                                            <hr>
-                                            @if(!is_null($invoice->payment_id))
-                                                <p class="text-muted mb-0">Ksh: {{$invoice->payment->amount}}</p>
-                                            @else
-                                                <span class="badge badge-danger">Not Paid</span>
-                                            @endif
-
-                                        </td>
-                                        <td>{{date('d/m/Y',strtotime($invoice->invoice_date))}}
-                                            <hr>
-                                            @if(!is_null($invoice->payment_id))
-                                                <p class="text-muted mb-0">{{date('d/m/Y',strtotime($invoice->payment->date))}}</p>
-                                            @else
-                                                <span class="badge badge-danger">Not Paid</span>
-
-                                            @endif
-
-                                        </td>
-                                        @if($invoice->status==0)
-                                            <td><span class="badge badge-danger"><b>Carried Forward</b></span>
-                                        @else
-                                            <td><span class="badge badge-success">Carried Forward</span></td>
-
-                                            </td>
-                                        @endif
-
-                                        <td>
-                                            <a href="{{url('invoicePayment',$invoice->id)}}"> <button class="btn btn-info">View Payments</button></a>
-                                        </td>
-
-                                    </tr>
-                                @elseif($invoice->statas==1)
-                                    <tr>
-                                        <td>
-                                            <span class="badge badge-primary">{{\Carbon\Carbon::parse($invoice->invoice_date)->format('F Y')}}</span>
-                                        </td>
-
-                                        <td>Invoice
-                                            <hr>
-                                            <p class="text-muted mb-0">Payment</p>
-                                        </td>
-                                        <td>Ksh {{$invoice->amount}}
-                                            <hr>
-
-                                                <span class="badge badge-danger">TERMINATED</span>
-
-                                        </td>
-                                        <td>{{date('d/m/Y',strtotime($invoice->invoice_date))}}
-                                            <hr>
-
-                                                <span class="badge badge-danger">TERMINATED</span>
-
-                                        </td>
-
-                                            <td><span class="badge badge-danger">TERMINATED</span></td>
-
-                                        <td>
-                                            <a href="{{url('invoicePayment',$invoice->id)}}"> <button class="btn btn-info">View Payments</button></a>
-                                        </td>
-
-                                    </tr>
-                                @else
-                                    <tr>
-                                        <td>
-                                            <span class="badge badge-primary">{{\Carbon\Carbon::parse($invoice->invoice_date)->format('F Y')}}</span>
-                                        </td>
-
-                                        <td>Invoice
-                                            <hr>
-                                            <p class="text-muted mb-0">Payment</p>
-                                        </td>
-                                        <td>Ksh {{$invoice->amount}}
-                                            <hr>
-                                            @if(!is_null($invoice->payment_id))
-                                                <p class="text-muted mb-0">Ksh: {{$invoice->payment->amount}}</p>
-                                            @else
-                                                <span class="badge badge-danger">Not Paid</span>
-                                            @endif
-
-                                        </td>
-                                        <td>{{date('d/m/Y',strtotime($invoice->invoice_date))}}
-                                            <hr>
-                                            @if(!is_null($invoice->payment_id))
-                                            
-                                                <p class="text-muted mb-0">{{date('d/m/Y',strtotime($invoice->payment->date))}}</p>
-                                            @else
-                                                <span class="badge badge-danger">Not Paid</span>
-
-                                            @endif
-
-                                        </td>
-                                        @if($invoice->status==0)
-                                            <td><span class="badge badge-danger"><b>Ksh: {{$invoice->balance}}</b></span>
-                                        @else
-                                            <td><span class="badge badge-success">Paid</span></td>
-
-                                            </td>
-                                        @endif
-
-                                        <td>
-                                            <a href="{{url('invoicePayment',$invoice->id)}}"> <button class="btn btn-info">View Payments</button></a>
-                                        </td>
-
-                                    </tr>
-                                @endif
-                            @endforeach
-                            </tbody>
-                        </table>
                     </div>
-                    @if($invCount>2)
-                    <div class="table-responsive">
-                        <div class="col-lg-12 col-12 form-group">
-                            <label><b>Search Other Invoices By Month</b></label>
-                            <input type="text" placeholder="Search" class="form-control" id="myInput">
-                        </div>
-
-                            <div style="height: 100px">
-                                <table class="table display data-table text-nowrap">
-                                    <thead>
-                                    <tr></tr>
-                                    </thead>
-                                <tbody id="myTable">
-                                @foreach($invs as $inv)
-                                    @if($inv->status==2)
-                                        <tr>
-                                            <td>
-                                                <span class="badge badge-primary">{{\Carbon\Carbon::parse($inv->invoice_date)->format('F Y')}}</span>
-                                            </td>
-
-
-                                            <td>Invoice
-                                                <hr>
-                                                <p class="text-muted mb-0">Payment</p>
-                                            </td>
-                                            <td>Ksh {{$inv->amount}}
-                                                <hr>
-                                                @if(!is_null($inv->payment_id))
-                                                    <p class="text-muted mb-0">Ksh: {{$inv->payment->amount}}</p>
-                                                @else
-                                                    <span class="badge badge-danger">Not Paid</span>
-                                                @endif
-
-                                            </td>
-                                            <td>{{date('d/m/Y',strtotime($inv->invoice_date))}}
-                                                <hr>
-                                                @if(!is_null($inv->payment_id))
-                                                    <p class="text-muted mb-0">{{date('d/m/Y',strtotime($inv->payment->date))}}</p>
-                                                @else
-                                                    <span class="badge badge-danger">Not Paid</span>
-
-                                                @endif
-
-                                            </td>
-                                            @if($inv->status==0)
-                                                <td><span class="badge badge-danger"><b>Carried Forward</b></span>
-                                            @else
-                                                <td><span class="badge badge-success">Carried Forward</span></td>
-
-                                                </td>
-                                            @endif
-
-                                            <td>
-                                                <a href="{{url('invoicePayment',$inv->id)}}"> <button class="btn btn-info">View Payments</button></a>
-                                            </td>
-
-                                        </tr>
-                                    @else
-                                        <tr>
-                                            <td>
-                                                <span class="badge badge-primary">{{\Carbon\Carbon::parse($inv->invoice_date)->format('F Y')}}</span>
-                                            </td>
-
-                                            <td>Invoice
-                                                <hr>
-                                                <p class="text-muted mb-0">Payment</p>
-                                            </td>
-                                            <td>Ksh {{$inv->amount}}
-                                                <hr>
-                                                @if(!is_null($inv->payment_id))
-                                                    <p class="text-muted mb-0">Ksh: {{$inv->payment->amount}}</p>
-                                                @else
-                                                    <span class="badge badge-danger">Not Paid</span>
-                                                @endif
-
-                                            </td>
-                                            <td>{{date('d/m/Y',strtotime($inv->invoice_date))}}
-                                                <hr>
-                                                @if(!is_null($inv->payment_id))
-                                                    <p class="text-muted mb-0">{{date('d/m/Y',strtotime($inv->payment->date))}}</p>
-                                                @else
-                                                    <span class="badge badge-danger">Not Paid</span>
-
-                                                @endif
-
-                                            </td>
-                                            @if($inv->status==0)
-                                                <td><span class="badge badge-danger"><b>Ksh: {{$inv->balance}}</b></span>
-                                            @else
-                                                <td><span class="badge badge-success">Paid</span></td>
-
-                                                </td>
-                                            @endif
-
-                                            <td>
-                                                <a href="{{url('invoicePayment',$inv->id)}}"> <button class="btn btn-info">View Payments</button></a>
-                                            </td>
-
-                                        </tr>
-                                    @endif
-                                @endforeach
-                                </tbody>
-                                </table>
-                            </div>
-                    </div>
-                        @endif
                 </div>
-            </div>
 
             <!-- Teacher Table Area End Here -->
-            <footer class="footer-wrap-layout1">
-                <div class="copyright">© Copyrights <a href="#">akkhor</a> 2019. All rights reserved. Designed by <a href="#">PsdBosS</a></div>
+       <footer class="footer-wrap-layout1">
+                <div class="copyright">© Copyrights <a href="#">Henix</a> 2026. All rights reserved. Designed by <a
+                        href="#">Henix Technologies</a></div>
             </footer>
         </div>
     </div>
