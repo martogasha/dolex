@@ -59,7 +59,7 @@ class HotspotController extends Controller
 
         // Do not hard code these values
         $BusinessShortCode = 6589582;
-        $passkey ='05e2b97433a94401c9a5330d35e8bdc88b3c0079233c9039d7b5694ba06d0df9';
+        $passkey ='aee519d8ed8804ed7913d00cbd818c8d8c4f1e879c390cf0521a05cfe25ad9ca';
         $timestamp= Carbon::rawParse('now')->format('YmdHms');
 
         $password = base64_encode($BusinessShortCode.$passkey.$timestamp);
