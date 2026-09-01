@@ -89,7 +89,7 @@ class HotspotController extends Controller
           'PartyB' => $PartyB,
           'PhoneNumber' => $PartyA,
           'CallBackURL' => 'https://dolextechnologies.co.ke/api/storeWebhooks',
-          'AccountReference' => $account,
+          'AccountReference' => $finalNumber,
           'TransactionDesc' => 'Testing stkpush on Sandbox '
         );
         
