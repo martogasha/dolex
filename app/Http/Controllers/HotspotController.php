@@ -100,6 +100,6 @@ class HotspotController extends Controller
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
         
         $curl_response = curl_exec($curl);   
-        Log::info($request->all());
+        Log::info('hotspot payment initiated success');
     }
 }
