@@ -122,7 +122,7 @@ class HotspotController extends Controller
                             'host' => 'e7e90fa2420f.sn.mynetname.net',
                             'user' => 'admin',
                             'pass' => '123456',
-                            'port' => 8728,
+                            'port' => 80,
                         ]);
 
                         // 3. Build the query payload targeting /ip/hotspot/user/add
@@ -167,7 +167,7 @@ class HotspotController extends Controller
                             'host' => 'e7e90fa2420f.sn.mynetname.net',
                             'user' => 'admin',
                             'pass' => '123456',
-                            'port' => 8728,
+                            'port' => 80,
                     ];
 
                     try {
