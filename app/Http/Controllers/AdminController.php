@@ -2800,7 +2800,7 @@ class AdminController extends Controller
             else{
              $dateFormat = Carbon::parse($request->due_date);
              $nextDate = $dateFormat->addDay();
-            $twoDaysBefore = $nextDate->subDays(3);
+            $twoDaysBefore = $nextDate->subDays(4);
             $updateInvoiceMessageDate = Invoice::where('user_id',$id)->latest('id')->update(['two_days_before'=>$twoDaysBefore]);
             }
            if($request->two_days_before){
