@@ -44,8 +44,9 @@
                                     <th>Amount</th>
                                     <th>Phone No:</th>
                                     <th>Due Date</th>
-                                   
-                                    <th>Msg Date</th>
+                                   <th>Three Days</th>
+                                    <th>One Day</th>
+
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -105,18 +106,26 @@
                                                 <td>{{date('d/m/Y H:i:s',strtotime($customer->due_date))}}</td>
                                             @endif
                                             @if(App\Models\Invoice::where('user_id',$customer->id)->latest('id')->value('status')==0)
-                                            <td><span class="badge badge-danger">Disconnected</span></td>
+                                        <td><span class="badge badge-danger">Disconnected</span></td>
+                                        <td><span class="badge badge-danger">Disconnected</span></td>
+                                        @else
+                                            @if(App\Models\Invoice::where('user_id',$customer->id)->latest('id')->value('two_days_before_status')===null)
+                                            <td>{{date('d/m/Y H:i:s',strtotime(App\Models\Invoice::where('user_id',$customer->id)->latest('id')->value('two_days_before')))}}</td>
+                                            @elseif(App\Models\Invoice::where('user_id',$customer->id)->latest('id')->value('two_days_before_status')==0)
+                                            <td><span class="badge badge-info">Msg Sent</span></td></td>
                                             @else
-                                            
-                                                @if(App\Models\Invoice::where('user_id',$customer->id)->latest('id')->value('due_date_status')===null)
-                                                <td>{{date('d/m/Y H:i:s',strtotime(App\Models\Invoice::where('user_id',$customer->id)->latest('id')->value('one_day_before')))}}</td>
-                                                @elseif(App\Models\Invoice::where('user_id',$customer->id)->latest('id')->value('due_date_status')==0)
-                                                <td><span class="badge badge-info">Msg Sent</span></td></td>
-                                                @else
-                                                <td><span class="badge badge-success">Paid</span></td></td>
-                                                @endif
+                                            <td><span class="badge badge-success">Paid</span></td></td>
+                                            @endif
+                                            @if(App\Models\Invoice::where('user_id',$customer->id)->latest('id')->value('due_date_status')===null)
+                                            <td>{{date('d/m/Y H:i:s',strtotime(App\Models\Invoice::where('user_id',$customer->id)->latest('id')->value('one_day_before')))}}</td>
+                                            @elseif(App\Models\Invoice::where('user_id',$customer->id)->latest('id')->value('due_date_status')==0)
+                                            <td><span class="badge badge-info">Msg Sent</span></td></td>
+                                            @else
+                                            <td><span class="badge badge-success">Paid</span></td></td>
                                             @endif
                                         @endif
+                                        @endif
+
                                     <td>
                                         
                                         <div class="dropdown">
