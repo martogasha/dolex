@@ -1,0 +1,752 @@
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+use App\Cat;
+use App\Exceptions\Controller;
+use App\Models\Cash;
+use App\Models\Expense;
+use App\Models\Inv;
+use App\Models\Invoice;
+use App\Models\Mpesa;
+use App\Models\Notice;
+use App\Models\Payment;
+use App\Models\Duplicate;
+use App\Models\Profile;
+use App\Models\Product;
+use App\Models\Qproduct;
+use App\Models\Quotation;
+use App\Models\User;
+use App\Models\Cache;
+use App\Models\Logging;
+use Carbon\Carbon;
+use Dompdf\Dompdf;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Session;
+use RouterOS\Client;
+use RouterOS\Query;
+use RouterOS\Config;
+use Illuminate\Support\Facades\Log; 
+use Illuminate\Support\Facades\Http;
+
+class Billing extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'billing';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Billing clients';
+
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @return int
+     */
+    public function handle()
+    {
+      
+
+          
+        $getUsers = User::where('due_date', '<', Carbon::now())->where('role', 2)->get();
+        
+        $currentMonth = date('m');
+        $dateNow = Carbon::now();
+      foreach ($getUsers as $getUser){
+            $getExistingInvoice = Invoice::where('user_id',$getUser->id)->where('status',0)->latest('id')->first();
+            if ($getExistingInvoice){
+      
+            }
+            else{
+                $currentBal = $getUser->balance;
+                $currentBalance = abs($currentBal);
+                if(Duplicate::where('duplicate_id',$getUser->id)->exists()){
+                    Log::info('duplicate');
+                    if($currentBalance>=1500 || $currentBalance == 1 || $currentBalance == 2){
+                                        
+                            $updateUserProfileAmount = User::where('id', $getUser->id)->update(['package_amount' => $currentBalance]);
+                            $packageAmount = $getUser->package_amount;
+                            $newBalance = 0;
+                            $date1 = $getUser->payment_date;
+                            $date2 =$getUser->due_date;
+                            $dateFormat = Carbon::parse($date2);
+                            $updateUserBalance = User::where('id',$getUser->id)->update(['balance'=>$newBalance]);
+                            $diff = abs(strtotime($date2) - strtotime($date1));
+
+                            $years = floor($diff / (365*60*60*24));
+                            $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+                            $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+                            if ($months==1){
+                                $usage_time = $days+30;
+                            }
+                            else{
+                                $usage_time = $days;
+                            }
+                            
+                                $createInvoice = Invoice::create([
+                                    'invoice_date'=>$dateFormat,
+                                    'amount'=>$getUser->package_amount,
+                                    'user_id'=>$getUser->id,
+                                    'usage_time'=>$usage_time,
+                                    'balance'=>0,
+                                    'status'=>1,
+                                    'statas'=>0,
+                                ]);
+                                $storeCash = Payment::create([
+                                    'user_id'=>$getUser->id,
+                                    'invoice_id'=>$createInvoice->id,
+                                    'amount'=>$getUser->package_amount,
+                                    'invoice_balance'=>$newBalance,
+                                    'date'=>$dateFormat,
+                                    'payment_method'=>'balance Carry Over',
+                                    'status'=>1,
+                                    'currentMonth'=>$currentMonth
+                                ]);
+                                    $createLogThree = Logging::create([
+                                        'user_id' => $getUser->id,
+                                        'reason' => 3,
+                                        'amount' => $currentBalance,
+                                        'date' => $dateFormat,
+                                    ]);
+                                $updateCashId = Invoice::where('id',$createInvoice->id)->update(['payment_id'=>$storeCash->id]);
+                                $currentDate = $dateFormat;
+                                $nextDate =  $currentDate->addMonth();
+                                
+                                $updateBalance = User::where('id',$getUser->id)->update(['balance'=>$newBalance]);
+                                $updateAmount = User::where('id',$getUser->id)->update(['amount'=>$currentBalance]);
+                                $updatePaymentDate = User::where('id',$getUser->id)->update(['payment_date'=>$storeCash->date]);
+                                $updateDueDate = User::where('id',$getUser->id)->update(['due_date'=>$nextDate]);
+                                $dateForm = Carbon::parse($nextDate);
+                                $twoDaysBefore = $dateForm->subDays(3);
+                                $updateInvoiceMessageDate = Invoice::where('user_id',$getUser->id)->where('id',$createInvoice->id)->update(['two_days_before'=>$twoDaysBefore]);
+                                $dateFor = Carbon::parse($nextDate);
+                                $dateF = Carbon::parse($dateFor)->startOfDay();
+                                $oneDayBefore = $dateF->subDays(1);
+                                $updateInvoiceMDate = Invoice::where('user_id',$getUser->id)->where('id',$createInvoice->id)->update(['one_day_before'=>$oneDayBefore]);
+                                    $getLatestInvoice = Invoice::where('user_id',$getUser->id)->latest('id')->first();
+                                    $getPreviousInvoices = Invoice::where('id','!=',$getLatestInvoice->id)->where('user_id',$getUser->id)->get();
+                                    foreach($getPreviousInvoices as $getPreviousInvoice){
+                                        $updateInvoiceStatas = invoice::where('id',$getPreviousInvoice->id)->update(['statas'=>1]);
+
+                                    }
+                                                            
+
+                    }
+                    else{
+                            $packageAmount = $getUser->package_amount;
+                                $newBalance = $packageAmount + $currentBal;
+                                $date1 = $getUser->payment_date;
+                                $date2 =$getUser->due_date;
+                                $dateFormat = Carbon::parse($date2);
+                                $updateUserBalance = User::where('id',$getUser->id)->update(['balance'=>$newBalance]);
+                                $diff = abs(strtotime($date2) - strtotime($date1));
+
+                                $years = floor($diff / (365*60*60*24));
+                                $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+                                $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+                                if ($months==1){
+                                    $usage_time = $days+30;
+                                }
+                                else{
+                                    $usage_time = $days;
+                                }
+                        
+                            $createInvoice = Invoice::create([
+                                'invoice_date'=>$dateFormat,
+                                'amount'=>$getUser->package_amount,
+                                'user_id'=>$getUser->id,
+                                'usage_time'=>$usage_time,
+                                'balance'=>$newBalance,
+                                'status'=>0,
+                                'statas'=>0,
+                            ]);
+                            $nextDate = $dateFormat;
+                            $updateBalance = User::where('id',$getUser->id)->update(['balance'=>$newBalance]);
+                            $updateAmount = User::where('id',$getUser->id)->update(['amount'=>0]);
+                            $updatePaymentDate = User::where('id',$getUser->id)->update(['payment_date'=>null]);
+                            $updateDueDate = User::where('id',$getUser->id)->update(['due_date'=>$nextDate]);
+                                        $getLatestInvoice = Invoice::where('id', $createInvoice->id)->first();
+                                    $getPreviousInvoices = Invoice::where('id','!=',$getLatestInvoice->id)->where('user_id',$getUser->id)->get();
+                                    foreach($getPreviousInvoices as $getPreviousInvoice){
+                                        $updateInvoiceStatas = invoice::where('id',$getPreviousInvoice->id)->update(['statas'=>1]);
+                                    }
+                        
+                                // Get the MikroTik API client using the configured facade
+                                if($getUser){
+                                    $getDuplicates = Duplicate::where('duplicate_id',$getUser->id)->get();
+                                    foreach($getDuplicates as $getDuplicate){
+                                                    try{
+                                                        $config = new Config([
+                                                                'host' => $getUser->mik->ip,
+                                                                'user' => $getUser->mik->user,
+                                                                'pass' => $getUser->mik->password,
+                                                                'port' => 8728,
+                                                    ]);
+                                                    $client = new Client($config);
+                                                    $mikId = $getDuplicate->user->mikrotik_id;
+
+                                                        // Create a query for the /ppp/profile/print command
+                                                        $getUse = User::where('mikrotik_id',$getDuplicate->user->mikrotik_id)->value('dis_status');
+                                                        if($getUse=='true'){
+                                                        $query = new Query('/ppp/profile/print');
+                                                    
+                                                        // 2. Build the RouterOS API query to enable the secret
+                                                        $query = (new Query('/ppp/secret/set'))
+                                                            ->equal('.id', $mikId)
+                                                            ->equal('disabled', 'no');
+
+                                                        // 3. Send the query and get the response
+                                                        $response = $client->query($query)->read();
+
+                                                        // 4. Handle the response
+                                                        $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'false']);
+
+                                                            $createLogFive = Logging::create([
+                                                                'user_id' => $getDuplicate->user_id,
+                                                                'reason' => 5,
+                                                                'date' => $dateNow,
+                                                            ]);
+                                                        
+                                                        
+                                                        }
+                                                        else{
+                                                            $query = new Query('/ppp/profile/print');
+                                                    
+                                                        // 2. Build the RouterOS API query to disable the secret
+                                                        $query = (new Query('/ppp/secret/set'))
+                                                            ->equal('.id', $mikId)
+                                                            ->equal('disabled', 'yes');
+
+                                                        // 3. Send the query and get the response
+                                                        $response = $client->query($query)->read();
+                                                        // 4. Handle the response
+                                                        $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'true']);
+                                                            $createLogSix = Logging::create([
+                                                                'user_id' => $getDuplicate->user_id,
+                                                                'reason' => 6,
+                                                                'date' => $dateNow,
+                                                            ]);
+                                                        
+                                                        }
+
+                                                        // 1. Initialize the client using your RouterOS credentials
+                                                            $client = new Client([
+                                                                'host' => $getUser->mik->ip,
+                                                                'user' => $getUser->mik->user,
+                                                                'pass' => $getUser->mik->password,
+                                                                'port' => 8728,
+                                                            ]);
+
+                                                            // 2. Build the query object (e.g., getting secrets with 'default' profile)
+                                                            $query = new Query('/ppp/secret/print');
+                                                            $query->where('.id', $getDuplicate->user->mikrotik_id);
+
+                                                            // 3. Send the query and read the response
+                                                            $response = $client->query($query)->read();
+
+                                                            // 4. Extract only the 'name' field from the response
+                                                            $usernameToDisconnect  =  $response[0]['name'];
+                                                        $query = new Query('/ppp/active/print');
+                                                        $query->where('name', $usernameToDisconnect);
+                                                        $activeConnections = $client->query($query)->read();
+                                                        // Check if a connection was found
+                                                        if (empty($activeConnections)) {
+                                                            // Handle case where user is not found or not active
+                                                        
+                                                        }
+                                                        else{
+                                                        $connectionId = $activeConnections[0]['.id'];
+                                                        // Remove the active connection
+                                                        $removeQuery = new Query('/ppp/active/remove');
+                                                        $removeQuery->equal('.id', $connectionId);
+                                                        $client->query($removeQuery)->read();
+                                                        
+                                                        }
+                                                    
+                                            }
+                                                catch (\Exception $e) {
+                                                        // 5. Handle any connection or API errors
+                                                        Log::info('Billed but no connection');
+                                                        $cache = Cache::create([
+                                                            'user_id' => $getDuplicate->user_id,
+                                                            'status' => 0,
+                                                        ]);
+                                                        
+                                                        return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
+                                                    }
+                                                
+                                        
+                                    }
+
+                                    try{
+                                                $config = new Config([
+                                                    'host' => $getUser->mik->ip,
+                                                    'user' => $getUser->mik->user,
+                                                    'pass' => $getUser->mik->password,
+                                                    'port' => 8728,
+                                            ]);
+                                            $client = new Client($config);
+                                            $mikId = $getUser->mikrotik_id;
+
+                                                // Create a query for the /ppp/profile/print command
+                                                $getUse = User::where('mikrotik_id',$getUser->mikrotik_id)->value('dis_status');
+                                                if($getUse=='true'){
+                                                $query = new Query('/ppp/profile/print');
+                                            
+                                                // 2. Build the RouterOS API query to enable the secret
+                                                $query = (new Query('/ppp/secret/set'))
+                                                    ->equal('.id', $mikId)
+                                                    ->equal('disabled', 'no');
+
+                                                // 3. Send the query and get the response
+                                                $response = $client->query($query)->read();
+
+                                                // 4. Handle the response
+                                                $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'false']);
+
+                                                    $createLogFive = Logging::create([
+                                                        'user_id' => $getUser->id,
+                                                        'reason' => 5,
+                                                        'date' => $dateNow,
+                                                    ]);
+                                                
+                                                
+                                                }
+                                                else{
+                                                    $query = new Query('/ppp/profile/print');
+                                            
+                                                // 2. Build the RouterOS API query to disable the secret
+                                                $query = (new Query('/ppp/secret/set'))
+                                                    ->equal('.id', $mikId)
+                                                    ->equal('disabled', 'yes');
+
+                                                // 3. Send the query and get the response
+                                                $response = $client->query($query)->read();
+                                                // 4. Handle the response
+                                                $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'true']);
+                                                    $createLogSix = Logging::create([
+                                                        'user_id' => $getUser->id,
+                                                        'reason' => 6,
+                                                        'date' => $dateNow,
+                                                    ]);
+                                                
+                                                }
+
+                                                // 1. Initialize the client using your RouterOS credentials
+                                                    $client = new Client([
+                                                        'host' => $getUser->mik->ip,
+                                                        'user' => $getUser->mik->user,
+                                                        'pass' => $getUser->mik->password,
+                                                        'port' => 8728,
+                                                    ]);
+
+                                                    // 2. Build the query object (e.g., getting secrets with 'default' profile)
+                                                    $query = new Query('/ppp/secret/print');
+                                                    $query->where('.id', $getUser->mikrotik_id);
+
+                                                    // 3. Send the query and read the response
+                                                    $response = $client->query($query)->read();
+
+                                                    // 4. Extract only the 'name' field from the response
+                                                    $usernameToDisconnect  =  $response[0]['name'];
+                                                $query = new Query('/ppp/active/print');
+                                                $query->where('name', $usernameToDisconnect);
+                                                $activeConnections = $client->query($query)->read();
+                                                // Check if a connection was found
+                                                if (empty($activeConnections)) {
+                                                    // Handle case where user is not found or not active
+                                                
+                                                }
+                                                else{
+                                                $connectionId = $activeConnections[0]['.id'];
+                                                // Remove the active connection
+                                                $removeQuery = new Query('/ppp/active/remove');
+                                                $removeQuery->equal('.id', $connectionId);
+                                                $client->query($removeQuery)->read();
+                                                
+                                                }
+                                            
+                                    }
+                                        catch (\Exception $e) {
+                                                // 5. Handle any connection or API errors
+                                                Log::info('Billed but no connection');
+                                                $cache = Cache::create([
+                                                    'user_id' => $getUser->id,
+                                                    'status' => 0,
+                                                ]);
+                                                
+                                                return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
+                                            }
+                                     
+
+                                }
+            
+
+            
+                        
+
+                    }
+
+                }
+                else{
+                    Log::info('no duplicate');
+                              if($currentBalance>=1500 || $currentBalance == 1 || $currentBalance == 2){
+
+                                            if($currentBalance>=1500 && $currentBalance < 2000){
+                                                $bandwidth = '6MBPS';
+                                            }
+                                            if($currentBalance>=2000 && $currentBalance < 2500){
+                                                $bandwidth = '8MBPS';
+                                            }
+                                            if($currentBalance>=2500 && $currentBalance < 3000){
+                                                $bandwidth = '10MBPS';
+                                            }
+                                            if($currentBalance>=3000 && $currentBalance < 3500){
+                                                $bandwidth = '12MBPS';
+                                            }
+                                            if($currentBalance>=3500 && $currentBalance < 4000){
+                                                $bandwidth = '14MBPS';
+                                            }
+                                            if($currentBalance>=4000 && $currentBalance < 4500){
+                                                $bandwidth = '16MBPS';
+                                            }
+                                            if($currentBalance>=4500 && $currentBalance < 5000){
+                                                $bandwidth = '18MBPS';
+                                            }
+                                            if($currentBalance>=5000 && $currentBalance < 6000){
+                                                $bandwidth = '20MBPS';
+                                            }
+                                            if($currentBalance >= 6000){
+                                                $bandwidth = '30MBPS';
+                                            }
+                                            if($currentBalance==1){
+                                                $bandwidth = '6MBPS';
+                                            }
+                                            if($currentBalance==2){
+                                                $bandwidth = '8MBPS';
+                                            }
+                                        
+                            $updateUserProfile = User::where('id', $getUser->id)->update(['last_name' => $bandwidth]);
+                            $updateUserProfileAmount = User::where('id', $getUser->id)->update(['package_amount' => $currentBalance]);
+                            $packageAmount = $getUser->package_amount;
+                            $newBalance = 0;
+                            $date1 = $getUser->payment_date;
+                            $date2 =$getUser->due_date;
+                            $dateFormat = Carbon::parse($date2);
+                            $updateUserBalance = User::where('id',$getUser->id)->update(['balance'=>$newBalance]);
+                            $diff = abs(strtotime($date2) - strtotime($date1));
+
+                            $years = floor($diff / (365*60*60*24));
+                            $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+                            $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+                            if ($months==1){
+                                $usage_time = $days+30;
+                            }
+                            else{
+                                $usage_time = $days;
+                            }
+                            
+                                $createInvoice = Invoice::create([
+                                    'invoice_date'=>$dateFormat,
+                                    'amount'=>$getUser->package_amount,
+                                    'user_id'=>$getUser->id,
+                                    'usage_time'=>$usage_time,
+                                    'balance'=>0,
+                                    'status'=>1,
+                                    'statas'=>0,
+                                ]);
+                                $storeCash = Payment::create([
+                                    'user_id'=>$getUser->id,
+                                    'invoice_id'=>$createInvoice->id,
+                                    'amount'=>$getUser->package_amount,
+                                    'invoice_balance'=>$newBalance,
+                                    'date'=>$dateFormat,
+                                    'payment_method'=>'balance Carry Over',
+                                    'status'=>1,
+                                    'currentMonth'=>$currentMonth
+                                ]);
+                                    $createLogThree = Logging::create([
+                                        'user_id' => $getUser->id,
+                                        'reason' => 3,
+                                        'amount' => $currentBalance,
+                                        'date' => $dateFormat,
+                                    ]);
+                                $updateCashId = Invoice::where('id',$createInvoice->id)->update(['payment_id'=>$storeCash->id]);
+                                $currentDate = $dateFormat;
+                                $nextDate =  $currentDate->addMonth();
+                                
+                                $updateBalance = User::where('id',$getUser->id)->update(['balance'=>$newBalance]);
+                                $updateAmount = User::where('id',$getUser->id)->update(['amount'=>$currentBalance]);
+                                $updatePaymentDate = User::where('id',$getUser->id)->update(['payment_date'=>$storeCash->date]);
+                                $updateDueDate = User::where('id',$getUser->id)->update(['due_date'=>$nextDate]);
+                                $dateForm = Carbon::parse($nextDate);
+                                $twoDaysBefore = $dateForm->subDays(3);
+                                $updateInvoiceMessageDate = Invoice::where('user_id',$getUser->id)->where('id',$createInvoice->id)->update(['two_days_before'=>$twoDaysBefore]);
+                                $dateFor = Carbon::parse($nextDate);
+                                $dateF = Carbon::parse($dateFor)->startOfDay();
+                                $oneDayBefore = $dateF->subDays(1);
+                                $updateInvoiceMDate = Invoice::where('user_id',$getUser->id)->where('id',$createInvoice->id)->update(['one_day_before'=>$oneDayBefore]);
+                                    $getLatestInvoice = Invoice::where('user_id',$getUser->id)->latest('id')->first();
+                                    $getPreviousInvoices = Invoice::where('id','!=',$getLatestInvoice->id)->where('user_id',$getUser->id)->get();
+                                    foreach($getPreviousInvoices as $getPreviousInvoice){
+                                        $updateInvoiceStatas = invoice::where('id',$getPreviousInvoice->id)->update(['statas'=>1]);
+
+                                    }
+                                    try {
+                                                                // Get the MikroTik API client using the configured facade
+                                                                $config = new Config([
+                                                                'host' => $getUser->mik->ip,
+                                                                'user' => $getUser->mik->user,
+                                                                'pass' => $getUser->mik->password,
+                                                                'port' => 8728,
+                                                            ]);
+                                                            $client = new Client($config);
+                                                            $query = (new Query('/ppp/secret/print'))->where('.id', $getUser->mikrotik_id);
+                                                            $secrets = $client->query($query)->read();
+                                                            // $secrets will be an array containing the user's details if found.
+                                                            
+                                                            if (!empty($secrets)) {
+                                                            $secretId = $secrets[0]['.id']; // Get the ID of the first matching user
+
+                                                            $updateQuery = (new Query('/ppp/secret/set'))
+                                                                ->equal('.id', $secretId)
+                                                                ->equal('profile', $bandwidth); // Change the assigned profile
+                                                                // ->equal('comment', 'Updated by Laravel'); // Add or change comments
+
+                                                            $client->query($updateQuery)->read(); // Execute the update
+                                                            
+                                                        }
+                                                
+                                                                
+                                                        
+                                                    
+
+                                                    } catch (\Exception $e) {
+                                                        // 5. Handle any connection or API errors
+                                                        Log::info('Billed but profile not updated');
+                                                        $cache = Cache::create([
+                                                            'user_id' => $getUser->id,
+                                                            'status' => 3,
+                                                        ]);
+                                                        return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
+                                                    }
+
+                            
+
+                    }
+                    else{
+                            $packageAmount = $getUser->package_amount;
+                                $newBalance = $packageAmount + $currentBal;
+                                $date1 = $getUser->payment_date;
+                                $date2 =$getUser->due_date;
+                                $dateFormat = Carbon::parse($date2);
+                                $updateUserBalance = User::where('id',$getUser->id)->update(['balance'=>$newBalance]);
+                                $diff = abs(strtotime($date2) - strtotime($date1));
+
+                                $years = floor($diff / (365*60*60*24));
+                                $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+                                $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+                                if ($months==1){
+                                    $usage_time = $days+30;
+                                }
+                                else{
+                                    $usage_time = $days;
+                                }
+                        
+                            $createInvoice = Invoice::create([
+                                'invoice_date'=>$dateFormat,
+                                'amount'=>$getUser->package_amount,
+                                'user_id'=>$getUser->id,
+                                'usage_time'=>$usage_time,
+                                'balance'=>$newBalance,
+                                'status'=>0,
+                                'statas'=>0,
+                            ]);
+                            $nextDate = $dateFormat;
+                            $updateBalance = User::where('id',$getUser->id)->update(['balance'=>$newBalance]);
+                            $updateAmount = User::where('id',$getUser->id)->update(['amount'=>0]);
+                            $updatePaymentDate = User::where('id',$getUser->id)->update(['payment_date'=>null]);
+                            $updateDueDate = User::where('id',$getUser->id)->update(['due_date'=>$nextDate]);
+                                        $getLatestInvoice = Invoice::where('id', $createInvoice->id)->first();
+                                    $getPreviousInvoices = Invoice::where('id','!=',$getLatestInvoice->id)->where('user_id',$getUser->id)->get();
+                                    foreach($getPreviousInvoices as $getPreviousInvoice){
+                                        $updateInvoiceStatas = invoice::where('id',$getPreviousInvoice->id)->update(['statas'=>1]);
+                                    }
+                        
+                                // Get the MikroTik API client using the configured facade
+                                if($getUser){
+                                    try{
+                                                $config = new Config([
+                                                    'host' => $getUser->mik->ip,
+                                                    'user' => $getUser->mik->user,
+                                                    'pass' => $getUser->mik->password,
+                                                    'port' => 8728,
+                                            ]);
+                                            $client = new Client($config);
+                                            $mikId = $getUser->mikrotik_id;
+
+                                                // Create a query for the /ppp/profile/print command
+                                                $getUse = User::where('mikrotik_id',$getUser->mikrotik_id)->value('dis_status');
+                                                if($getUse=='true'){
+                                                $query = new Query('/ppp/profile/print');
+                                            
+                                                // 2. Build the RouterOS API query to enable the secret
+                                                $query = (new Query('/ppp/secret/set'))
+                                                    ->equal('.id', $mikId)
+                                                    ->equal('disabled', 'no');
+
+                                                // 3. Send the query and get the response
+                                                $response = $client->query($query)->read();
+
+                                                // 4. Handle the response
+                                                $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'false']);
+
+                                                    $createLogFive = Logging::create([
+                                                        'user_id' => $getUser->id,
+                                                        'reason' => 5,
+                                                        'date' => $dateNow,
+                                                    ]);
+                                                
+                                                
+                                                }
+                                                else{
+                                                    $query = new Query('/ppp/profile/print');
+                                            
+                                                // 2. Build the RouterOS API query to disable the secret
+                                                $query = (new Query('/ppp/secret/set'))
+                                                    ->equal('.id', $mikId)
+                                                    ->equal('disabled', 'yes');
+
+                                                // 3. Send the query and get the response
+                                                $response = $client->query($query)->read();
+                                                // 4. Handle the response
+                                                $update = User::where('mikrotik_id',$mikId)->update(['dis_status'=>'true']);
+                                                    $createLogSix = Logging::create([
+                                                        'user_id' => $getUser->id,
+                                                        'reason' => 6,
+                                                        'date' => $dateNow,
+                                                    ]);
+                                                
+                                                }
+
+                                                // 1. Initialize the client using your RouterOS credentials
+                                                    $client = new Client([
+                                                        'host' => $getUser->mik->ip,
+                                                        'user' => $getUser->mik->user,
+                                                        'pass' => $getUser->mik->password,
+                                                        'port' => 8728,
+                                                    ]);
+
+                                                    // 2. Build the query object (e.g., getting secrets with 'default' profile)
+                                                    $query = new Query('/ppp/secret/print');
+                                                    $query->where('.id', $getUser->mikrotik_id);
+
+                                                    // 3. Send the query and read the response
+                                                    $response = $client->query($query)->read();
+
+                                                    // 4. Extract only the 'name' field from the response
+                                                    $usernameToDisconnect  =  $response[0]['name'];
+                                                $query = new Query('/ppp/active/print');
+                                                $query->where('name', $usernameToDisconnect);
+                                                $activeConnections = $client->query($query)->read();
+                                                // Check if a connection was found
+                                                if (empty($activeConnections)) {
+                                                    // Handle case where user is not found or not active
+                                                
+                                                }
+                                                else{
+                                                $connectionId = $activeConnections[0]['.id'];
+                                                // Remove the active connection
+                                                $removeQuery = new Query('/ppp/active/remove');
+                                                $removeQuery->equal('.id', $connectionId);
+                                                $client->query($removeQuery)->read();
+                                                
+                                                }
+                                            
+                                    }
+                                        catch (\Exception $e) {
+                                                // 5. Handle any connection or API errors
+                                                Log::info('Billed but no connection');
+                                                $cache = Cache::create([
+                                                    'user_id' => $getUser->id,
+                                                    'status' => 0,
+                                                ]);
+                                                
+                                                return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
+                                            }
+                                                        try {
+                                                        // Get the MikroTik API client using the configured facade
+                                                        $config = new Config([
+                                                            'host' => $getUser->mik->ip,
+                                                            'user' => $getUser->mik->user,
+                                                            'pass' => $getUser->mik->password,
+                                                            'port' => 8728,
+                                                    ]);
+                                                    $bandwidth = '1MBPS';
+                                                    $client = new Client($config);
+                                                    $query = (new Query('/ppp/secret/print'))->where('.id', $mikId);
+                                                    $secrets = $client->query($query)->read();
+                                                    // $secrets will be an array containing the user's details if found.
+                                                    
+                                                    if (!empty($secrets)) {
+                                                    $secretId = $secrets[0]['.id']; // Get the ID of the first matching user
+
+                                                    $updateQuery = (new Query('/ppp/secret/set'))
+                                                        ->equal('.id', $secretId)
+                                                        ->equal('profile', $bandwidth); // Change the assigned profile
+                                                        // ->equal('comment', 'Updated by Laravel'); // Add or change comments
+
+                                                    $client->query($updateQuery)->read(); // Execute the update
+                                                }
+                                        
+                                                        
+                                                
+                                            
+
+                                            } catch (\Exception $e) {
+                                                // 5. Handle any connection or API errors
+                                                Log::info('profile not updated');
+                                                $cache = Cache::create([
+                                                    'user_id' => $getUser->id,
+                                                    'status' => 5,
+                                                ]);
+                                                return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
+                                            }
+
+                                }
+            
+
+            
+                        
+
+                    }
+
+                }
+      
+
+
+            }
+
+        }
+    }
+}

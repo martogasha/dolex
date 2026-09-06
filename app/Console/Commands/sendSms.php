@@ -1,0 +1,195 @@
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+use App\Cat;
+use App\Exceptions\Controller;
+use App\Models\Cash;
+use App\Models\Expense;
+use App\Models\Inv;
+use App\Models\Invoice;
+use App\Models\Mpesa;
+use App\Models\Notice;
+use App\Models\Payment;
+use App\Models\Profile;
+use App\Models\Product;
+use App\Models\Qproduct;
+use App\Models\Quotation;
+use App\Models\User;
+use Carbon\Carbon;
+use Dompdf\Dompdf;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Session;
+use RouterOS\Client;
+use RouterOS\Query;
+use RouterOS\Config;
+use Illuminate\Support\Facades\Log; 
+use Illuminate\Support\Facades\Http;
+
+class sendSms extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'sendSms';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'send SMS to users';
+
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @return int
+     */
+    public function handle()
+    {
+          $gets =  Invoice::where('two_days_before', '<', Carbon::now())->where('status',1)->where('statas',0)->get();
+          
+        foreach($gets as $get){
+              $string = $get->user->phone;
+             
+            $count = User::where('phone', (int) preg_replace('/\D/', '', $string))->count();
+            
+            if($count>1){
+               
+                $integer = (int) preg_replace('/\D/', '', $string);
+                $getUser = User::where('phone',$integer)->first();
+                
+                $get =  Invoice::where('user_id',$getUser->id)->where('status',1)->where('statas',0)->first();                
+                $sum = User::where('phone', (int) preg_replace('/\D/', '', $integer))->sum('package_amount');
+                                                $twoDays = $get->two_days_before;
+              
+             
+                          $postData = [
+                        'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
+                        'partnerID' => 15,
+                        'mobile' => $get->user->phoneOne,
+                        
+                        'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/F/Y',strtotime($get->one_day_before)).'. Pay to avoid disconnection.
+PAYBILL: 6589582
+ACC NO: '.$get->user->phone.'
+AMOUNT: '.$sum.'',
+                        'shortcode' => 'DOLEX TECH',
+                        
+                    ];
+                    $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
+       
+                    $dateFor = Carbon::parse($twoDays);
+                        $minusOneMonth = $dateFor->addMonth();
+                        $invoiceMinus = Invoice::where('id',$get->id)->update(['two_days_before'=>$minusOneMonth]);
+                        $invoiceUpdateSent = Invoice::where('id',$get->id)->update(['two_days_before_status'=>0]);
+                
+
+            }
+            else{
+                
+                                $twoDays = $get->two_days_before;
+              
+             
+                          $postData = [
+                        'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
+                        'partnerID' => 15,
+                        'mobile' => $get->user->phoneOne,
+                        
+                        'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/F/Y',strtotime($get->one_day_before)).'. Pay to avoid disconnection.
+PAYBILL: 6589582
+ACC NO: '.$get->user->phone.'',
+                        'shortcode' => 'DOLEX TECH',
+                        
+                    ];
+                    $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
+       
+                    $dateFor = Carbon::parse($twoDays);
+                        $minusOneMonth = $dateFor->addMonth();
+                        $invoiceMinus = Invoice::where('id',$get->id)->update(['two_days_before'=>$minusOneMonth]);
+                        $invoiceUpdateSent = Invoice::where('id',$get->id)->update(['two_days_before_status'=>0]);
+
+            }
+
+                                     
+        }
+        $ones =  Invoice::where('one_day_before', '<', Carbon::now())->where('status',1)->where('statas',0)->get();
+          
+        foreach($ones as $one){
+           $string = $one->user->phone;
+           
+            $count = User::where('phone', (int) preg_replace('/\D/', '', $string))->count();
+            
+            if($count>1){
+                 
+                $integer = (int) preg_replace('/\D/', '', $string);
+                $getUser = User::where('phone',$integer)->first();
+                $one =  Invoice::where('user_id',$getUser->id)->where('status',1)->where('statas',0)->first();
+                $sum = User::where('phone', (int) preg_replace('/\D/', '', $integer))->sum('package_amount');
+                                           $oneDay = $one->one_day_before;
+              
+           
+                         $postData = [
+                        'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
+                        'partnerID' => 15,
+                        'mobile' => $one->user->phoneOne,
+                        
+                        'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/F/Y',strtotime($one->one_day_before)).'. Pay to avoid disconnection.
+PAYBILL: 6589582
+ACC NO: '.$one->user->phone.'
+AMOUNT: '.$sum.'',
+                        'shortcode' => 'DOLEX TECH',
+                        
+                    ];
+                    $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
+
+       
+                    $dateFor = Carbon::parse($oneDay);
+                        $minusOneMonth = $dateFor->addMonth();
+                        $invoiceMinus = Invoice::where('id',$one->id)->update(['one_day_before'=>$minusOneMonth]);
+                        $invoiceUpdateSent = Invoice::where('id',$one->id)->update(['due_date_status'=>0]);
+            }
+            else{
+                
+                                $oneDay = $one->one_day_before;
+              
+           
+                         $postData = [
+                        'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
+                        'partnerID' => 15,
+                        'mobile' => $one->user->phoneOne,
+                        
+                        'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/F/Y',strtotime($one->one_day_before)).'. Pay to avoid disconnection.
+PAYBILL: 6589582
+ACC NO: '.$one->user->phone.'',
+                        'shortcode' => 'DOLEX TECH',
+                        
+                    ];
+                    $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
+
+       
+                    $dateFor = Carbon::parse($oneDay);
+                        $minusOneMonth = $dateFor->addMonth();
+                        $invoiceMinus = Invoice::where('id',$one->id)->update(['one_day_before'=>$minusOneMonth]);
+                        $invoiceUpdateSent = Invoice::where('id',$one->id)->update(['due_date_status'=>0]);
+
+            }
+
+                                     
+        }
+    }
+}
