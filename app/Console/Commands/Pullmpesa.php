@@ -625,28 +625,39 @@ class Pullmpesa extends Command
                                                                                 foreach($getPreviousInvoices as $getPreviousInvoice){
                                                                                     $updateInvoiceStatas = invoice::where('id',$getPreviousInvoice->id)->update(['statas'=>1]);
                                                                                 }
-                                                                                if($transaction['amount']>=1500 && $transaction['amount'] < 2000){
-                                                                                    $bandwidth = '8MBPS';
-                                                                                }
-                                                                                if($transaction['amount']>=2000 && $transaction['amount'] < 2500){
-                                                                                    $bandwidth = '15MBPS';
-                                                                                }
-                                                                                if($transaction['amount']>=2500 && $transaction['amount'] < 3000){
-                                                                                    $bandwidth = '20MBPS';
-                                                                                }
-                                                                                if($transaction['amount']>=3000 && $transaction['amount'] < 3500){
-                                                                                    $bandwidth = '30MBPS';
-                                                                                }
-                                                                                if($transaction['amount']>=9600 && $transaction['amount'] < 10000){
-                                                                                    $bandwidth = '80MBPS';
-                                                                                }
-                                                                            
-                                                                                if($transaction['amount']==1){
-                                                                                    $bandwidth = '6MBPS';
-                                                                                }
-                                                                                if($transaction['amount']==2){
-                                                                                    $bandwidth = '8MBPS';
-                                                                                }
+                                                                                if($currentBalance>=1500 && $currentBalance < 2000){
+                                                                                        $bandwidth = '6MBPS';
+                                                                                    }
+                                                                                    if($currentBalance>=2000 && $currentBalance < 2500){
+                                                                                        $bandwidth = '8MBPS';
+                                                                                    }
+                                                                                    if($currentBalance>=2500 && $currentBalance < 3000){
+                                                                                        $bandwidth = '10MBPS';
+                                                                                    }
+                                                                                    if($currentBalance>=3000 && $currentBalance < 3500){
+                                                                                        $bandwidth = '12MBPS';
+                                                                                    }
+                                                                                    if($currentBalance>=3500 && $currentBalance < 4000){
+                                                                                        $bandwidth = '14MBPS';
+                                                                                    }
+                                                                                    if($currentBalance>=4000 && $currentBalance < 4500){
+                                                                                        $bandwidth = '16MBPS';
+                                                                                    }
+                                                                                    if($currentBalance>=4500 && $currentBalance < 5000){
+                                                                                        $bandwidth = '18MBPS';
+                                                                                    }
+                                                                                    if($currentBalance>=5000 && $currentBalance < 6000){
+                                                                                        $bandwidth = '20MBPS';
+                                                                                    }
+                                                                                    if($currentBalance >= 6000){
+                                                                                        $bandwidth = '30MBPS';
+                                                                                    }
+                                                                                    if($currentBalance==1){
+                                                                                        $bandwidth = '6MBPS';
+                                                                                    }
+                                                                                    if($currentBalance==2){
+                                                                                        $bandwidth = '8MBPS';
+                                                                                    }
                                                                                 $updateUserProfile = User::where('id', $getUserIdentification->id)->update(['last_name' => $bandwidth]);
                                                                                 
                                                                                 // Get the MikroTik API client using the configured facade

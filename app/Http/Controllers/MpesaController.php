@@ -269,28 +269,39 @@ class MpesaController extends Controller
                                 foreach($getPreviousInvoices as $getPreviousInvoice){
                                     $updateInvoiceStatas = invoice::where('id',$getPreviousInvoice->id)->update(['statas'=>1]);
                                 }
-                                if($request->TransAmount>=1500 && $request->TransAmount < 2000){
-                                    $bandwidth = '8MBPS';
-                                }
-                                if($request->TransAmount>=2000 && $request->TransAmount < 2500){
-                                    $bandwidth = '15MBPS';
-                                }
-                                if($request->TransAmount>=2500 && $request->TransAmount < 3000){
-                                    $bandwidth = '20MBPS';
-                                }
-                                if($request->TransAmount>=3000 && $request->TransAmount < 3500){
-                                    $bandwidth = '30MBPS';
-                                }
-                                if($request->TransAmount>=9600 && $request->TransAmount < 10000){
-                                    $bandwidth = '80MBPS';
-                                }
-                            
-                                if($request->TransAmount==1){
-                                    $bandwidth = '6MBPS';
-                                }
-                                if($request->TransAmount==2){
-                                    $bandwidth = '8MBPS';
-                                }
+                                         if($currentBalance>=1500 && $currentBalance < 2000){
+                                                $bandwidth = '6MBPS';
+                                            }
+                                            if($currentBalance>=2000 && $currentBalance < 2500){
+                                                $bandwidth = '8MBPS';
+                                            }
+                                            if($currentBalance>=2500 && $currentBalance < 3000){
+                                                $bandwidth = '10MBPS';
+                                            }
+                                            if($currentBalance>=3000 && $currentBalance < 3500){
+                                                $bandwidth = '12MBPS';
+                                            }
+                                            if($currentBalance>=3500 && $currentBalance < 4000){
+                                                $bandwidth = '14MBPS';
+                                            }
+                                            if($currentBalance>=4000 && $currentBalance < 4500){
+                                                $bandwidth = '16MBPS';
+                                            }
+                                            if($currentBalance>=4500 && $currentBalance < 5000){
+                                                $bandwidth = '18MBPS';
+                                            }
+                                            if($currentBalance>=5000 && $currentBalance < 6000){
+                                                $bandwidth = '20MBPS';
+                                            }
+                                            if($currentBalance >= 6000){
+                                                $bandwidth = '30MBPS';
+                                            }
+                                            if($currentBalance==1){
+                                                $bandwidth = '6MBPS';
+                                            }
+                                            if($currentBalance==2){
+                                                $bandwidth = '8MBPS';
+                                            }
                                 $updateUserProfile = User::where('id', $getUserIdentification->id)->update(['last_name' => $bandwidth]);
                                 
                                 // Get the MikroTik API client using the configured facade
