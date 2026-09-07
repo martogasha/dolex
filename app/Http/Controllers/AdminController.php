@@ -2472,9 +2472,11 @@ class AdminController extends Controller
     public function mpesaReceipt($id){
         $receipt = Mpesa::find($id);
         $user = User::where('phone',$receipt->senderPhoneNumber)->first();
+        $mikrotiks = Mik::all();
         return view('admin.mpesaReceipt',[
             'receipt'=>$receipt,
             'user'=>$user,
+            'mikrotiks'=>$mikrotiks
         ]);
     }
     public function editUser($id){
