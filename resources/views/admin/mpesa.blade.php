@@ -38,7 +38,7 @@
                                 </div>
                             </div>
                             <div class="col-4-xxxl col-xl-3 col-lg-3 col-12 form-group">
-                                <label for="dob"></label>
+                                <label for="dob">Search</label>
                                 <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
                             </div>
                         </div>
