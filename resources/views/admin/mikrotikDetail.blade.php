@@ -80,6 +80,16 @@
                             </div>
                             <div class="col-6-xxxl col-lg-3 col-sm-6 col-12">
                                 <div class="dashboard-summery-two">
+                                    <div class="item-icon bg-light-blue">
+                                        <i class="flaticon-shopping-list text-blue"></i>
+                                    </div>
+                                    <div class="item-content">
+                                        <button type="button" id="buttonNonActive" class="btn-fill-xl radius-30 text-light shadow-orange-peel bg-orange-peel">Non Active Customers</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6-xxxl col-lg-3 col-sm-6 col-12">
+                                <div class="dashboard-summery-two">
                                     <div class="item-icon bg-light-magenta">
                                         <i class="flaticon-classmates text-magenta"></i>
                                     </div>
@@ -100,7 +110,19 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6-xxxl col-lg-3 col-sm-6 col-12">
+                   
+                        </div>
+                    </div>
+                    <!-- Dashboard summery End Here -->
+                    <!-- Students Chart End Here -->
+                 
+                    <!-- Students Chart End Here -->
+                    <!-- Notice Board Start Here -->
+                    <div class="col-lg-6 col-4-xxxl col-xl-6">
+
+                        <div class="row">
+
+                                     <div class="col-6-xxxl col-lg-3 col-sm-6 col-12">
                                 <div class="dashboard-summery-two">
                                     <div class="item-icon bg-light-red">
                                         <i class="flaticon-classmates text-magenta"></i>
@@ -110,65 +132,15 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <!-- Dashboard summery End Here -->
-                    <!-- Students Chart End Here -->
-                 
-                    <!-- Students Chart End Here -->
-                    <!-- Notice Board Start Here -->
-                    <div class="col-lg-6 col-4-xxxl col-xl-6">
-                        <div class="card dashboard-card-six">
-                            <div class="card-body">
-                                <div class="heading-layout1 mg-b-17">
-                                    <div class="item-title">
-                                        <h3>Notifications</h3>
-                                    </div>
-                                   <div class="dropdown">
-                                        <a class="dropdown-toggle" href="#" role="button" 
-                                        data-toggle="dropdown" aria-expanded="false">...</a>
-                
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                            <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="notice-box-wrap">
-                                    <div class="notice-list">
-                                        <div class="post-date bg-skyblue">16 June, 2019</div>
-                                        <h6 class="notice-title"><a href="#">Great School manag mene esom tus eleifend lectus
-                                            sed maximus mi faucibusnting.</a></h6>
-                                        <div class="entry-meta">  Jennyfar Lopez / <span>5 min ago</span></div>
-                                    </div>
-                                    <div class="notice-list">
-                                        <div class="post-date bg-yellow">16 June, 2019</div>
-                                        <h6 class="notice-title"><a href="#">Great School manag printing.</a></h6>
-                                        <div class="entry-meta">  Jennyfar Lopez / <span>5 min ago</span></div>
-                                    </div>
-                                    <div class="notice-list">
-                                        <div class="post-date bg-pink">16 June, 2019</div>
-                                        <h6 class="notice-title"><a href="#">Great School manag Nulla rhoncus eleifensed mim
-                                            us mi faucibus id. Mauris vestibulum non purus lobortismenearea</a></h6>
-                                        <div class="entry-meta">  Jennyfar Lopez / <span>5 min ago</span></div>
-                                    </div>
-                                    <div class="notice-list">
-                                        <div class="post-date bg-skyblue">16 June, 2019</div>
-                                        <h6 class="notice-title"><a href="#">Great School manag mene esom  text of the printing.</a></h6>
-                                        <div class="entry-meta">  Jennyfar Lopez / <span>5 min ago</span></div>
-                                    </div>
-                                    <div class="notice-list">
-                                        <div class="post-date bg-yellow">16 June, 2019</div>
-                                        <h6 class="notice-title"><a href="#">Great School manag printing.</a></h6>
-                                        <div class="entry-meta">  Jennyfar Lopez / <span>5 min ago</span></div>
-                                    </div>
-                                    <div class="notice-list">
-                                        <div class="post-date bg-pink">16 June, 2019</div>
-                                        <h6 class="notice-title"><a href="#">Great School manag meneesom.</a></h6>
-                                        <div class="entry-meta">  Jennyfar Lopez / <span>5 min ago</span></div>
-                                    </div>
-                                </div>
+                            <div class="col-6-xxxl col-lg-3 col-sm-6 col-12">
+                            
+                            </div>
+
+                            <div class="col-6-xxxl col-lg-3 col-sm-6 col-12">
+                              
+                            </div>
+                            <div class="col-6-xxxl col-lg-3 col-sm-6 col-12">
+                              
                             </div>
                         </div>
                     </div>
@@ -427,7 +399,7 @@
                         </div>
                     </div>
                 </div>
-                   <div class="row" id="disconnected">
+                <div class="row" id="disconnected">
                     <div class="col-lg-12">
                         <div class="card dashboard-card-eleven">
                             <div class="card-body">
@@ -582,9 +554,164 @@
                     </div>
                 </div>
 
+                <div class="row" id="nonActive">
+                    <div class="col-lg-12">
+                        <div class="card dashboard-card-eleven">
+                            <div class="card-body">
+                                <div class="heading-layout1">
+                                    <div class="item-title">
+                                        <h3>Non Active Customers</h3>
+                                    </div>
+                                   <div class="dropdown">
+                                        <a class="dropdown-toggle" href="#" role="button" 
+                                        data-toggle="dropdown" aria-expanded="false">...</a>
+                
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="table-box-wrap">
+                                
+                        <div class="row-fluid" id="customerNonActive">
+                        <div class="col-lg-12 col-12 form-group">
+                            <label>Search</label>
+                            <input type="text" placeholder="Search" class="form-control" id="myInputNonActive">
+                        </div>
+                               <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Connection</th>
+                                    <th>Balance</th>
+                                    <th>Name</th>
+                                    <th>Comment</th>
+                                    <th>A/c</th>
+                                    
+                                    <th>Package</th>
+                                    <th>Amount</th>
+                                    <th>Phone No:</th>
+                                    <th>Due Date</th>
+                                    <th>Three Days</th>
+                                    <th>Msg Date</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody id="myTableNonActive">
+                                @foreach($nonactives as $nonactive)
+                                <tr>
+                                        @if($nonactive->dis_status=='true')
+                                            <td><span class="badge badge-danger">Disconnected</span></td> 
+                                            @else
+                                            <td><span class="badge badge-success">Active</span></td>
+                                        @endif  
+                                        
+                                        @if($nonactive->role==50)
+                                        <td><span class="badge badge-warning">Sub-Account</span></td>
+                                        @else
+                                            @if($nonactive->package_amount==null)
+                                                <td><b style="color: red">TERMINATED</b></td>
+
+                                            @elseif($nonactive->balance<=0)
+                                                <td><b style="color: green">Ksh: {{$nonactive->balance}}</b></td>
+
+                                            @else
+                                            <td><b style="color: red">Ksh: {{$nonactive->balance}}</b></td>
+
+                                            @endif
+                                        @endif
+                                    @if(\App\Models\Duplicate::where('duplicate_id', $nonactive->id)->doesntExist())
+                                    <td>{{$nonactive->first_name}}</td>
+
+                                    @else
+                                    <td>{{$nonactive->first_name}} Sub A/c's <span class="badge badge-warning">{{\App\Models\Duplicate::where('duplicate_id', $nonactive->id)->count()}}</span></td>
+
+                                    @endif
+                                    <td>{{$nonactive->location}}</td>
+                                    <td>{{$nonactive->phone}}</td>
+                                    
+                                    <td>{{$nonactive->last_name}}</td>
+                                    @if($nonactive->role==50)
+                                        <td><span class="badge badge-warning">Sub-Account</span></td>
+                                        @else
+                                            @if($nonactive->amount!=0)
+                                                <td>Ksh: {{$nonactive->amount}}</td>
+                                            @else
+                                                <td><span class="badge badge-danger">Not Paid</span></td>
+
+                                            @endif
+                                        @endif
+                                    <td><span class="badge badge-success">{{$nonactive->phoneOne}}</span></td>
+
+                                    @if(\App\Models\Duplicate::where('user_id', $nonactive->id)->exists())
+                                    <td colspan="2" style="text-align:center;"><span class="badge badge-warning">Sub-Account of {{\App\Models\User::where('id', \App\Models\Duplicate::where('user_id', $nonactive->id)->value('duplicate_id'))->value('first_name')}} {{\App\Models\User::where('id', \App\Models\Duplicate::where('user_id', $nonactive->id)->value('duplicate_id'))->value('phone')}}</span></td>
+                                    @else
+                                            @if($nonactive->due_date==0)
+                                                <td><span class="badge badge-danger">Not Paid</span>
+                                                </td>
+                                            @else   
+                                                <td>{{date('d/m/Y H:i:s',strtotime($nonactive->due_date))}}</td>
+                                            @endif
+                                            @if(App\Models\Invoice::where('user_id',$nonactive->id)->latest('id')->value('status')==0)
+                                         <td><span class="badge badge-danger">Disconnected</span></td>
+                                         <td><span class="badge badge-danger">Disconnected</span></td>
+                                        @else
+                                            @if(App\Models\Invoice::where('user_id',$nonactive->id)->latest('id')->value('two_days_before_status')===null)
+                                            <td>{{date('d/m/Y H:i:s',strtotime(App\Models\Invoice::where('user_id',$nonactive->id)->latest('id')->value('two_days_before')))}}</td>
+                                            @elseif(App\Models\Invoice::where('user_id',$nonactive->id)->latest('id')->value('two_days_before_status')==0)
+                                            <td><span class="badge badge-info">Msg Sent</span></td></td>
+                                            @else
+                                            <td><span class="badge badge-success">Paid</span></td></td>
+                                            @endif
+                                            
+                                                @if(App\Models\Invoice::where('user_id',$nonactive->id)->latest('id')->value('due_date_status')===null)
+                                                <td>{{date('d/m/Y H:i:s',strtotime(App\Models\Invoice::where('user_id',$nonactive->id)->latest('id')->value('one_day_before')))}}</td>
+                                                @elseif(App\Models\Invoice::where('user_id',$nonactive->id)->latest('id')->value('due_date_status')==0)
+                                                <td><span class="badge badge-info">Msg Sent</span></td></td>
+                                                @else
+                                                <td><span class="badge badge-success">Paid</span></td></td>
+                                                @endif
+                                            @endif
+                                        @endif
+                                    <td>
+                                        
+                                        <div class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false">
+                                                <span class="flaticon-more-button-of-three-dots"></span>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="{{url('customerDetail',$nonactive->id)}}"><i
+                                                        class="fas fa-book-open text-orange-red"></i>View</a>
+                                                <a class="dropdown-item" href="{{url('editCustomerDetail',$nonactive->id)}}"><i
+                                                        class="fas fa-edit text-blue"></i>Edit</a>
+                                                <form action="{{url('noneActive')}}" method="post">
+                                                            @csrf
+                                                            <input type="hidden" value="{{$nonactive->id}}" name="user_id">
+                                                            <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Deactivate</button>
+                                                        </form>
+
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="card height-auto" id="addCustomer">
 
-                <div class="card-body">
+                    <div class="card-body">
                     <h3><b>Add New Customer</b></h3>
                     <div class="heading-layout1">
                         <div class="item-title">
@@ -723,6 +850,7 @@
         $("#fromMikrotik").hide();
         $("#disconnected").hide();
         $("#addCustomer").hide();
+        $("#nonActive").hide();
         $("#myInput").on("keyup", function() {
             var value = $(this).val().toLowerCase();
             $("#myTableOne tr").filter(function() {
@@ -741,13 +869,20 @@
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
+           $("#myInputNonActive").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTableNonActive tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
     });
  
  $("#buttonFromMikrotik").on("click", function() {
         $("#active").hide();
         $("#disconnected").hide();
-        $("#fromMikrotik").show();
         $("#addCustomer").hide();
+        $("#nonActive").hide();
+        $("#fromMikrotik").show();
 
 });
  $("#buttonActive").on("click", function() {
@@ -755,6 +890,7 @@
         $("#fromMikrotik").hide();
         $("#disconnected").hide();
         $("#addCustomer").hide();
+        $("#nonActive").hide();
 
 
 });
@@ -762,6 +898,7 @@ $("#buttonDisconnected").on("click", function() {
         $("#active").hide();
         $("#fromMikrotik").hide();
         $("#addCustomer").hide();
+        $("#nonActive").hide();
         $("#disconnected").show();
 
 });
@@ -769,7 +906,16 @@ $("#buttonAddCustomer").on("click", function() {
         $("#active").hide();
         $("#fromMikrotik").hide();
         $("#disconnected").hide();
+        $("#nonActive").hide();
         $("#addCustomer").show();
+
+});
+$("#buttonNonActive").on("click", function() {
+        $("#active").hide();
+        $("#fromMikrotik").hide();
+        $("#disconnected").hide();
+        $("#addCustomer").hide();
+        $("#nonActive").show();
 
 });
 </script>

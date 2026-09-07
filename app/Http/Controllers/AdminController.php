@@ -3248,12 +3248,14 @@ class AdminController extends Controller
         $customers = User::where('role', 3)->where('mik_id',$id)->orderByDesc('id')->get();
         $actives = User::where('dis_status', 'false')->where('role','!=',4)->where('mik_id',$id)->orderByDesc('id')->get();
         $disconnects = User::where('dis_status', 'true')->where('role','!=',4)->where('mik_id',$id)->orderByDesc('id')->get();
+        $nonactives = User::where('role',4)->where('mik_id',$id)->orderByDesc('id')->get();
         return view('admin.mikrotikDetail',[
             'mikrotik'=>$mikrotik,
             'mikrotiks'=>$mikrotiks,
             'customers'=>$customers,
             'disconnects'=>$disconnects,
             'actives'=>$actives,
+            'nonactives'=>$nonactives,
 
         ]);
     }
