@@ -21,11 +21,7 @@
                         <div class="item-title">
                             <h3>Mpesa Payments</h3>
                         </div>
-                        <div class="dropdown">
-                            <a href="{{url('addMpesa')}}"><button class="btn btn-primary">Add Mpesa Payment</button></a>
-
-                            <a href="{{url('mpesa')}}"><button class="btn btn-success">All Mpesa Records</button></a>
-                        </div>
+                   
                     </div>
                     <form action="{{url('filterMpesa')}}" method="post">
                         @csrf
@@ -42,6 +38,7 @@
                                 </div>
                             </div>
                             <div class="col-4-xxxl col-xl-3 col-lg-3 col-12 form-group">
+                                <label for="dob"></label>
                                 <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
                             </div>
                         </div>
