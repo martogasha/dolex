@@ -86,7 +86,7 @@
                             <div class="row align-items-center">
                                 <div class="col-6">
                                     <div class="item-icon bg-light-red">
-                                        <i class="flaticon-money text-red"></i>
+                                        <i class="flaticon-menu-1"></i>
                                     </div>
                                 </div>
                                 <div class="col-6">

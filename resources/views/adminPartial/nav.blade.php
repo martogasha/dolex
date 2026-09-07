@@ -165,7 +165,7 @@
 
                             @if(auth()->user()->customers!=null)
                         <li class="nav-item sidebar-nav-item">
-                            <a href="#" class="nav-link"><i class="flaticon-classmates"></i><span>Mikrotiks ({{App\Models\Mik::count()}})</span></a>
+                            <a href="#" class="nav-link"><i class="flaticon-menu-1"></i><span>Mikrotiks ({{App\Models\Mik::count()}})</span></a>
                             <ul class="nav sub-group-menu">
                             @foreach($mikrotiks as $mikrotik)
                                 <li class="nav-item">
