@@ -2448,11 +2448,13 @@ class AdminController extends Controller
         $end_date = $request->end_date;
         $invoices  = Mpesa::whereBetween('created_at', array($start_date, $end_date))->orderByDesc('id')->get();
         $total  = Mpesa::whereBetween('created_at', array($start_date, $end_date))->sum('amount');
+        $mikrotiks = Mik::all();
         return view('admin.mpesa',[
             'mpesas'=>$invoices,
             'total'=>$total,
             'start_date'=>$start_date,
             'end_date'=>$end_date,
+            'mikrotiks'=>$mikrotiks
         ]);
     }
     public function getReceipt($id){
