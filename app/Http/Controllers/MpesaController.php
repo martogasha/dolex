@@ -82,7 +82,11 @@ class MpesaController extends Controller
     {
         Log::info('First Paybill');
         Log::info($request->all());
-        
+    if (Mpesa::where('reference', $request->TransID)->exists()) {
+    Log::info('Mpesa Exists');
+    }
+    else{
+        Log::info('Mpesa Doesnt Exists');
         $dateFormats = $request->TransTime;
         $dateFormat = Carbon::parse($dateFormats);
         $dateNow = Carbon::now();
@@ -596,7 +600,7 @@ class MpesaController extends Controller
                
 
             }
-
+    }
      
 
     }

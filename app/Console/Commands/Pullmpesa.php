@@ -133,6 +133,7 @@ class Pullmpesa extends Command
                         }
                         else{
                             Log::info('Mpesa Does not exist in pull transaction table');
+                                    Log::info($request->all());
                             $createP1 = PullTransaction::create([
                                 'transactionId' => $transaction['transactionId'],
                                 'trxDate' => $transaction['trxDate'],
@@ -626,19 +627,25 @@ class Pullmpesa extends Command
                                                                                     $updateInvoiceStatas = invoice::where('id',$getPreviousInvoice->id)->update(['statas'=>1]);
                                                                                 }
                                                                                 if($transaction['amount']>=1500 && $transaction['amount'] < 2000){
-                                                                                    $bandwidth = '8MBPS';
+                                                                                    $bandwidth = '6MBPS';
                                                                                 }
                                                                                 if($transaction['amount']>=2000 && $transaction['amount'] < 2500){
-                                                                                    $bandwidth = '15MBPS';
+                                                                                    $bandwidth = '8MBPS';
                                                                                 }
                                                                                 if($transaction['amount']>=2500 && $transaction['amount'] < 3000){
-                                                                                    $bandwidth = '20MBPS';
+                                                                                    $bandwidth = '10MBPS';
                                                                                 }
                                                                                 if($transaction['amount']>=3000 && $transaction['amount'] < 3500){
-                                                                                    $bandwidth = '30MBPS';
+                                                                                    $bandwidth = '12MBPS';
                                                                                 }
-                                                                                if($transaction['amount']>=9600 && $transaction['amount'] < 10000){
-                                                                                    $bandwidth = '80MBPS';
+                                                                                if($transaction['amount']>=4000 && $transaction['amount'] < 4500){
+                                                                                    $bandwidth = '16MBPS';
+                                                                                }
+                                                                                if($transaction['amount']>=4500 && $transaction['amount'] < 5000){
+                                                                                    $bandwidth = '18MBPS';
+                                                                                }
+                                                                                if($transaction['amount']>=5000 && $transaction['amount'] > 5000){
+                                                                                    $bandwidth = '20MBPS';
                                                                                 }
                                                                             
                                                                                 if($transaction['amount']==1){

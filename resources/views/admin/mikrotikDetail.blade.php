@@ -36,7 +36,7 @@
                                     </div>
                                     <div class="item-content">
                                         <div class="item-number"><span class="counter" data-num="{{App\Models\User::where('role',4)->where('mik_id',$mikrotik->id)->count()}}">{{App\Models\User::where('role',4)->where('mik_id',$mikrotik->id)->count()}}</span></div>
-                                        <div class="item-title">Non Active Clients</div>
+                                        <div class="item-title">Non Active</div>
                                     </div>
                                 </div>
                             </div>
@@ -84,7 +84,7 @@
                                         <i class="flaticon-shopping-list text-blue"></i>
                                     </div>
                                     <div class="item-content">
-                                        <button type="button" id="buttonNonActive" class="btn-fill-xl radius-30 text-light shadow-orange-peel bg-orange-peel">Non Active Customers</button>
+                                        <button type="button" id="buttonNonActive" class="btn-fill-xl radius-30 text-light shadow-orange-peel bg-orange-peel">Non Active</button>
                                     </div>
                                 </div>
                             </div>
@@ -118,11 +118,11 @@
                  
                     <!-- Students Chart End Here -->
                     <!-- Notice Board Start Here -->
-                    <div class="col-lg-6 col-4-xxxl col-xl-6">
+                    <div class="col-12 col-4-xxxl">
 
                         <div class="row">
 
-                                     <div class="col-6-xxxl col-lg-3 col-sm-6 col-12">
+                            <div class="col-6-xxxl col-lg-3 col-sm-6 col-12">
                                 <div class="dashboard-summery-two">
                                     <div class="item-icon bg-light-red">
                                         <i class="flaticon-classmates text-magenta"></i>
@@ -132,16 +132,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6-xxxl col-lg-3 col-sm-6 col-12">
-                            
-                            </div>
-
-                            <div class="col-6-xxxl col-lg-3 col-sm-6 col-12">
-                              
-                            </div>
-                            <div class="col-6-xxxl col-lg-3 col-sm-6 col-12">
-                              
-                            </div>
+                        
                         </div>
                     </div>
                     <!-- Notice Board End Here -->
