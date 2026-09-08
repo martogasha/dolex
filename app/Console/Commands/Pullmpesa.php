@@ -53,8 +53,8 @@ class Pullmpesa extends Command
      */
     public function handle()
     {
-           $consumerKey = 'dflOmBxekAw2elw32rejH8Xm5xkmht7RxFsXPuqSYfjA3wvb';
-            $consumerSecret = 'RZjnYDTR2EJtDuJRm3I3Gnhh3uv6tBQaqpAs3OSzxsM8bULVxkF6FuB91OD34GH4';
+           $consumerKey = 'HZKs4kTilx4xoc8CGKgR8t3Jkxe6A5Yp';
+            $consumerSecret = 'R2xDmkzkVtBAeU4C';
 
             $baseUrl = 'https://api.safaricom.co.ke';
 
@@ -89,8 +89,8 @@ class Pullmpesa extends Command
 
             // Query
             $body = [
-                'ShortCode' => '4311304',
-                'OrganizationName' => "VUMATEL NETWORKS",
+                'ShortCode' => '6589582',
+                'OrganizationName' => "DOLEX TECHNPLOGIES",
                 'StartDate' => Carbon::now()->subDay()->format('Y-m-d H:i:s'),
                 'EndDate' => Carbon::now()->format('Y-m-d H:i:s'),
                 'OffSetValue' => '0'
