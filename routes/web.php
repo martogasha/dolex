@@ -6,6 +6,7 @@ use App\Http\Controllers\CashController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\MpesaController;
 use App\Http\Controllers\QuotationController;
+use App\Http\Controllers\HotspotController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -175,6 +176,9 @@ Route::post('deleteMikrotik', [AdminController::class, 'deleteMikrotik']);
 Route::get('navbar', [AdminController::class, 'navbar']);
 
 
+
 });
+Route::get('testHotspotUser', [HotspotController::class, 'testHotspotUser']);
+
 
 require __DIR__.'/auth.php';
