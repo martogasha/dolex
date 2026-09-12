@@ -119,9 +119,9 @@ class HotspotController extends Controller
                         try {
                         // 2. Initialize the MikroTik API Client
                         $client = new Client([
-                            'host' => '10.50.0.2',
+                            'host' => 'e7e90fa2420f.sn.mynetname.net',
                             'user' => 'admin',
-                            'pass' => '123456',
+                            'pass' => 'Mchoko',
                             'port' => 8728,
                         ]);
 
@@ -164,9 +164,9 @@ class HotspotController extends Controller
 
                         // 2. MikroTik Connection Details
                     $config = [
-                            'host' => '10.50.0.2',
+                            'host' => 'e7e90fa2420f.sn.mynetname.net',
                             'user' => 'admin',
-                            'pass' => '123456',
+                            'pass' => 'Mchoko',
                             'port' => 8728,
                     ];
 
