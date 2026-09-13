@@ -103,6 +103,7 @@ class HotspotController extends Controller
                             'message' => 'User logged in successfully',
                             'data' => $response
                         ]);
+                        return Redirect::away('https://www.google.com');
 
                     } catch (\Exception $e) {
                         return response()->json([
