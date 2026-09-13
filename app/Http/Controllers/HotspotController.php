@@ -98,11 +98,7 @@ class HotspotController extends Controller
                         // 4. Send Query to RouterOS
                         $response = $client->query($query)->read();
 
-                        return response()->json([
-                            'status' => 'success',
-                            'message' => 'User logged in successfully',
-                            'data' => $response
-                        ]);
+                      
                         return Redirect::away('https://www.google.com');
 
                     } catch (\Exception $e) {
