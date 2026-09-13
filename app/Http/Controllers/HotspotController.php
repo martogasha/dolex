@@ -7,7 +7,7 @@ use RouterOS\Client;
 use RouterOS\Query;
 use RouterOS\Config;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Redirect; 
 use Illuminate\Support\Facades\Log;
 
 use Illuminate\Http\Request;
