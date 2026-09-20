@@ -13,6 +13,8 @@ use App\Models\Mpesa;
 use App\Models\Notice;
 use App\Models\Payment;
 use App\Models\Profile;
+use App\Models\Hotspot;
+use App\Models\Hotlogs;
 use App\Models\Product;
 use App\Models\Qproduct;
 use App\Models\Quotation;
@@ -209,6 +211,182 @@ class Downtime extends Command
                             
                                 return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
                             }
+                    }
+
+        }
+
+               foreach($caches as $cache){
+                    if($cache->status==50){
+                        $getHotspot = Hotspot::find($cache->user_id);
+                                     try {
+                        // 2. Initialize the MikroTik API Client
+                        $client = new Client([
+                            'host' => '10.50.0.3',
+                            'user' => 'admin',
+                            'pass' => '123456',
+                            'port' => 8728,
+                        ]);
+
+                        // 3. Build the query payload targeting /ip/hotspot/user/add
+                        $query = new Query('/ip/hotspot/user/add');
+                        $query->equal('name', $getHotspot->phone);
+                        $query->equal('password', $getHotspot->phone);
+                        
+                        if (!empty($validated['profile'])) {
+                            $query->equal('profile', $validated['profile']);
+                        }
+                        
+                        if (!empty($validated['comment'])) {
+                            $query->equal('comment', $validated['comment']);
+                        }
+
+                        // 4. Send the request and read the response
+                        $response = $client->query($query)->read();
+
+                        // Check if MikroTik returned an error array
+                        if (isset($response['after']['message'])) {
+                            Log::info('error');
+                            return response()->json([
+                                'status' => 'error',
+                                'message' => $response['after']['message']
+                            ], 400);
+                        }
+
+                            Log::info('Hotspot user successfully created on MikroTik.');
+                            $deleteCache = Cache::where('id',$cache->id)->delete();      
+                    
+
+                    } catch (Exception $e) {
+                        Log::info('Cache Failed to add hotspot user');
+                         
+                    }
+                    }
+
+        }
+                       foreach($caches as $cache){
+                    if($cache->status==51){
+                        $getHotspot = Hotspot::find($cache->user_id);
+                    try {
+                        // 2. MikroTik Connection Details
+                    $config = [
+                            'host' => '10.50.0.3',
+                            'user' => 'admin',
+                            'pass' => '123456',
+                            'port' => 8728,
+                    ];
+
+                    
+                        $client = new Client($config);
+
+                        // 3. Build the Hotspot Active Login Query
+                        $query = (new Query('/ip/hotspot/active/login'))
+                            ->equal('user', $getHotspot->phone)
+                            ->equal('password', $getHotspot->phone)
+                            ->equal('mac-address', $getHotspot->mac)
+                            ->equal('ip', $getHotspot->ip);
+
+                        // 4. Send Query to RouterOS
+                        $response = $client->query($query)->read();
+
+                        $createlog = Hotlogs::create([
+                            'amount' => $createPayment->amount,
+                            'hotspot_id' => $createPayment->phone,
+                            'reason' => 3,
+                            'status' => 1,
+                            'date' => $dateNow,                           
+
+                        ]);
+                    Log::info('Hotspot user login in');
+                    $deleteCache = Cache::where('id',$cache->id)->delete();      
+
+
+                    } catch (\Exception $e) {
+                        Log::info('Failed to login hotspot user');
+                     
+                    }
+                    }
+
+        }
+               foreach($caches as $cache){
+                    if($cache->status==52){
+                        $getUser = Hotspot::find($cache->user_id);
+                          try{
+                                // 1. Connect to your MikroTik router
+                        $client = new Client([
+                                'host' => '10.50.0.3',
+                                'user' => 'admin',
+                                'pass' => '123456',
+                                'port' => 8728,
+                        ]);
+
+                        $usernameToDisconnect = $getUser->phone;
+
+                        // 2. Find the active session by username to get its internal .id
+                        $findQuery = (new Query('/ip/hotspot/active/print'))
+                            ->where('user', $usernameToDisconnect);
+
+                        $activeSession = $client->query($findQuery)->read();
+
+                        // 3. If the user is currently active, remove their active session
+                        if (isset($activeSession[0]['.id'])) {
+                            $sessionId = $activeSession[0]['.id'];
+
+                            $removeQuery = (new Query('/ip/hotspot/active/remove'))
+                                ->equal('.id', $sessionId);
+
+                            $client->query($removeQuery)->read();
+                        }
+                            Log::info('Hotspot active user deleted');
+                            $deleteCache = Cache::where('id',$cache->id)->delete();      
+
+                    }
+               
+                      catch (\Exception $e) {
+                      Log::info('Error deleting active hotspot user');
+                    
+
+                    }
+                    }
+
+        }
+             foreach($caches as $cache){
+                    if($cache->status==53){
+                        $getUser = Hotspot::find($cache->user_id);
+                  try{
+                        // 1. Connect to your MikroTik router
+                    $client = new Client([
+                        'host' => '10.50.0.3',
+                        'user' => 'admin',
+                        'pass' => '123456',
+                        'port' => 8728,
+                    ]);
+
+                    $usernameTootipDelete = $getUser->phone;
+
+                    // 2. Find the user by name to get their internal .id
+                    $findQuery = (new Query('/ip/hotspot/user/print'))
+                        ->where('name', $usernameTootipDelete);
+
+                    $user = $client->query($findQuery)->read();
+
+                    // 3. Check if user exists and delete via .id
+                    if (isset($user[0]['.id'])) {
+                        $userId = $user[0]['.id'];
+
+                        $removeQuery = (new Query('/ip/hotspot/user/remove'))
+                            ->equal('.id', $userId);
+
+                        $client->query($removeQuery)->read();
+                        Log::info('Hotspot user deleted');
+                        $deleteCache = Cache::where('id',$cache->id)->delete();      
+
+                    }
+                }
+                        catch (\Exception $e) {
+                      Log::info('Error deleting hotspot user');
+                    
+
+                    }
                     }
 
         }

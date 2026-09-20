@@ -95,6 +95,10 @@ class stophotspot extends Command
                
                       catch (\Exception $e) {
                       Log::info('Error deleting active hotspot user');
+                        $cache = Cache::create([
+                                'user_id' => $getUser->id,
+                                'status' => 52,
+                            ]);
 
                     }
 
@@ -129,6 +133,10 @@ class stophotspot extends Command
                 }
                         catch (\Exception $e) {
                       Log::info('Error deleting hotspot user');
+                       $cache = Cache::create([
+                                'user_id' => $getUser->id,
+                                'status' => 53,
+                            ]);
 
                     }
 

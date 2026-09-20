@@ -155,10 +155,10 @@ class MpesaController extends Controller
 
                     } catch (Exception $e) {
                         Log::info('Failed to add hotspot user');
-                        return response()->json([
-                            'status' => 'error',
-                            'message' => 'Failed to connect to MikroTik Router: ' . $e->getMessage()
-                        ], 500);
+                         $cache = Cache::create([
+                                'user_id' => $getHotspot->id,
+                                'status' => 50,
+                            ]);
                     }
 
                     try {
@@ -196,10 +196,10 @@ class MpesaController extends Controller
 
                     } catch (\Exception $e) {
                         Log::info('Failed to login hotspot user');
-                        return response()->json([
-                            'status' => 'error',
-                            'message' => 'Failed to connect to MikroTik: ' . $e->getMessage()
-                        ], 500);
+                       $cache = Cache::create([
+                                'user_id' => $getHotspot->id,
+                                'status' => 51,
+                            ]);
                     }
         
             
