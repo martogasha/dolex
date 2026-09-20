@@ -30,6 +30,46 @@ class HotspotController extends Controller
         return response()->json($data, 200);
     }
     public function storeHotspotUser(Request $request){
+        $currentTime = Carbon::now();
+        if($request->amount == 10){
+            $endNow = Carbon::now()->addHour();
+            Log::info($endNow);
+        }
+        if($request->amount == 20){
+            $endNow = $currentTime->addHours(3);
+            Log::info($endNow);
+
+        }
+        if($request->amount == 30){
+            $endNow = $currentTime->addHours(5);
+            Log::info($endNow);
+
+        }
+        if($request->amount == 40){
+            $endNow = $currentTime->addHours(12);
+            Log::info($endNow);
+
+        }
+        if($request->amount == 50){
+            $endNow = Carbon::now()->addDay();
+            Log::info($endNow);
+
+        }
+        if($request->amount == 100){
+            $endNow = Carbon::now()->addDays(3);
+            Log::info($endNow);
+
+        }
+        if($request->amount == 300){
+            $endNow = Carbon::now()->addWeek();
+            Log::info($endNow);
+
+        }
+         if($request->amount == 1000){
+            $endNow = Carbon::now()->addMonth();
+            Log::info($endNow);
+
+        }
         try{
 // String is the correct phone format
                         Log::info('hotspot');
@@ -41,7 +81,8 @@ class HotspotController extends Controller
                             'phone' => $request->phone,
                             'amount' => $request->amount,
                             'status' => 0,
-                            'start_date' => $dateNow,                           
+                            'start_date' => $dateNow,  
+                            'end_date' => $endNow,                        
 
                         ]);
                         $createlog = Hotlogs::create([
