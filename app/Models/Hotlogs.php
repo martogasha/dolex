@@ -10,6 +10,7 @@ class Hotlogs extends Model
     use HasFactory;
     protected $fillable = [
         'date',
+        'end_date',
         'reason',
         'hotspot_id',
         'amount',

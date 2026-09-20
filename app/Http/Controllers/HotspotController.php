@@ -84,7 +84,22 @@ class HotspotController extends Controller
                         Log::info('hotspot');
                         Log::info($request->all());
                         $dateNow = Carbon::now();
-                           $createPayment = Hotspot::create([
+                        $getUser = Hotspot::where('phone',$request->phone)->first();
+                        if(isset($getUser)){
+                            Log::info('Hotspot user exist');
+
+                            $updateUser = Hotspot::where('id',$getUser->id)
+                              ->update([
+                                    'mac' => $request->mac,
+                                    'ip' => $request->ip,
+                                    'amount' => $request->amount,
+                                    'start_date' => $dateNow,
+                                    'end_date' => $endNow,
+                            ]);
+
+                        }
+                        else{
+                        $createPayment = Hotspot::create([
                             'mac' => $request->mac,
                             'ip' => $request->ip,
                             'phone' => $request->phone,
@@ -94,12 +109,15 @@ class HotspotController extends Controller
                             'end_date' => $endNow,                        
 
                         ]);
+                        }
+                       
                         $createlog = Hotlogs::create([
                             'amount' => $createPayment->amount,
                             'hotspot_id' => $createPayment->id,
                             'reason' => 1,
                             'status' => 0,
-                            'date' => $dateNow,                           
+                            'date' => $dateNow,
+                            'end_date' => $endNow,                           
 
                         ]);
         $account = $createPayment->phone;

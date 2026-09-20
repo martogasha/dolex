@@ -16,6 +16,7 @@ class CreateHotlogsTable extends Migration
         Schema::create('hotlogs', function (Blueprint $table) {
             $table->id();
             $table->datetime('date')->nullable();
+            $table->datetime('end_date')->nullable();
             $table->integer('reason')->nullable();
             $table->integer('hotspot_id')->nullable();
             $table->integer('amount')->nullable();
