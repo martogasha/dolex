@@ -30,8 +30,8 @@ class HotspotController extends Controller
         return response()->json($data, 200);
     }
     public function storeHotspotUser(Request $request){
-    
-                        // String is the correct phone format
+        try{
+// String is the correct phone format
                         Log::info('hotspot');
                         Log::info($request->all());
                         $dateNow = Carbon::now();
@@ -126,6 +126,13 @@ class HotspotController extends Controller
         $curl_response = curl_exec($curl);   
 
         Log::info('Mpesa Prompt initiated success');
+        }
+         catch (\Exception $e) {
+                      Log::info('Mpesa prompt error');
+
+                    }
+    
+                        
         
     }
       public function testHotspotUser(){
