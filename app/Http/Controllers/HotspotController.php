@@ -30,6 +30,7 @@ class HotspotController extends Controller
         return response()->json($data, 200);
     }
     public function storeHotspotUser(Request $request){
+        try{
         $currentTime = Carbon::now();
         if($request->amount == 10){
             $endNow = Carbon::now()->addHour();
@@ -79,7 +80,7 @@ class HotspotController extends Controller
             Log::info($endNow);
 
         }
-        try{
+        
 // String is the correct phone format
                         Log::info('hotspot');
                         Log::info($request->all());
@@ -96,22 +97,7 @@ class HotspotController extends Controller
                                     'start_date' => $dateNow,
                                     'end_date' => $endNow,
                             ]);
-
-                        }
-                        else{
-                        $createPayment = Hotspot::create([
-                            'mac' => $request->mac,
-                            'ip' => $request->ip,
-                            'phone' => $request->phone,
-                            'amount' => $request->amount,
-                            'status' => 0,
-                            'start_date' => $dateNow,  
-                            'end_date' => $endNow,                        
-
-                        ]);
-                        }
-                       
-                        $createlog = Hotlogs::create([
+                                                    $createlog = Hotlogs::create([
                             'amount' => $createPayment->amount,
                             'hotspot_id' => $createPayment->id,
                             'reason' => 1,
@@ -194,6 +180,105 @@ class HotspotController extends Controller
         $curl_response = curl_exec($curl);   
 
         Log::info('Mpesa Prompt initiated success');
+
+                        }
+                        else{
+                            $createPayment = Hotspot::create([
+                                'mac' => $request->mac,
+                                'ip' => $request->ip,
+                                'phone' => $request->phone,
+                                'amount' => $request->amount,
+                                'status' => 0,
+                                'start_date' => $dateNow,  
+                                'end_date' => $endNow,                        
+
+                            ]);
+                                                    $createlog = Hotlogs::create([
+                            'amount' => $createPayment->amount,
+                            'hotspot_id' => $createPayment->id,
+                            'reason' => 1,
+                            'status' => 0,
+                            'date' => $dateNow,
+                            'end_date' => $endNow,                           
+
+                        ]);
+        $account = $createPayment->phone;
+        $cleanedNumber = $createPayment->amount;
+        $phoneNumber = $createPayment->phone;
+        $modifiedNumber = ltrim($phoneNumber, "0");
+        $code = '254';
+        $finalNumber = $code . $modifiedNumber;
+        
+
+                // Do not hard code these values
+        $consumer_key ="HZKs4kTilx4xoc8CGKgR8t3Jkxe6A5Yp";
+        $consumer_secret = "R2xDmkzkVtBAeU4C";
+        $credentials = base64_encode($consumer_key.":".$consumer_secret);
+        
+        $url = 'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
+  
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Basic '.$credentials)); //setting a custom header
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+  
+        $curl_response = curl_exec($curl);
+  
+        $access_token = json_decode($curl_response);
+
+        $token = $access_token->access_token;
+
+        // Do not hard code these values
+        $BusinessShortCode = 6589582;
+        $passkey ='aee519d8ed8804ed7913d00cbd818c8d8c4f1e879c390cf0521a05cfe25ad9ca';
+        $timestamp= Carbon::rawParse('now')->format('YmdHms');
+
+        $password = base64_encode($BusinessShortCode.$passkey.$timestamp);
+        $Amount = $cleanedNumber;
+        $PartyA = $finalNumber;
+        $PartyB = 6589582;
+
+
+        $url = 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
+  
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+          curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Content-Type:application/json; charset=utf8',
+            'Authorization:Bearer ' . $token
+        )); //setting custom header
+        
+        
+        $curl_post_data = array(
+          //Fill in the request parameters with valid values
+          'BusinessShortCode' => $BusinessShortCode,
+          'Password' => $password,
+          'Timestamp' => $timestamp,
+          'TransactionType' => 'CustomerPayBillOnline',
+          'Amount' => $Amount,
+          'PartyA' => $PartyA,
+          'PartyB' => $PartyB,
+          'PhoneNumber' => $PartyA,
+          'CallBackURL' => 'https://dolextechnologies.co.ke/storeWebhooks',
+          'AccountReference' => $account,
+          'TransactionDesc' => 'Testing stkpush on Sandbox '
+        );
+        
+        $data_string = json_encode($curl_post_data);
+        
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
+        
+        $curl_response = curl_exec($curl);   
+
+        Log::info('Mpesa Prompt initiated success');
+                        }
+                       
+
         }
          catch (\Exception $e) {
                       Log::info('Mpesa prompt error');
