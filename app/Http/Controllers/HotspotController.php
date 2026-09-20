@@ -36,8 +36,8 @@ class HotspotController extends Controller
                         Log::info($request->all());
                         $dateNow = Carbon::now();
                            $createPayment = Hotspot::create([
-                            'mac' => $request->ip,
-                            'ip' => $request->mac,
+                            'mac' => $request->mac,
+                            'ip' => $request->ip,
                             'phone' => $request->phone,
                             'amount' => $request->amount,
                             'status' => 0,
