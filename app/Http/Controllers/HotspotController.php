@@ -97,9 +97,9 @@ class HotspotController extends Controller
                                     'start_date' => $dateNow,
                                     'end_date' => $endNow,
                             ]);
-                                                    $createlog = Hotlogs::create([
-                            'amount' => $createPayment->amount,
-                            'hotspot_id' => $createPayment->id,
+                            $createlog = Hotlogs::create([
+                            'amount' => $getUser->amount,
+                            'hotspot_id' => $getUser->id,
                             'reason' => 1,
                             'status' => 0,
                             'date' => $dateNow,
