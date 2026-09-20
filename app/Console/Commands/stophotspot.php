@@ -81,8 +81,8 @@ class stophotspot extends Command
                         $activeSession = $client->query($findQuery)->read();
 
                         // 3. If the user is currently active, remove their active session
-                        if (isset($activeSession['.id'])) {
-                            $sessionId = $activeSession['.id'];
+                        if (isset($activeSession[0]['.id'])) {
+                            $sessionId = $activeSession[0]['.id'];
 
                             $removeQuery = (new Query('/ip/hotspot/active/remove'))
                                 ->equal('.id', $sessionId);
