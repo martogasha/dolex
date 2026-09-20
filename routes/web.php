@@ -180,6 +180,6 @@ Route::get('navbar', [AdminController::class, 'navbar']);
 });
 Route::get('testHotspotUser', [HotspotController::class, 'testHotspotUser']);
 Route::post('storeHotspotUser', [HotspotController::class, 'storeHotspotUser']);
-
+Route::get('stopHotspot', [HotspotController::class, 'stopHotspot']);
 
 require __DIR__.'/auth.php';
