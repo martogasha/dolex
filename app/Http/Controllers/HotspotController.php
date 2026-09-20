@@ -367,8 +367,8 @@ class HotspotController extends Controller
                         $response = $client->query($query)->read();
 
                         $createlog = Hotlogs::create([
-                            'amount' => $createPayment->amount,
-                            'hotspot_id' => $createPayment->phone,
+                            'amount' => $getHotspot->amount,
+                            'hotspot_id' => $getHotspot->phone,
                             'reason' => 3,
                             'status' => 1,
                             'date' => $dateNow,                           
