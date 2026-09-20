@@ -11,7 +11,7 @@ use RouterOS\Config;
 use Carbon\Carbon;
 use App\Models\Hotspot;
 use App\Models\Hotlogs;
-
+use App\Models\Cache;
 use Illuminate\Support\Facades\Redirect; 
 use Illuminate\Support\Facades\Log;
 
