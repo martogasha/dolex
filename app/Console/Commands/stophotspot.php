@@ -63,6 +63,41 @@ class stophotspot extends Command
 
                 ]);
 
+                        try{
+                                // 1. Connect to your MikroTik router
+                        $client = new Client([
+                                'host' => '10.50.0.3',
+                                'user' => 'admin',
+                                'pass' => '123456',
+                                'port' => 8728,
+                        ]);
+
+                        $usernameToDisconnect = $getUser->phone;
+
+                        // 2. Find the active session by username to get its internal .id
+                        $findQuery = (new Query('/ip/hotspot/active/print'))
+                            ->where('user', $usernameToDisconnect);
+
+                        $activeSession = $client->query($findQuery)->read();
+
+                        // 3. If the user is currently active, remove their active session
+                        if (isset($activeSession['.id'])) {
+                            $sessionId = $activeSession['.id'];
+
+                            $removeQuery = (new Query('/ip/hotspot/active/remove'))
+                                ->equal('.id', $sessionId);
+
+                            $client->query($removeQuery)->read();
+                        }
+                            Log::info('Hotspot active user deleted');
+
+                    }
+               
+                      catch (\Exception $e) {
+                      Log::info('Error deleting active hotspot user');
+
+                    }
+
                 try{
                         // 1. Connect to your MikroTik router
                     $client = new Client([
@@ -100,40 +135,7 @@ class stophotspot extends Command
               
 
                    
-                    try{
-                                // 1. Connect to your MikroTik router
-                        $client = new Client([
-                                'host' => '10.50.0.3',
-                                'user' => 'admin',
-                                'pass' => '123456',
-                                'port' => 8728,
-                        ]);
-
-                        $usernameToDisconnect = $getUser->phone;
-
-                        // 2. Find the active session by username to get its internal .id
-                        $findQuery = (new Query('/ip/hotspot/active/print'))
-                            ->where('user', $usernameToDisconnect);
-
-                        $activeSession = $client->query($findQuery)->read();
-
-                        // 3. If the user is currently active, remove their active session
-                        if (isset($activeSession['.id'])) {
-                            $sessionId = $activeSession['.id'];
-
-                            $removeQuery = (new Query('/ip/hotspot/active/remove'))
-                                ->equal('.id', $sessionId);
-
-                            $client->query($removeQuery)->read();
-                        }
-                            Log::info('Hotspot active user deleted');
-
-                    }
-               
-                      catch (\Exception $e) {
-                      Log::info('Error deleting active hotspot user');
-
-                    }
+            
 
 
         $deleteHotspotUser = Hotspot::where('id',$getUser->id)->delete();
