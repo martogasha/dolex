@@ -10,7 +10,7 @@ use App\Models\Payment;
 use App\Models\User;
 use App\Models\Mik;
 use App\Models\Hotspot;
-use App\Models\Hotlog;
+use App\Models\Hotlogs;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -107,7 +107,7 @@ class MpesaController extends Controller
 
                         ]);
                         $getHotspot = Hotspot::where('phone',$request->BillRefNumber)->first();
-                        $createlog = Hotlog::create([
+                        $createlog = Hotlogs::create([
                             'amount' => $createPayment->amount,
                             'hotspot_id' => $getHotspot->id,
                             'reason' => 2,
