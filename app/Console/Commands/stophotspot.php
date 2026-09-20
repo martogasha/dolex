@@ -50,6 +50,7 @@ class stophotspot extends Command
      */
     public function handle()
     {
+        $dateNow = Carbon::now();
         $getUsers = Hotspot::where('end_date', '<', Carbon::now())->where('status',1)->get();
         foreach($getUsers as $getUser){
                 $createlog = Hotlogs::create([
@@ -58,7 +59,7 @@ class stophotspot extends Command
                     'reason' => 4,
                     'status' => 0,
                     'date' => $dateNow,
-                    'end_date' => $endNow,                           
+                    'end_date' => $getUser->end_date,                           
 
                 ]);
 
