@@ -49,7 +49,6 @@ class HotspotController extends Controller
                             'date' => $dateNow,                           
 
                         ]);
-        $customer = User::find($id);
         $account = $createPayment->phone;
         $cleanedNumber = $createPayment->amount;
         $phoneNumber = $createPayment->phone;
