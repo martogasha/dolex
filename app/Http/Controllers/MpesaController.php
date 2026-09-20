@@ -80,7 +80,129 @@ class MpesaController extends Controller
     }
     public function storeWebhooks(Request $request)
     {
-        Log::info('First Paybill');
+        $dateFormats = $request->TransTime;
+        $dateFormat = Carbon::parse($dateFormats);
+        $dateNow = Carbon::now();
+        $currentMonth = date('m');
+        $currentYear = date('Y');
+        $accountNumber = $request->BillRefNumber;
+        $phone = $request->BillRefNumber;
+        $pattern = '/^(\+?\d{1,4}[- ]?)?\d{10}$/'; 
+
+        if (preg_match($pattern, $phone)) {
+                        // String is the correct phone format
+                        Log::info('hotspot');
+                        Log::info($request->all());
+                         $createPayment = Mpesa::create([
+                            'reference' => $request->TransID,
+                            'originationTime' => $request->TransTime,
+                            'senderMiddleName' => $request->FirstName,
+                            'senderPhoneNumber' => $request->BillRefNumber,
+                            'amount' => $request->TransAmount,
+                            'currentMonth' =>$currentMonth,
+                            'currentYear' =>$currentYear,
+                            'tillNumber' =>$request->BusinessShortCode,
+
+                        ]);
+                        $getHotspot = Hotspot::where('phone',$request->BillRefNumber)->first();
+                        $createlog = Hotlog::create([
+                            'amount' => $createPayment->amount,
+                            'hotspot_id' => $getHotspot->id,
+                            'reason' => 2,
+                            'status' => 1,
+                            'date' => $dateNow,                           
+
+                        ]);
+                        $updateHotspot = Hotspot::where('id',$getHotspot->id)->update(['status' => 1]);
+                        try {
+                        // 2. Initialize the MikroTik API Client
+                        $client = new Client([
+                            'host' => '10.50.0.3',
+                            'user' => 'admin',
+                            'pass' => '123456',
+                            'port' => 8728,
+                        ]);
+
+                        // 3. Build the query payload targeting /ip/hotspot/user/add
+                        $query = new Query('/ip/hotspot/user/add');
+                        $query->equal('name', $getHotspot->phone);
+                        $query->equal('password', $getHotspot->phone);
+                        
+                        if (!empty($validated['profile'])) {
+                            $query->equal('profile', $validated['profile']);
+                        }
+                        
+                        if (!empty($validated['comment'])) {
+                            $query->equal('comment', $validated['comment']);
+                        }
+
+                        // 4. Send the request and read the response
+                        $response = $client->query($query)->read();
+
+                        // Check if MikroTik returned an error array
+                        if (isset($response['after']['message'])) {
+                            Log::info('error');
+                            return response()->json([
+                                'status' => 'error',
+                                'message' => $response['after']['message']
+                            ], 400);
+                        }
+
+                            Log::info('Hotspot user successfully created on MikroTik.');
+                    
+
+                    } catch (Exception $e) {
+                        Log::info('catch error');
+                        return response()->json([
+                            'status' => 'error',
+                            'message' => 'Failed to connect to MikroTik Router: ' . $e->getMessage()
+                        ], 500);
+                    }
+
+
+                        // 2. MikroTik Connection Details
+                    $config = [
+                            'host' => '10.50.0.3',
+                            'user' => 'admin',
+                            'pass' => '123456',
+                            'port' => 8728,
+                    ];
+
+                    try {
+                        $client = new Client($config);
+
+                        // 3. Build the Hotspot Active Login Query
+                        $query = (new Query('/ip/hotspot/active/login'))
+                            ->equal('user', $getHotspot->phone)
+                            ->equal('password', $getHotspot->phone)
+                            ->equal('mac-address', $getHotspot->mac)
+                            ->equal('ip', $getHotspot->ip);
+
+                        // 4. Send Query to RouterOS
+                        $response = $client->query($query)->read();
+
+                        $createlog = Hotlog::create([
+                            'amount' => $createPayment->amount,
+                            'hotspot_id' => $getHotspot->id,
+                            'reason' => 3,
+                            'status' => 1,
+                            'date' => $dateNow,                           
+
+                        ]);
+                    Log::info('Hotspot user login in');
+
+
+                    } catch (\Exception $e) {
+                        return response()->json([
+                            'status' => 'error',
+                            'message' => 'Failed to connect to MikroTik: ' . $e->getMessage()
+                        ], 500);
+                    }
+        
+            
+            }
+            else{
+                Log::info('First Paybill');
         Log::info($request->all());
     if (Mpesa::where('reference', $request->TransID)->exists()) {
     Log::info('Mpesa Exists');
@@ -603,6 +725,9 @@ class MpesaController extends Controller
     }
      
 
+
+            }
+        
     }
 
         public function storeWebhookOne(Request $request)

@@ -31,6 +31,24 @@ class HotspotController extends Controller
                         // String is the correct phone format
                         Log::info('hotspot');
                         Log::info($request->all());
+                        $dateNow = Carbon::now();
+                           $createPayment = Hotspot::create([
+                            'mac' => $request->ip,
+                            'ip' => $request->mac,
+                            'phone' => $request->phone,
+                            'amount' => $request->amount,
+                            'status' => 0,
+                            'start_date' => $dateNow,                           
+
+                        ]);
+                        $createlog = Hotlog::create([
+                            'amount' => $createPayment->amount,
+                            'hotspot_id' => $createPayment->id,
+                            'reason' => 1,
+                            'status' => 0,
+                            'date' => $dateNow,                           
+
+                        ]);
                         try {
                         // 2. Initialize the MikroTik API Client
                         $client = new Client([
