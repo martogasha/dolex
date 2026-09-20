@@ -9,6 +9,8 @@ use App\Models\Logging;
 use App\Models\Payment;
 use App\Models\User;
 use App\Models\Mik;
+use App\Models\Hotspot;
+use App\Models\Hotlog;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
