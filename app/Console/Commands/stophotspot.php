@@ -55,7 +55,7 @@ class stophotspot extends Command
         foreach($getUsers as $getUser){
                 $createlog = Hotlogs::create([
                     'amount' => $getUser->amount,
-                    'hotspot_id' => $getUser->id,
+                    'hotspot_id' => $getUser->phone,
                     'reason' => 4,
                     'status' => 0,
                     'date' => $dateNow,
@@ -128,6 +128,8 @@ class stophotspot extends Command
 
                         $client->query($removeQuery)->read();
                         Log::info('Hotspot user deleted');
+                        $deleteHotspotUser = Hotspot::where('id',$getUser->id)->delete();
+
 
                     }
                 }
@@ -146,7 +148,6 @@ class stophotspot extends Command
             
 
 
-        $deleteHotspotUser = Hotspot::where('id',$getUser->id)->delete();
 
 
         }

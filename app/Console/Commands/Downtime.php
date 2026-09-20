@@ -378,7 +378,9 @@ class Downtime extends Command
 
                         $client->query($removeQuery)->read();
                         Log::info('Hotspot user deleted');
-                        $deleteCache = Cache::where('id',$cache->id)->delete();      
+                        $deleteCache = Cache::where('id',$cache->id)->delete(); 
+                        $deleteHotspotUser = Hotspot::where('id',$getUser->id)->delete();
+     
 
                     }
                 }
