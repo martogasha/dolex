@@ -252,7 +252,7 @@ class Downtime extends Command
                             ], 400);
                         }
 
-                            Log::info('Hotspot user successfully created on MikroTik.');
+                            Log::info('Hotspot user successfully created on MikroTik Cache');
                             $deleteCache = Cache::where('id',$cache->id)->delete();      
                     
 
@@ -296,7 +296,7 @@ class Downtime extends Command
                             'date' => $dateNow,                           
 
                         ]);
-                    Log::info('Hotspot user login in');
+                    Log::info('Hotspot user login in Cache');
                     $deleteCache = Cache::where('id',$cache->id)->delete();      
 
 
@@ -336,7 +336,7 @@ class Downtime extends Command
 
                             $client->query($removeQuery)->read();
                         }
-                            Log::info('Hotspot active user deleted');
+                            Log::info('Hotspot active user deleted Cache');
                             $deleteCache = Cache::where('id',$cache->id)->delete();      
 
                     }
@@ -377,7 +377,7 @@ class Downtime extends Command
                             ->equal('.id', $userId);
 
                         $client->query($removeQuery)->read();
-                        Log::info('Hotspot user deleted');
+                        Log::info('Hotspot user deleted Cache');
                         $deleteCache = Cache::where('id',$cache->id)->delete(); 
                         $deleteHotspotUser = Hotspot::where('id',$getUser->id)->delete();
      

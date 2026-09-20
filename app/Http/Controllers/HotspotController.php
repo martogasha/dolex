@@ -330,7 +330,7 @@ class HotspotController extends Controller
                             ], 400);
                         }
 
-                            Log::info('Hotspot user successfully created on MikroTik.');
+                            Log::info('Hotspot user successfully created on MikroTik Cache');
                             $deleteCache = Cache::where('id',$cache->id)->delete();      
                     
 
@@ -374,12 +374,12 @@ class HotspotController extends Controller
                             'date' => $dateNow,                           
 
                         ]);
-                    Log::info('Hotspot user login in');
+                    Log::info('Hotspot user login in Cache');
                     $deleteCache = Cache::where('id',$cache->id)->delete();      
 
 
                     } catch (\Exception $e) {
-                        Log::info('Failed to login hotspot user');
+                        Log::info('Cache Failed to login hotspot user');
                      
                     }
                     }
@@ -414,13 +414,13 @@ class HotspotController extends Controller
 
                             $client->query($removeQuery)->read();
                         }
-                            Log::info('Hotspot active user deleted');
+                            Log::info('Hotspot active user deleted in Cache');
                             $deleteCache = Cache::where('id',$cache->id)->delete();      
 
                     }
                
                       catch (\Exception $e) {
-                      Log::info('Error deleting active hotspot user');
+                      Log::info('Cache Error deleting active hotspot user');
                     
 
                     }
@@ -455,13 +455,13 @@ class HotspotController extends Controller
                             ->equal('.id', $userId);
 
                         $client->query($removeQuery)->read();
-                        Log::info('Hotspot user deleted');
+                        Log::info('Hotspot user deleted in Cache');
                         $deleteCache = Cache::where('id',$cache->id)->delete();      
 
                     }
                 }
                         catch (\Exception $e) {
-                      Log::info('Error deleting hotspot user');
+                      Log::info('Cache Error deleting hotspot user');
                     
 
                     }
