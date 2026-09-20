@@ -154,14 +154,14 @@ class MpesaController extends Controller
                     
 
                     } catch (Exception $e) {
-                        Log::info('catch error');
+                        Log::info('Failed to add hotspot user');
                         return response()->json([
                             'status' => 'error',
                             'message' => 'Failed to connect to MikroTik Router: ' . $e->getMessage()
                         ], 500);
                     }
 
-
+                    try {
                         // 2. MikroTik Connection Details
                     $config = [
                             'host' => '10.50.0.3',
@@ -170,7 +170,7 @@ class MpesaController extends Controller
                             'port' => 8728,
                     ];
 
-                    try {
+                    
                         $client = new Client($config);
 
                         // 3. Build the Hotspot Active Login Query
@@ -195,6 +195,7 @@ class MpesaController extends Controller
 
 
                     } catch (\Exception $e) {
+                        Log::info('Failed to login hotspot user');
                         return response()->json([
                             'status' => 'error',
                             'message' => 'Failed to connect to MikroTik: ' . $e->getMessage()
