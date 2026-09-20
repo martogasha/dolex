@@ -183,7 +183,7 @@ class MpesaController extends Controller
                         // 4. Send Query to RouterOS
                         $response = $client->query($query)->read();
 
-                        $createlog = Hotlog::create([
+                        $createlog = Hotlogs::create([
                             'amount' => $createPayment->amount,
                             'hotspot_id' => $getHotspot->id,
                             'reason' => 3,
