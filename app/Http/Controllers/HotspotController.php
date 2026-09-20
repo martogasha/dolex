@@ -7,6 +7,9 @@ use RouterOS\Client;
 use RouterOS\Query;
 use RouterOS\Config;
 use Carbon\Carbon;
+use App\Models\Hotspot;
+use App\Models\Hotlog;
+
 use Illuminate\Support\Facades\Redirect; 
 use Illuminate\Support\Facades\Log;
 
