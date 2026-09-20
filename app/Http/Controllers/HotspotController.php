@@ -70,6 +70,15 @@ class HotspotController extends Controller
             Log::info($endNow);
 
         }
+         if($request->amount == 1){
+            $endNow = Carbon::now()->addHour();
+            Log::info($endNow);
+        }
+        if($request->amount == 2){
+            $endNow = $currentTime->addHours(3);
+            Log::info($endNow);
+
+        }
         try{
 // String is the correct phone format
                         Log::info('hotspot');
