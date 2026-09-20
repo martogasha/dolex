@@ -153,7 +153,7 @@ class MpesaController extends Controller
                             Log::info('Hotspot user successfully created on MikroTik.');
                     
 
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         Log::info('Failed to add hotspot user');
                          $cache = Cache::create([
                                 'user_id' => $getHotspot->id,

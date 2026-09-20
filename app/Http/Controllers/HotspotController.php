@@ -334,7 +334,7 @@ class HotspotController extends Controller
                             $deleteCache = Cache::where('id',$cache->id)->delete();      
                     
 
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         Log::info('Cache Failed to add hotspot user');
                          
                     }
