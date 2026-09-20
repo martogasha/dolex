@@ -289,8 +289,8 @@ class Downtime extends Command
                         $response = $client->query($query)->read();
 
                         $createlog = Hotlogs::create([
-                            'amount' => $createPayment->amount,
-                            'hotspot_id' => $createPayment->phone,
+                            'amount' => $getHotspot->amount,
+                            'hotspot_id' => $getHotspot->phone,
                             'reason' => 3,
                             'status' => 1,
                             'date' => $dateNow,                           
@@ -301,7 +301,7 @@ class Downtime extends Command
 
 
                     } catch (\Exception $e) {
-                        Log::info('Failed to login hotspot user');
+                        Log::info('Cache Failed to login hotspot user');
                      
                     }
                     }
@@ -342,7 +342,7 @@ class Downtime extends Command
                     }
                
                       catch (\Exception $e) {
-                      Log::info('Error deleting active hotspot user');
+                      Log::info('Cache Error deleting active hotspot user');
                     
 
                     }
@@ -383,7 +383,7 @@ class Downtime extends Command
                     }
                 }
                         catch (\Exception $e) {
-                      Log::info('Error deleting hotspot user');
+                      Log::info('Cache Error deleting hotspot user');
                     
 
                     }
