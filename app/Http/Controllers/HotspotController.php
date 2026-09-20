@@ -8,7 +8,7 @@ use RouterOS\Query;
 use RouterOS\Config;
 use Carbon\Carbon;
 use App\Models\Hotspot;
-use App\Models\Hotlog;
+use App\Models\Hotlogs;
 
 use Illuminate\Support\Facades\Redirect; 
 use Illuminate\Support\Facades\Log;
@@ -44,7 +44,7 @@ class HotspotController extends Controller
                             'start_date' => $dateNow,                           
 
                         ]);
-                        $createlog = Hotlog::create([
+                        $createlog = Hotlogs::create([
                             'amount' => $createPayment->amount,
                             'hotspot_id' => $createPayment->id,
                             'reason' => 1,
