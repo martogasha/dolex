@@ -106,9 +106,9 @@ class HotspotController extends Controller
                             'end_date' => $endNow,                           
 
                         ]);
-        $account = $createPayment->phone;
-        $cleanedNumber = $createPayment->amount;
-        $phoneNumber = $createPayment->phone;
+        $account = $getUser->phone;
+        $cleanedNumber = $getUser->amount;
+        $phoneNumber = $getUser->phone;
         $modifiedNumber = ltrim($phoneNumber, "0");
         $code = '254';
         $finalNumber = $code . $modifiedNumber;
