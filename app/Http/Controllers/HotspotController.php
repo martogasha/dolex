@@ -49,82 +49,81 @@ class HotspotController extends Controller
                             'date' => $dateNow,                           
 
                         ]);
-                        try {
-                        // 2. Initialize the MikroTik API Client
-                        $client = new Client([
-                            'host' => '10.50.0.3',
-                            'user' => 'admin',
-                            'pass' => '123456',
-                            'port' => 8728,
-                        ]);
+        $customer = User::find($id);
+        $account = $createPayment->phone;
+        $cleanedNumber = $createPayment->amount;
+        $phoneNumber = $createPayment->phone;
+        $modifiedNumber = ltrim($phoneNumber, "0");
+        $code = '254';
+        $finalNumber = $code . $modifiedNumber;
+        
 
-                        // 3. Build the query payload targeting /ip/hotspot/user/add
-                        $query = new Query('/ip/hotspot/user/add');
-                        $query->equal('name', $request['phone']);
-                        $query->equal('password', $request['phone']);
-                        
-                        if (!empty($validated['profile'])) {
-                            $query->equal('profile', $validated['profile']);
-                        }
-                        
-                        if (!empty($validated['comment'])) {
-                            $query->equal('comment', $validated['comment']);
-                        }
+                // Do not hard code these values
+        $consumer_key ="HZKs4kTilx4xoc8CGKgR8t3Jkxe6A5Yp";
+        $consumer_secret = "R2xDmkzkVtBAeU4C";
+        $credentials = base64_encode($consumer_key.":".$consumer_secret);
+        
+        $url = 'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
+  
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Basic '.$credentials)); //setting a custom header
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+  
+        $curl_response = curl_exec($curl);
+  
+        $access_token = json_decode($curl_response);
 
-                        // 4. Send the request and read the response
-                        $response = $client->query($query)->read();
+        $token = $access_token->access_token;
 
-                        // Check if MikroTik returned an error array
-                        if (isset($response['after']['message'])) {
-                            Log::info('error');
-                            return response()->json([
-                                'status' => 'error',
-                                'message' => $response['after']['message']
-                            ], 400);
-                        }
+        // Do not hard code these values
+        $BusinessShortCode = 6589582;
+        $passkey ='aee519d8ed8804ed7913d00cbd818c8d8c4f1e879c390cf0521a05cfe25ad9ca';
+        $timestamp= Carbon::rawParse('now')->format('YmdHms');
 
-                            Log::info('Hotspot user successfully created on MikroTik.');
-                    
-
-                    } catch (Exception $e) {
-                        Log::info('catch error');
-                        return response()->json([
-                            'status' => 'error',
-                            'message' => 'Failed to connect to MikroTik Router: ' . $e->getMessage()
-                        ], 500);
-                    }
+        $password = base64_encode($BusinessShortCode.$passkey.$timestamp);
+        $Amount = $cleanedNumber;
+        $PartyA = $finalNumber;
+        $PartyB = 6589582;
 
 
-                        // 2. MikroTik Connection Details
-                    $config = [
-                            'host' => '10.50.0.3',
-                            'user' => 'admin',
-                            'pass' => '123456',
-                            'port' => 8728,
-                    ];
+        $url = 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
+  
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+          curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Content-Type:application/json; charset=utf8',
+            'Authorization:Bearer ' . $token
+        )); //setting custom header
+        
+        
+        $curl_post_data = array(
+          //Fill in the request parameters with valid values
+          'BusinessShortCode' => $BusinessShortCode,
+          'Password' => $password,
+          'Timestamp' => $timestamp,
+          'TransactionType' => 'CustomerPayBillOnline',
+          'Amount' => $Amount,
+          'PartyA' => $PartyA,
+          'PartyB' => $PartyB,
+          'PhoneNumber' => $PartyA,
+          'CallBackURL' => 'https://dolextechnologies.co.ke/storeWebhooks',
+          'AccountReference' => $account,
+          'TransactionDesc' => 'Testing stkpush on Sandbox '
+        );
+        
+        $data_string = json_encode($curl_post_data);
+        
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
+        
+        $curl_response = curl_exec($curl);   
 
-                    try {
-                        $client = new Client($config);
-
-                        // 3. Build the Hotspot Active Login Query
-                        $query = (new Query('/ip/hotspot/active/login'))
-                            ->equal('user', $request->phone)
-                            ->equal('password', $request->phone)
-                            ->equal('mac-address', $request->mac)
-                            ->equal('ip', $request->ip);
-
-                        // 4. Send Query to RouterOS
-                        $response = $client->query($query)->read();
-
-                      
-                        return Redirect::away('https://www.google.com');
-
-                    } catch (\Exception $e) {
-                        return response()->json([
-                            'status' => 'error',
-                            'message' => 'Failed to connect to MikroTik: ' . $e->getMessage()
-                        ], 500);
-                    }
+        Log::info('Mpesa Prompt initiated success');
         
     }
       public function testHotspotUser(){
