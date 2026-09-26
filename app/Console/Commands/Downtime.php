@@ -247,11 +247,8 @@ class Downtime extends Command
 
                         // Check if MikroTik returned an error array
                         if (isset($response['after']['message'])) {
-                            Log::info('error');
-                            return response()->json([
-                                'status' => 'error',
-                                'message' => $response['after']['message']
-                            ], 400);
+                            Log::info('user may already exist');
+
                         }
 
                             Log::info('Hotspot user successfully created on MikroTik Cache');
