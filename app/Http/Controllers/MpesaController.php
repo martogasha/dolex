@@ -119,7 +119,7 @@ class MpesaController extends Controller
                         try {
                         // 2. Initialize the MikroTik API Client
                         $client = new Client([
-                            'host' => '10.50.0.8',
+                            'host' => '10.50.0.3',
                             'user' => 'admin',
                             'pass' => '123456',
                             'port' => 8728,
