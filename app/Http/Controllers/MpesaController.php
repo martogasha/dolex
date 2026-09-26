@@ -129,6 +129,8 @@ class MpesaController extends Controller
                         $query = new Query('/ip/hotspot/user/add');
                         $query->equal('name', $getHotspot->phone);
                         $query->equal('password', $getHotspot->phone);
+                        $query->equal('ip_address', $getHotspot->ip);
+                        $query->equal('mac_address', $getHotspot->mac);
                         
                         if (!empty($validated['profile'])) {
                             $query->equal('profile', $validated['profile']);
