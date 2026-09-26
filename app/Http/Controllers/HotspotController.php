@@ -468,6 +468,7 @@ class HotspotController extends Controller
                     }
 
         }
+    
     }
     
         public function stopHotspot(){
