@@ -15,7 +15,10 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+       'paths' => [
+        'api/*',
+        'hotspotverify/*',
+    ],
 
     'allowed_methods' => ['*'],
 
