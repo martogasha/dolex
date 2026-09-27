@@ -655,9 +655,9 @@ class HotspotController extends Controller
         Log::info($id);
         $getStatus = Hotspot::where('mac',$id)->first();
 
-          return response()->json([
+        return response()->json([
         'status' => 'success',
-        'mac'    => $id,
+        'mac'    => $getStatus->status,
         'active' => true,
     ], 200, [
         'Access-Control-Allow-Origin' => '*',
