@@ -651,4 +651,13 @@ class HotspotController extends Controller
                     }
         
     }
+    public function hotspotverify($id){
+        Log::info($id);
+        $getStatus = Hotspot::where('mac',$id)->first();
+        return response()->json([
+        'status' => 'success',
+        'mac'    => $mac,
+        'active' => true,
+    ], 200); // 200 is the HTTP status code
+    }
 }

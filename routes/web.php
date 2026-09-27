@@ -182,6 +182,8 @@ Route::get('testHotspotUser', [HotspotController::class, 'testHotspotUser']);
 Route::post('storeHotspotUser', [HotspotController::class, 'storeHotspotUser']);
 Route::get('stopHotspot', [HotspotController::class, 'stopHotspot']);
 Route::get('hotspotcache', [HotspotController::class, 'hotspotcache']);
+Route::get('hotspotverify/{id}', [HotspotController::class, 'hotspotverify']);
+
 
 
 require __DIR__.'/auth.php';
