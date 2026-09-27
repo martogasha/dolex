@@ -67,8 +67,8 @@ class HotspotController extends Controller
             Log::info($endNow);
 
         }
-         if($request->amount == 1000){
-            $endNow = Carbon::now()->addMonth();
+         if($request->amount == 35){
+            $endNow = Carbon::now()->addHours(7);
             Log::info($endNow);
 
         }
