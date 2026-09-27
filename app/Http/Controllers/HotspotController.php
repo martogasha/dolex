@@ -654,10 +654,9 @@ class HotspotController extends Controller
     public function hotspotverify($id){
         Log::info($id);
         $getStatus = Hotspot::where('mac',$id)->first();
-        return response()->json([
-        'status' => 'success',
-        'mac'    => $id,
-        'active' => true,
-    ], 200); // 200 is the HTTP status code
+
+    return response('HELLO FROM LARAVEL', 200)
+        ->header('Content-Type', 'text/plain')
+        ->header('Access-Control-Allow-Origin', '*');
     }
 }
