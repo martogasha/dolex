@@ -2773,7 +2773,8 @@ class MpesaController extends Controller
      
 
     }
-    public function authenticate(){
+    public function authenticate(Request $request){
+        Log::info($request->all());
 
     }
     public function register(){
