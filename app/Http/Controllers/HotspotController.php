@@ -656,7 +656,7 @@ class HotspotController extends Controller
         $getStatus = Hotspot::where('mac',$id)->first();
         return response()->json([
         'status' => 'success',
-        'mac'    => $mac,
+        'mac'    => $id,
         'active' => true,
     ], 200); // 200 is the HTTP status code
     }
