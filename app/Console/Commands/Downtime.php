@@ -221,7 +221,7 @@ class Downtime extends Command
                                      try {
                         // 2. Initialize the MikroTik API Client
                         $client = new Client([
-                            'host' => '10.50.0.2',
+                            'host' => '10.50.0.3',
                             'user' => 'admin',
                             'pass' => '123456',
                             'port' => 8728,
@@ -263,7 +263,7 @@ class Downtime extends Command
                                try {
                         // 2. MikroTik Connection Details
                     $config = [
-                            'host' => '10.50.0.2',
+                            'host' => '10.50.0.3',
                             'user' => 'admin',
                             'pass' => '123456',
                             'port' => 8728,
@@ -307,7 +307,7 @@ class Downtime extends Command
                     try {
                         // 2. MikroTik Connection Details
                     $config = [
-                            'host' => '10.50.0.2',
+                            'host' => '10.50.0.3',
                             'user' => 'admin',
                             'pass' => '123456',
                             'port' => 8728,
@@ -351,7 +351,7 @@ class Downtime extends Command
                           try{
                                 // 1. Connect to your MikroTik router
                         $client = new Client([
-                                'host' => '10.50.0.2',
+                                'host' => '10.50.0.3',
                                 'user' => 'admin',
                                 'pass' => '123456',
                                 'port' => 8728,
@@ -393,7 +393,7 @@ class Downtime extends Command
                   try{
                         // 1. Connect to your MikroTik router
                     $client = new Client([
-                        'host' => '10.50.0.2',
+                        'host' => '10.50.0.3',
                         'user' => 'admin',
                         'pass' => '123456',
                         'port' => 8728,

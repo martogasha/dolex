@@ -66,7 +66,7 @@ class stophotspot extends Command
                         try{
                                 // 1. Connect to your MikroTik router
                         $client = new Client([
-                                'host' => '10.50.0.2',
+                                'host' => '10.50.0.3',
                                 'user' => 'admin',
                                 'pass' => '123456',
                                 'port' => 8728,
@@ -105,7 +105,7 @@ class stophotspot extends Command
                 try{
                         // 1. Connect to your MikroTik router
                     $client = new Client([
-                        'host' => '10.50.0.2',
+                        'host' => '10.50.0.3',
                         'user' => 'admin',
                         'pass' => '123456',
                         'port' => 8728,
