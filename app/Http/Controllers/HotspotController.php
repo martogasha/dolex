@@ -338,6 +338,44 @@ class HotspotController extends Controller
                         Log::info('Cache Failed to add hotspot user');
                          
                     }
+                                 try {
+                        // 2. MikroTik Connection Details
+                    $config = [
+                            'host' => '10.50.0.3',
+                            'user' => 'admin',
+                            'pass' => '123456',
+                            'port' => 8728,
+                    ];
+
+                    
+                        $client = new Client($config);
+
+                        // 3. Build the Hotspot Active Login Query
+                        $query = (new Query('/ip/hotspot/active/login'))
+                            ->equal('user', $getHotspot->phone)
+                            ->equal('password', $getHotspot->phone)
+                            ->equal('mac-address', $getHotspot->mac)
+                            ->equal('ip', $getHotspot->ip);
+
+                        // 4. Send Query to RouterOS
+                        $response = $client->query($query)->read();
+
+                        $createlog = Hotlogs::create([
+                            'amount' => $getHotspot->amount,
+                            'hotspot_id' => $getHotspot->phone,
+                            'reason' => 3,
+                            'status' => 1,
+                            'date' => $dateNow,                           
+
+                        ]);
+                    Log::info('Hotspot user login in Cache');
+                    $deleteCache = Cache::where('user_id',$getHotspot->id)->delete();      
+
+
+                    } catch (\Exception $e) {
+                        Log::info('Cache Failed to login hotspot user');
+                     
+                    }
                     }
 
         }
