@@ -116,8 +116,8 @@ class HotspotController extends Controller
         
 
                 // Do not hard code these values
-        $consumer_key ="HZKs4kTilx4xoc8CGKgR8t3Jkxe6A5Yp";
-        $consumer_secret = "R2xDmkzkVtBAeU4C";
+        $consumer_key ="WIkdNNYjSi9HTUS6XfUWIuKMF8oBWNQVbZuwSDH3XVGEg1PD";
+        $consumer_secret = "BBlAaCCd85wlp47e6uQHX7ntlGT3nGYW9X0uVjJDmVHKyCa8sWITueYcNaDfc9ip";
         $credentials = base64_encode($consumer_key.":".$consumer_secret);
         
         $url = 'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
@@ -137,14 +137,14 @@ class HotspotController extends Controller
         $token = $access_token->access_token;
 
         // Do not hard code these values
-        $BusinessShortCode = 6589582;
-        $passkey ='aee519d8ed8804ed7913d00cbd818c8d8c4f1e879c390cf0521a05cfe25ad9ca';
+        $BusinessShortCode = 4320849;
+        $passkey ='4a9280edfcc6bc8602a4b84b3e8b1284c818c5b142988f9af345015703daeaa0';
         $timestamp= Carbon::rawParse('now')->format('YmdHms');
 
         $password = base64_encode($BusinessShortCode.$passkey.$timestamp);
         $Amount = $cleanedNumber;
         $PartyA = $finalNumber;
-        $PartyB = 6589582;
+        $PartyB = 4320849;
 
 
         $url = 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
@@ -167,7 +167,7 @@ class HotspotController extends Controller
           'PartyA' => $PartyA,
           'PartyB' => $PartyB,
           'PhoneNumber' => $PartyA,
-          'CallBackURL' => 'https://dolextechnologies.co.ke/storeWebhooks',
+          'CallBackURL' => 'https://dolextechnologies.co.ke/storeWebhookHotspot',
           'AccountReference' => $account,
           'TransactionDesc' => 'Testing stkpush on Sandbox '
         );
@@ -212,8 +212,8 @@ class HotspotController extends Controller
         
 
                 // Do not hard code these values
-        $consumer_key ="HZKs4kTilx4xoc8CGKgR8t3Jkxe6A5Yp";
-        $consumer_secret = "R2xDmkzkVtBAeU4C";
+        $consumer_key ="WIkdNNYjSi9HTUS6XfUWIuKMF8oBWNQVbZuwSDH3XVGEg1PD";
+        $consumer_secret = "BBlAaCCd85wlp47e6uQHX7ntlGT3nGYW9X0uVjJDmVHKyCa8sWITueYcNaDfc9ip";
         $credentials = base64_encode($consumer_key.":".$consumer_secret);
         
         $url = 'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
@@ -233,14 +233,14 @@ class HotspotController extends Controller
         $token = $access_token->access_token;
 
         // Do not hard code these values
-        $BusinessShortCode = 6589582;
-        $passkey ='aee519d8ed8804ed7913d00cbd818c8d8c4f1e879c390cf0521a05cfe25ad9ca';
+        $BusinessShortCode = 4320849;
+        $passkey ='4a9280edfcc6bc8602a4b84b3e8b1284c818c5b142988f9af345015703daeaa0';
         $timestamp= Carbon::rawParse('now')->format('YmdHms');
 
         $password = base64_encode($BusinessShortCode.$passkey.$timestamp);
         $Amount = $cleanedNumber;
         $PartyA = $finalNumber;
-        $PartyB = 6589582;
+        $PartyB = 4320849;
 
 
         $url = 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
@@ -263,7 +263,7 @@ class HotspotController extends Controller
           'PartyA' => $PartyA,
           'PartyB' => $PartyB,
           'PhoneNumber' => $PartyA,
-          'CallBackURL' => 'https://dolextechnologies.co.ke/storeWebhooks',
+          'CallBackURL' => 'https://dolextechnologies.co.ke/storeWebhookHotspot',
           'AccountReference' => $account,
           'TransactionDesc' => 'Testing stkpush on Sandbox '
         );
