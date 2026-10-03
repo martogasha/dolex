@@ -32,4 +32,5 @@ Route::post('storeWebhookOne', [MpesaController::class, 'storeWebhookOne']);
 Route::post('storeWebhookTwo', [MpesaController::class, 'storeWebhookTwo']);
 Route::post('storeWebhookThree', [MpesaController::class, 'storeWebhookThree']);
 Route::post('storeWebhookFour', [MpesaController::class, 'storeWebhookFour']);
+Route::post('storeWebhookHotspot', [MpesaController::class, 'storeWebhookHotspot']);
 
