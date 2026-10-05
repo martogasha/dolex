@@ -221,6 +221,10 @@
                                     <a href="{{url('logs')}}" class="nav-link"><i
                                             class="fas fa-angle-right"></i>Logs</a>
                                 </li>
+                                 <li class="nav-item">
+                                    <a href="{{url('hotspotlogs')}}" class="nav-link"><i
+                                            class="fas fa-angle-right"></i>Hotspot Logs</a>
+                                </li>
                             </ul>
                         </li>
                         @endif

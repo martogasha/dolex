@@ -8,6 +8,8 @@ use RouterOS\Query;
 use RouterOS\Config;
 use Carbon\Carbon;
 use App\Models\Hotspot;
+use App\Models\Logging;
+use App\Models\Mik;
 use App\Models\Hotlogs;
 use App\Models\Cache;
 use Illuminate\Support\Facades\Redirect; 
@@ -28,6 +30,14 @@ class HotspotController extends Controller
 
         // 2. Return the response as JSON
         return response()->json($data, 200);
+    }
+    public function hotspotlogs(){
+          $logs = Hotlogs::latest()->get();
+            $mikrotiks = Mik::all();
+            return view('admin.hotspotlogs',[
+                'logs'=>$logs,
+                'mikrotiks'=>$mikrotiks
+            ]);
     }
 
     public function storeHotspotUser(Request $request){

@@ -2810,7 +2810,7 @@ class MpesaController extends Controller
                         $getHotspot = Hotspot::where('phone',$request->BillRefNumber)->first();
                         $createlog = Hotlogs::create([
                             'amount' => $createPayment->amount,
-                            'hotspot_id' => $createPayment->phone,
+                            'hotspot_id' => $createPayment->senderPhoneNumber,
                             'reason' => 2,
                             'status' => 1,
                             'date' => $dateNow,                           
@@ -2884,7 +2884,7 @@ class MpesaController extends Controller
 
                         $createlog = Hotlogs::create([
                             'amount' => $createPayment->amount,
-                            'hotspot_id' => $createPayment->phone,
+                            'hotspot_id' => $createPayment->senderPhoneNumber,
                             'reason' => 3,
                             'status' => 1,
                             'date' => $dateNow,                           

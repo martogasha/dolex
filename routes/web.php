@@ -183,6 +183,7 @@ Route::post('storeHotspotUser', [HotspotController::class, 'storeHotspotUser']);
 Route::get('stopHotspot', [HotspotController::class, 'stopHotspot']);
 Route::get('hotspotcache', [HotspotController::class, 'hotspotcache']);
 Route::get('hotspotverify/{id}', [HotspotController::class, 'hotspotverify']);
+Route::get('hotspotlogs', [HotspotController::class, 'hotspotlogs']);
 
 
 
