@@ -95,7 +95,6 @@ class MpesaController extends Controller
         if (preg_match($pattern, $phone)) {
                         // String is the correct phone format
                         Log::info('hotspot');
-                        Log::info($request->all());
                          $createPayment = Mpesa::create([
                             'reference' => $request->TransID,
                             'originationTime' => $request->TransTime,
