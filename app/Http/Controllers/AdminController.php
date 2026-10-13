@@ -505,13 +505,14 @@ class AdminController extends Controller
     }
     public function disablePppoeSecret($id)
     {
+        $store = User::where('mikrotik_id',$id)->first();
         $dateNow = Carbon::now();
                try {
             // Get the MikroTik API client using the configured facade
             $config = new Config([
-                'host' => '102.209.56.86',
-                'user' => 'admin',
-                'pass' => '@anxvtT3n',
+                'host' => $store->mik->ip,
+                'user' => $store->mik->user,
+                'pass' => $store->mik->password,
                 'port' => 8728,
         ]);
         $client = new Client($config);

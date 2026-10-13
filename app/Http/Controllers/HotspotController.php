@@ -39,6 +39,34 @@ class HotspotController extends Controller
                 'mikrotiks'=>$mikrotiks
             ]);
     }
+    public function mikrotiknetstatus(){
+                     try {
+            // Initialize connection using your MikroTik's IP, username, and password
+            $client = new Client([
+                'host' => '10.50.0.2',
+                'user' => 'admin',
+                'pass' => '123456',
+                'port' => 8728,      // Default API port
+            ]);
+
+            // Create query to get system identity
+            $query = new Query('/system/identity/print');
+
+            // Execute the query
+            $response = $client->query($query)->read();
+
+            // Extract the 'name' from the MikroTik response
+            $routerName = $response[0]['name'] ?? 'Unknown';
+        dd($routerName);
+
+         
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to disable PPPoE secret: ' . $e->getMessage()], 500);
+
+
+        }
+    }
 
     public function storeHotspotUser(Request $request){
         try{
