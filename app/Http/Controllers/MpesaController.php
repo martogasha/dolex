@@ -204,7 +204,6 @@ class MpesaController extends Controller
             }
             else{
                 Log::info('First Paybill');
-        Log::info($request->all());
     if (Mpesa::where('reference', $request->TransID)->exists()) {
     Log::info('Mpesa Exists');
     }
@@ -715,7 +714,6 @@ class MpesaController extends Controller
         public function storeWebhookOne(Request $request)
     {
         Log::info('Second Paybill');
-        Log::info($request->all());
         
       $dateFormats = $request->TransTime;
         $dateFormat = Carbon::parse($dateFormats);

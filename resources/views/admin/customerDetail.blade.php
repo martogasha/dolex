@@ -85,7 +85,7 @@
                             <div class="card-body">
                                 <div class="heading-layout1 mg-b-17">
                                     <div class="item-title">
-                                        <h3>Last Logout</h3>
+                                        <h3>Time Details <h5>last updated (<b>{{$pppoeclientdetail->updated_at}}</b>)</h5></h3>
                                     </div>
                                     <div class="dropdown">
                                         <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -103,37 +103,18 @@
                                 </div>
                                 <div class="notice-box-wrap">
                                     <div class="notice-list">
-                                        <div class="post-date bg-skyblue">16 June, 2019</div>
-                                        <h6 class="notice-title"><a href="#">Great School manag mene esom text of the
-                                                printing.</a></h6>
-                                        <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
+                                        <div class="post-date bg-skyblue">Last Log Out</div>
+                                        <h6 class="notice-title"><a href="#">{{date('d/m/Y H:i:s',strtotime($pppoeclientdetail->last_logged_out))}}</a></h6>
                                     </div>
                                     <div class="notice-list">
-                                        <div class="post-date bg-yellow">16 June, 2019</div>
-                                        <h6 class="notice-title"><a href="#">Great School manag printing.</a></h6>
-                                        <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
+                                        <div class="post-date bg-yellow">Uptime</div>
+                                        <h6 class="notice-title"><a href="#">{{$pppoeclientdetail->uptime}}</a></h6>
                                     </div>
                                     <div class="notice-list">
-                                        <div class="post-date bg-pink">16 June, 2019</div>
-                                        <h6 class="notice-title"><a href="#">Great School manag meneesom.</a></h6>
-                                        <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
+                                        <div class="post-date bg-pink">Status</div>
+                                        <h6 class="notice-title"><a href="#">{{$pppoeclientdetail->status}}</a></h6>
                                     </div>
-                                    <div class="notice-list">
-                                        <div class="post-date bg-skyblue">16 June, 2019</div>
-                                        <h6 class="notice-title"><a href="#">Great School manag mene esom text of the
-                                                printing.</a></h6>
-                                        <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
-                                    </div>
-                                    <div class="notice-list">
-                                        <div class="post-date bg-yellow">16 June, 2019</div>
-                                        <h6 class="notice-title"><a href="#">Great School manag printing.</a></h6>
-                                        <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
-                                    </div>
-                                    <div class="notice-list">
-                                        <div class="post-date bg-pink">16 June, 2019</div>
-                                        <h6 class="notice-title"><a href="#">Great School manag meneesom.</a></h6>
-                                        <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
-                                    </div>
+                      
                                 </div>
                             </div>
                         </div>

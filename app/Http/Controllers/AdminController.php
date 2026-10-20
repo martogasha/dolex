@@ -20,6 +20,7 @@ use App\Models\Quotation;
 use App\Models\Mik;
 use App\Models\Duplicate;
 use App\Models\User;
+use App\Models\Pppoeclientdetail;
 use App\Models\Singlesms;
 use Carbon\Carbon;
 use Dompdf\Dompdf;
@@ -346,7 +347,7 @@ class AdminController extends Controller
                                 'host' => $getMikrotik->ip,
                                 'user' => $getMikrotik->user,
                                 'pass' => $getMikrotik->password,
-                                'port' => 8728,
+                                'port' => $getMikrotik->statusOne,
                             ]);
 
                     
@@ -513,7 +514,7 @@ class AdminController extends Controller
                 'host' => $store->mik->ip,
                 'user' => $store->mik->user,
                 'pass' => $store->mik->password,
-                'port' => 8728,
+                'port' => $store->mik->statusOne,
         ]);
         $client = new Client($config);
 
@@ -1293,13 +1294,20 @@ class AdminController extends Controller
         $invCount = Invoice::where('user_id',$user->id)->count();
         $mikrotiks = Mik::all();
         $logs = Logging::where('user_id',$user->id)->latest()->get();
+        $pppoeclientdetail = Pppoeclientdetail::where('user_id',$user->id)->first();
+        if(!isset($pppoeclientdetail)){
+            $pppoeclientdetail = null;
+
+        }
         return view('admin.customerDetail',[
             'user'=>$user,
             'invoices'=>$invoices,
             'invs'=>$invs,
             'invCount'=>$invCount,
             'mikrotiks'=>$mikrotiks,
-            'logs'=>$logs
+            'logs'=>$logs,
+            'pppoeclientdetail'=>$pppoeclientdetail,
+
         ]);
 
     }
