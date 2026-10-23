@@ -2949,9 +2949,12 @@ class AdminController extends Controller
         return redirect(url('employees'))->with('success','USER DELETED SUCCESS');
 
     }
-    public function bulksms(){
-        return view('admin.bulksms');
-    }
+        public function bulksms(){
+                $mikrotiks = Mik::all();
+                return view('admin.bulksms',[
+                    'mikrotiks'=>$mikrotiks
+                ]);
+            }
     public function sendBulkSms(Request $request){
            $ones =  Invoice::where('status',1)->where('statas',0)->get();
           
@@ -2960,12 +2963,12 @@ class AdminController extends Controller
               
            
                          $postData = [
-                        'apikey' => '9324ef7e2034b5d479f64d31ae513215',
-                        'partnerID' => 138,
+                        'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
+                        'partnerID' => 15,
                         'mobile' => $one->user->phoneOne,
                         
                         'message' => $request->message,
-                        'shortcode' => 'VUMATEL',
+                        'shortcode' => 'DOLEX TECH',
                         
                     ];
                     $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
@@ -2986,12 +2989,12 @@ class AdminController extends Controller
               
            
                          $postData = [
-                        'apikey' => '9324ef7e2034b5d479f64d31ae513215',
-                        'partnerID' => 138,
+                        'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
+                        'partnerID' => 15,
                         'mobile' => $one->user->phoneOne,
                         
                         'message' => $request->message,
-                        'shortcode' => 'VUMATEL',
+                        'shortcode' => 'DOLEX TECH',
                         
                     ];
                     $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);

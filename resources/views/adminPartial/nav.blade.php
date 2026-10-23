@@ -245,6 +245,19 @@
                             </ul>
                         </li>
                         @endif
+                          <li class="nav-item sidebar-nav-item">
+                            <a href="#" class="nav-link"><i class="flaticon-open-book"></i><span>Send Bulk SMS</span></a>
+                            <ul class="nav sub-group-menu">
+                                <li class="nav-item">
+                                    <a href="{{url('bulksms')}}" class="nav-link"><i
+                                            class="fas fa-angle-right"></i>Send Bulk SMS</a>
+                                </li>
+                                 <li class="nav-item">
+                                    <a href="{{url('sendUserSms')}}" class="nav-link"><i
+                                            class="fas fa-angle-right"></i>Send group Message</a>
+                                </li>
+                            </ul>
+                        </li>
 
                 </ul>
                 @endauth
