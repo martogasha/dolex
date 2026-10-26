@@ -188,7 +188,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{url('cash')}}" class="nav-link"><i
-                                            class="fas fa-angle-right"></i>Cash</a>
+                                            class="fas fa-angle-right"></i>Hotspot Payments</a>
                                 </li>
                             </ul>
                         </li>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\Controller;
 use App\Models\Cash;
+use App\Models\Hotspotmpesa;
+use App\Models\Mpesa;
 use App\Models\Mik;
 use RouterOS\Client;
 use RouterOS\Query;
@@ -16,10 +18,13 @@ use Illuminate\Support\Facades\Http;
 class CashController extends Controller
 {
     public function index(){
-        $cashs = Cash::all();
+        $mpesas = Hotspotmpesa::where('id','>',0)->orderByDesc('id')->get();
+        $currentMonth = date('m');
+        $total = Hotspotmpesa::where('currentMonth',$currentMonth)->sum('amount');
         $mikrotiks = Mik::all();
         return view('admin.cash',[
-            'cashs'=>$cashs,
+            'mpesas'=>$mpesas,
+            'total'=>$total,
             'mikrotiks'=>$mikrotiks
         ]);
     }
