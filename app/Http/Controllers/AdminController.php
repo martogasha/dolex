@@ -347,7 +347,7 @@ class AdminController extends Controller
                                 'host' => $getMikrotik->ip,
                                 'user' => $getMikrotik->user,
                                 'pass' => $getMikrotik->password,
-                                'port' => $getMikrotik->statusOne,
+                                'port' => 8728,
                             ]);
 
                     
