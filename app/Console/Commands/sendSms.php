@@ -150,8 +150,7 @@ ACC NO: '.$get->user->phone.'',
                         
                         'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/F/Y',strtotime($one->one_day_before)).'. Pay to avoid disconnection.
 PAYBILL: 6589582
-ACC NO: '.$one->user->phone.'
-AMOUNT: '.$sum.'',
+ACC NO: '.$one->user->phone.'',
                         'shortcode' => 'DOLEX TECH',
                         
                     ];
