@@ -86,8 +86,7 @@ class sendSms extends Command
                         
                         'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/F/Y',strtotime($get->one_day_before)).'. Pay to avoid disconnection.
 PAYBILL: 6589582
-ACC NO: '.$get->user->phone.'
-AMOUNT: '.$sum.'',
+ACC NO: '.$get->user->phone.'',
                         'shortcode' => 'DOLEX TECH',
                         
                     ];
