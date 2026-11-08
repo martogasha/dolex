@@ -230,6 +230,8 @@ class AdminController extends Controller
         return redirect()->back()->with('success','profile updated success');
     }
     public function customers(){
+        // $test = Invoice::where('two_days_before', '>', Carbon::now()->addMonths(2))->where('status',1)->where('statas',0)->get();
+        // dd($test);
         if (Auth::check()){
             $customers = User::where('dis_status','false')->where('role','!=',4)->orWhere('dis_status','true')->orderByDesc('id')->get();
             $mikrotiks = Mik::all();

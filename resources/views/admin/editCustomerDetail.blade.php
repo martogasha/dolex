@@ -143,12 +143,7 @@
                                         <input type="text" value="{{$customer->location}}" class="form-control" name="comment"/>
                                     </div>
                                 </div>
-                                <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <div class="form-group">
-                                        <label for="dob">1Day MSG *</label>
-                                        <input type="date" value="" class="form-control" name="one_day_before"/>
-                                    </div>
-                                </div>
+                              
                             @endif
                         
                             <div class="col-12 form-group mg-t-8">
