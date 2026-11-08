@@ -27,10 +27,10 @@ class Kernel extends ConsoleKernel
     {
          $schedule->command('billing')->everyMinute();
          $schedule->command('stophotspot')->everyMinute();
-        //  $schedule->command('sendSms')->everyMinute()->when(function () {
-        //      $now = Carbon::now();
-        //      return $now->hour >= 9; // Runs every minute if the hour is 9 AM or later
-        //  });
+         $schedule->command('sendSms')->everyMinute()->when(function () {
+             $now = Carbon::now();
+             return $now->hour >= 9; // Runs every minute if the hour is 9 AM or later
+         });
          $schedule->command('downtime')->everyMinute();
     }
 
