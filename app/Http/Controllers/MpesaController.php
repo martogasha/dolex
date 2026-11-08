@@ -269,7 +269,7 @@ class MpesaController extends Controller
                                                 'host' => $getUserIdentification->mik->ip,
                                                 'user' => $getUserIdentification->mik->user,
                                                 'pass' => $getUserIdentification->mik->password,
-                                                'port' => 8728,
+                                                'port' => $getUserIdentification->mik->statusOne,
                                         ]);
                                         $client = new Client($config);
                                         $mikId = $getUserIdentification->mikrotik_id;
@@ -433,7 +433,7 @@ class MpesaController extends Controller
                                                 'host' => $getUserIdentification->mik->ip,
                                                 'user' => $getUserIdentification->mik->user,
                                                 'pass' => $getUserIdentification->mik->password,
-                                                'port' => 8728,
+                                                'port' => $getUserIdentification->mik->statusOne,
                                         ]);
                                         $client = new Client($config);
                                         $mikId = $getUserIdentification->mikrotik_id;
@@ -479,7 +479,7 @@ class MpesaController extends Controller
                                                         'host' => $getUserIdentification->mik->ip,
                                                         'user' => $getUserIdentification->mik->user,
                                                         'pass' => $getUserIdentification->mik->password,
-                                                        'port' => 8728,
+                                                        'port' => $getUserIdentification->mik->statusOne,
                                                 ]);
                                                 $client = new Client($config);
                                                 $query = (new Query('/ppp/secret/print'))->where('.id', $getUserIdentification->mikrotik_id);

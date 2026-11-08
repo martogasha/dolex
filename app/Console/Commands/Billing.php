@@ -200,7 +200,7 @@ class Billing extends Command
                                                                 'host' => $getUser->mik->ip,
                                                                 'user' => $getUser->mik->user,
                                                                 'pass' => $getUser->mik->password,
-                                                                'port' => 8728,
+                                                                'port' => $getUser->mik->statusOne,
                                                     ]);
                                                     $client = new Client($config);
                                                     $mikId = $getDuplicate->user->mikrotik_id;
@@ -254,7 +254,7 @@ class Billing extends Command
                                                                 'host' => $getUser->mik->ip,
                                                                 'user' => $getUser->mik->user,
                                                                 'pass' => $getUser->mik->password,
-                                                                'port' => 8728,
+                                                                'port' => $getUser->mik->statusOne,
                                                             ]);
 
                                                             // 2. Build the query object (e.g., getting secrets with 'default' profile)
@@ -303,7 +303,7 @@ class Billing extends Command
                                                     'host' => $getUser->mik->ip,
                                                     'user' => $getUser->mik->user,
                                                     'pass' => $getUser->mik->password,
-                                                    'port' => 8728,
+                                                    'port' => $getUser->mik->statusOne,
                                             ]);
                                             $client = new Client($config);
                                             $mikId = $getUser->mikrotik_id;
@@ -357,7 +357,7 @@ class Billing extends Command
                                                         'host' => $getUser->mik->ip,
                                                         'user' => $getUser->mik->user,
                                                         'pass' => $getUser->mik->password,
-                                                        'port' => 8728,
+                                                        'port' => $getUser->mik->statusOne,
                                                     ]);
 
                                                     // 2. Build the query object (e.g., getting secrets with 'default' profile)
@@ -518,7 +518,7 @@ class Billing extends Command
                                                                 'host' => $getUser->mik->ip,
                                                                 'user' => $getUser->mik->user,
                                                                 'pass' => $getUser->mik->password,
-                                                                'port' => 8728,
+                                                                'port' => $getUser->mik->statusOne,
                                                             ]);
                                                             $client = new Client($config);
                                                             $query = (new Query('/ppp/secret/print'))->where('.id', $getUser->mikrotik_id);
@@ -600,7 +600,7 @@ class Billing extends Command
                                                     'host' => $getUser->mik->ip,
                                                     'user' => $getUser->mik->user,
                                                     'pass' => $getUser->mik->password,
-                                                    'port' => 8728,
+                                                    'port' => $getUser->mik->statusOne,
                                             ]);
                                             $client = new Client($config);
                                             $mikId = $getUser->mikrotik_id;
@@ -654,7 +654,7 @@ class Billing extends Command
                                                         'host' => $getUser->mik->ip,
                                                         'user' => $getUser->mik->user,
                                                         'pass' => $getUser->mik->password,
-                                                        'port' => 8728,
+                                                        'port' => $getUser->mik->statusOne,
                                                     ]);
 
                                                     // 2. Build the query object (e.g., getting secrets with 'default' profile)
@@ -700,7 +700,7 @@ class Billing extends Command
                                                             'host' => $getUser->mik->ip,
                                                             'user' => $getUser->mik->user,
                                                             'pass' => $getUser->mik->password,
-                                                            'port' => 8728,
+                                                            'port' => $getUser->mik->statusOne,
                                                     ]);
                                                     $bandwidth = '1MBPS';
                                                     $client = new Client($config);
