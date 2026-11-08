@@ -37,6 +37,7 @@
                                 <th>Mikrotik Ip Address</th>
                                 <th>Mikrotik User</th>
                                 <th>Mikrotik Password</th>
+                                <th>Mikrotik Port</th>
                                 <th>Action</th>
                           
                             </tr>
@@ -49,6 +50,7 @@
                                 <td>{{$mpesa->ip}}</td>
                                 <td>{{$mpesa->user}}</td>
                                 <td>{{$mpesa->password}}</td>
+                                <td>{{$mpesa->statusOne}}</td>
                                 <td>
                                         <div class="dropdown">
                                         <a class="dropdown-toggle" href="#" role="button" 

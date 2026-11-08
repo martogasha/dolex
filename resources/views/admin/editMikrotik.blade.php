@@ -41,6 +41,10 @@
                                 <label>Password *</label>
                                 <input type="text" class="form-control" value="{{$edit->password}}" name="mikrotik_password" required>
                             </div>
+                            <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                <label>Port *</label>
+                                <input type="text" class="form-control" value="{{$edit->statusOne}}" name="mikrotik_port" required>
+                            </div>
                       
                             <div class="col-12 form-group mg-t-8">
                                 <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark" id="addMikrotik">Save</button>

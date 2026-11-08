@@ -3330,10 +3330,13 @@ class AdminController extends Controller
         ]);
     }
     public function editMik(Request $request){
+        $string = $request->mikrotik_port;
+        $port = (int) $string; // 42
         $edit = Mik::find($request->mikrotik_id);
         $edit->ip = $request->mikrotik_ip;
         $edit->user = $request->mikrotik_user;
         $edit->password = $request->mikrotik_password;
+        $edit->statusOne = $port;
         $edit->save();
 
         return redirect(url('listMikrotik'))->with('success','Mikrotik Edit Success');
