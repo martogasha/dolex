@@ -76,7 +76,7 @@ class sendSms extends Command
                 
                 $geto =  Invoice::where('user_id',$getUser->id)->where('status',1)->where('statas',0)->first();                
                 $sum = User::where('phone', (int) preg_replace('/\D/', '', $integer))->sum('package_amount');
-                                                $twoDays = $geto->two_days_before;
+                                                $twoDays = $get->two_days_before;
               
              
                           $postData = [
