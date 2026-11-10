@@ -126,7 +126,7 @@ class sendSms extends Command
 
                                      
 //         }
-//         $ones =  Invoice::where('one_day_before', '<', Carbon::now())->where('status',1)->where('statas',0)->get();
+        $ones =  Invoice::where('one_day_before', '<', Carbon::now())->where('status',1)->where('statas',0)->get();
           
         foreach($ones as $one){
            $string = $one->user->phone;
