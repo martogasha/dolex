@@ -126,68 +126,68 @@ ACC NO: '.$get->user->phone.'',
 
                                      
         }
-        // $ones =  Invoice::where('one_day_before', '<', Carbon::now())->where('status',1)->where('statas',0)->get();
+        $ones =  Invoice::where('one_day_before', '<', Carbon::now())->where('status',1)->where('statas',0)->get();
           
-//         foreach($ones as $one){
-//            $string = $one->user->phone;
+        foreach($ones as $one){
+           $string = $one->user->phone;
            
-//             $count = User::where('phone', (int) preg_replace('/\D/', '', $string))->count();
+            $count = User::where('phone', (int) preg_replace('/\D/', '', $string))->count();
             
-//             if($count>1){
+            if($count>1){
                  
-//                 $integer = (int) preg_replace('/\D/', '', $string);
-//                 $getUser = User::where('phone',$integer)->first();
-//                 $one =  Invoice::where('user_id',$getUser->id)->where('status',1)->where('statas',0)->first();
-//                 $sum = User::where('phone', (int) preg_replace('/\D/', '', $integer))->sum('package_amount');
-//                                            $oneDay = $one->one_day_before;
+                $integer = (int) preg_replace('/\D/', '', $string);
+                $getUser = User::where('phone',$integer)->first();
+                $one =  Invoice::where('user_id',$getUser->id)->where('status',1)->where('statas',0)->first();
+                $sum = User::where('phone', (int) preg_replace('/\D/', '', $integer))->sum('package_amount');
+                                           $oneDay = $one->one_day_before;
               
            
-//                          $postData = [
-//                         'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
-//                         'partnerID' => 15,
-//                         'mobile' => $one->user->phoneOne,
+                         $postData = [
+                        'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
+                        'partnerID' => 15,
+                        'mobile' => $one->user->phoneOne,
                         
-//                         'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/F/Y',strtotime($one->one_day_before)).'. Pay to avoid disconnection.
-// PAYBILL: 6589582
-// ACC NO: '.$one->user->phone.'',
-//                         'shortcode' => 'DOLEX TECH',
+                        'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/F/Y',strtotime($one->one_day_before)).'. Pay to avoid disconnection.
+PAYBILL: 6589582
+ACC NO: '.$one->user->phone.'',
+                        'shortcode' => 'DOLEX TECH',
                         
-//                     ];
-//                     $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
+                    ];
+                    $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
 
        
-//                     $dateFor = Carbon::parse($oneDay);
-//                         $minusOneMonth = $dateFor->addMonth();
-//                         $invoiceMinus = Invoice::where('id',$one->id)->update(['one_day_before'=>$minusOneMonth]);
-//                         $invoiceUpdateSent = Invoice::where('id',$one->id)->update(['due_date_status'=>0]);
-//             }
-//             else{
+                    $dateFor = Carbon::parse($oneDay);
+                        $minusOneMonth = $dateFor->addMonth();
+                        $invoiceMinus = Invoice::where('id',$one->id)->update(['one_day_before'=>$minusOneMonth]);
+                        $invoiceUpdateSent = Invoice::where('id',$one->id)->update(['due_date_status'=>0]);
+            }
+            else{
                 
-//                                 $oneDay = $one->one_day_before;
+                                $oneDay = $one->one_day_before;
               
            
-//                          $postData = [
-//                         'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
-//                         'partnerID' => 15,
-//                         'mobile' => $one->user->phoneOne,
+                         $postData = [
+                        'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
+                        'partnerID' => 15,
+                        'mobile' => $one->user->phoneOne,
                         
-//                         'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/F/Y',strtotime($one->one_day_before)).'. Pay to avoid disconnection.
-// PAYBILL: 6589582
-// ACC NO: '.$one->user->phone.'',
-//                         'shortcode' => 'DOLEX TECH',
+                        'message' => 'Dear customer, your DOLEX subscription is due for renewal on '.date('d/F/Y',strtotime($one->one_day_before)).'. Pay to avoid disconnection.
+PAYBILL: 6589582
+ACC NO: '.$one->user->phone.'',
+                        'shortcode' => 'DOLEX TECH',
                         
-//                     ];
-//                     $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
+                    ];
+                    $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
 
        
-//                     $dateFor = Carbon::parse($oneDay);
-//                         $minusOneMonth = $dateFor->addMonth();
-//                         $invoiceMinus = Invoice::where('id',$one->id)->update(['one_day_before'=>$minusOneMonth]);
-//                         $invoiceUpdateSent = Invoice::where('id',$one->id)->update(['due_date_status'=>0]);
+                    $dateFor = Carbon::parse($oneDay);
+                        $minusOneMonth = $dateFor->addMonth();
+                        $invoiceMinus = Invoice::where('id',$one->id)->update(['one_day_before'=>$minusOneMonth]);
+                        $invoiceUpdateSent = Invoice::where('id',$one->id)->update(['due_date_status'=>0]);
 
-//             }
+            }
 
                                      
-//         }
+        }
     }
 }
