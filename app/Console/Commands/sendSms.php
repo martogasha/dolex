@@ -65,6 +65,8 @@ class sendSms extends Command
           $gets =  Invoice::where('two_days_before', '<', Carbon::now())->where('status',1)->where('statas',0)->get();
           
         foreach($gets as $get){
+                        Log::info($get->user_id);
+
               $string = $get->user->phone;
              
             $count = User::where('phone', (int) preg_replace('/\D/', '', $string))->count();
@@ -129,6 +131,8 @@ ACC NO: '.$get->user->phone.'',
         $ones =  Invoice::where('one_day_before', '<', Carbon::now())->where('status',1)->where('statas',0)->get();
           
         foreach($ones as $one){
+                        Log::info($one->user_id);
+
            $string = $one->user->phone;
            
             $count = User::where('phone', (int) preg_replace('/\D/', '', $string))->count();
