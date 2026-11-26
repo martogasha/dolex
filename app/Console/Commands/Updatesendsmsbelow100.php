@@ -70,6 +70,15 @@ class Updatesendsmsbelow100 extends Command
                         // }
                  
                     }
+                    else{
+                        Log::info('Updating sendsmsbelowhundreds table status as zero');
+                        $update = Sendsmsbelowhundred::first();
+                        if($update){
+                            $update->status = 0;
+                            $update->statas = 0;
+                            $update->save();
+                        }
+                    }
                
     }
 }
