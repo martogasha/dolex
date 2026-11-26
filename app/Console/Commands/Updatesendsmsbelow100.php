@@ -51,10 +51,10 @@ class Updatesendsmsbelow100 extends Command
                     $data = $respons->json();
                     $balance = $data['credit'];
                     if($balance>100){
-                        Log::info('Updating sendsmsbelowhundreds table status as one');
                         $update = Sendsmsbelowhundred::first();
 
                         if($update->status==0){
+                        Log::info('Updating sendsmsbelowhundreds table status as one');
                             $update->status = 1;
                             $update->statas = 1;
                             $update->save();
