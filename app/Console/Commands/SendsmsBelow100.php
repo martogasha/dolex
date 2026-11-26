@@ -53,7 +53,7 @@ class SendsmsBelow100 extends Command
                     $respons = Http::post('https://sms.imarabiz.com/api/services/getbalance/', $postData);
                     $data = $respons->json();
                     $balance = $data['credit'];
-                    if($balance<100){
+                    if($balance>100){
                         $update = Sendsmsbelowhundred::first();
                         if($update){
                             $update->status = 1;
