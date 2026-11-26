@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use App\Models\Sendsmsbelowhundred;
+use Illuminate\Support\Facades\Log; 
 
 
 class Updatesendsmsbelow100 extends Command
