@@ -111,4 +111,29 @@ public function getPppoeClientDetails()
     }
     
 }
+        public function sendBellow100Sms()
+        {
+          $postData = [
+                        'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
+                        'partnerID' => 15,
+    
+                        
+                    ];
+                    $respons = Http::post('https://sms.imarabiz.com/api/services/getbalance/', $postData);
+                    $data = $respons->json();
+                    $balance = $data['credit'];
+                    if($balance<100){
+
+                        $postData = [
+                        'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
+                        'partnerID' => 15,
+                        'mobile' => '0707870863',
+                        
+                        'message' => 'Dear Admin, your SMS balance is below 100. Please top up to avoid service interruption. CURRENT BALANCE: '.$balance.' ',
+                        'shortcode' => 'DOLEX TECH',
+                        
+                    ];
+                    $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData); 
+                    }
+        }
 }

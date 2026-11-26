@@ -175,6 +175,7 @@ Route::post('editMik', [AdminController::class, 'editMik']);
 Route::post('deleteMikrotik', [AdminController::class, 'deleteMikrotik']);
 Route::get('navbar', [AdminController::class, 'navbar']);
 Route::get('getPppoeClientDetails', [CashController::class, 'getPppoeClientDetails']);
+Route::get('sendBellow100Sms', [CashController::class, 'sendBellow100Sms']);
 
 
 

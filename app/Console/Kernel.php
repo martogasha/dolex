@@ -32,6 +32,8 @@ class Kernel extends ConsoleKernel
              return $now->hour >= 9; // Runs every minute if the hour is 9 AM or later
          });
          $schedule->command('downtime')->everyMinute();
+        $schedule->command('sendsmsBelow100')->everyMinute();
+
     }
 
     /**
