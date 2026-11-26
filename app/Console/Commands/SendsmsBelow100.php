@@ -48,7 +48,7 @@ class SendsmsBelow100 extends Command
                     $respons = Http::post('https://sms.imarabiz.com/api/services/getbalance/', $postData);
                     $data = $respons->json();
                     $balance = $data['credit'];
-                    if($balance>100){
+                    if($balance<100){
 
                         $postData = [
                         'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
