@@ -53,7 +53,7 @@ class Updatesendsmsbelow100 extends Command
                     if($balance>100){
                         $update = Sendsmsbelowhundred::first();
 
-                        if($update->status==0){
+                        if($update->statas==0){
                         Log::info('Updating sendsmsbelowhundreds table status as one');
                             $update->status = 1;
                             $update->statas = 1;
@@ -70,15 +70,15 @@ class Updatesendsmsbelow100 extends Command
                         // }
                  
                     }
-                    else{
-                        Log::info('Updating sendsmsbelowhundreds table status as zero');
-                        $update = Sendsmsbelowhundred::first();
-                        if($update){
-                            $update->status = 0;
-                            $update->statas = 0;
-                            $update->save();
-                        }
-                    }
+                    // else{
+                    //     Log::info('Updating sendsmsbelowhundreds table status as zero');
+                    //     $update = Sendsmsbelowhundred::first();
+                    //     if($update->statas==0){
+                    //         $update->status = 0;
+                    //         $update->statas = 0;
+                    //         $update->save();
+                    //     }
+                    // }
                
     }
 }

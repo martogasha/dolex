@@ -57,7 +57,9 @@ class updatesendsmsbelow100daily extends Command
                             $update->statas = 1;
                             $update->save();
                         }
-                        else{
+                   
+                    }
+                    else{
                             Log::info('Updating sendsmsbelowhundreds table status as ');
                             $update = Sendsmsbelowhundred::first();
                             if($update){
@@ -65,7 +67,6 @@ class updatesendsmsbelow100daily extends Command
                                 $update->statas = 0;
                                 $update->save();
                             }
-                        }
                     }
     }
 }
