@@ -33,6 +33,12 @@ class Kernel extends ConsoleKernel
          });
          $schedule->command('downtime')->everyMinute();
         $schedule->command('sendsmsBelow100')->everyMinute();
+        $schedule->command('Updatesendsmsbelow100')->everyMinute();
+        $schedule->command('updatesendsmsbelow100daily')
+            ->dailyAt('09:00')
+            ->timezone('Africa/Nairobi');
+
+
 
     }
 

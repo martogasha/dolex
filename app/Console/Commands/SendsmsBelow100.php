@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
+use App\Models\Sendsmsbelowhundred;
 
 
 class SendsmsBelow100 extends Command
@@ -39,6 +40,17 @@ class SendsmsBelow100 extends Command
      */
     public function handle()
     {
+        $update = Sendsmsbelowhundred::first();
+        if($update->status == 0){
+            Log::info('Sending SMS to admin as balance is below 100');
+            $postData = [
+                'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
+                'partnerID' => 15,
+                'mobile' => '0707870863',
+                'message' => 'Dear Admin, your SMS balance is below 100. Please top up to avoid service interruption.',
+                'shortcode' => 'DOLEX TECH',
+            ];
+            $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
            $postData = [
                         'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
                         'partnerID' => 15,
@@ -49,7 +61,12 @@ class SendsmsBelow100 extends Command
                     $data = $respons->json();
                     $balance = $data['credit'];
                     if($balance<100){
-
+                        $update = Sendsmsbelowhundred::first();
+                        if($update){
+                            $update->status = 1;
+                            $update->statas = 1;
+                            $update->save();
+                        }
                         $postData = [
                         'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
                         'partnerID' => 15,
@@ -61,5 +78,6 @@ class SendsmsBelow100 extends Command
                     ];
                     $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData); 
                     }
+        }
     }
 }
