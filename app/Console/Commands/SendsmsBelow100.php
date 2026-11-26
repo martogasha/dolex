@@ -53,7 +53,7 @@ class SendsmsBelow100 extends Command
                         $postData = [
                         'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
                         'partnerID' => 15,
-                        'mobile' => '0707870863',
+                        'mobile' => '0708525144',
                         
                         'message' => 'Dear Admin, your SMS balance is below 100. Please top up to avoid service interruption. CURRENT BALANCE: '.$balance.' ',
                         'shortcode' => 'DOLEX TECH',
