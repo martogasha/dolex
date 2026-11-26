@@ -44,14 +44,6 @@ class SendsmsBelow100 extends Command
         $update = Sendsmsbelowhundred::first();
         if($update->status == 0){
             Log::info('Sending SMS to admin as balance is below 100');
-            $postData = [
-                'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
-                'partnerID' => 15,
-                'mobile' => '0707870863',
-                'message' => 'Dear Admin, your SMS balance is below 100. Please top up to avoid service interruption.',
-                'shortcode' => 'DOLEX TECH',
-            ];
-            $respons = Http::post('https://sms.imarabiz.com/api/services/sendsms/', $postData);
            $postData = [
                         'apikey' => '04be700f6000ae7ec7c7b7e75d7f0f52',
                         'partnerID' => 15,
