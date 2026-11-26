@@ -53,7 +53,8 @@ class Updatesendsmsbelow100 extends Command
                     if($balance>100){
                         Log::info('Updating sendsmsbelowhundreds table status as one');
                         $update = Sendsmsbelowhundred::first();
-                        if($update){
+
+                        if($update->status==0){
                             $update->status = 1;
                             $update->statas = 1;
                             $update->save();
